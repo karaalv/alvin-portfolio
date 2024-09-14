@@ -1,0 +1,27 @@
+/* Typography Styles */
+
+.heading {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 9.6rem;
+    font-weight: bold;
+    width: 50%;
+    height: auto;
+}
+
+.sub_heading {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 5rem;
+    font-weight: bold;
+    width: 50%;
+    height: auto;
+}
+
+.body {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 2.8rem;
+    width: auto;
+    height: auto;
+}

@@ -1,0 +1,15 @@
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* Global CSS Styles */
+:root {
+    /* Colours */
+    --Background-color: #FFFFFF;
+    --Active-color: #0F0A01;
+    /* Fonts */
+    --Primary-font: 'Inter', 'Helvetica', 'Arial', sans-serif
+}
+
+* {
+    box-sizing: border-box;
+}
