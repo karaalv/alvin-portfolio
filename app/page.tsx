@@ -3,7 +3,7 @@
 /* Imports */
 
 // Styles
-import styles from '@/styles/Typography.module.css'
+import styles from '@/Styles/MainPage.module.css'
 
 // Navbar.
 import Navbar from '@/Components/Navbar'
@@ -14,8 +14,8 @@ import About from "@/Components/About"
 // Main hander for section components.
 export default function MainPage(){
     return(
-        <div>
-            <Navbar/>
+        <div className={styles.mainPage}>
+            <Navbar isActive={false}/>
         </div>
     )
 }

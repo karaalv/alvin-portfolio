@@ -1,0 +1,10 @@
+/* Main Page Styles */
+
+.mainPage {
+    width: 100%;
+    padding: 2.5%;
+    background-color: var(--Background-color);
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+}

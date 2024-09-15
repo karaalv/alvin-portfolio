@@ -1,15 +1,8 @@
 /* Root Module Styles */
 
-/* Base font size */
+/* Set base HTML properties */
 .html {
     font-size: 10px;
     width: 100%;
-}
-
-/* Main body */
-.body {
-    width: 100%;
-    align-self: center;
-    padding: 2.5%;
-    background-color: var(--Background-color);
+    scroll-behavior: smooth;
 }

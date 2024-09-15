@@ -5,8 +5,9 @@
  * styling.
  */
 
-export type NavbarStates = 
+export type NavbarStates = (
     'About' |
     'Experience' |
     'Projects' |
     'Contact'
+)
