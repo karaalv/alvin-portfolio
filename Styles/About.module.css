@@ -1,0 +1,64 @@
+/*** About Section Styles ***/
+
+.section_container {
+    width: 100%;
+    /* background-color: red; */
+    height: auto;
+    display: flex;
+    margin-top: 5%;
+}
+
+/* Hero section */
+
+.hero_container {
+    width: 100%;
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: purple; */
+}
+
+/* Bio */
+.bio_container {
+    width: 45%;
+    height: auto;
+    /* background-color: green; */
+    display: flex;
+    flex-direction: column;
+    margin-top: 4.8rem;
+}
+
+.swe_text {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 3.2rem;
+    font-weight: bold;
+}
+
+.imperial_text {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 3.2rem;
+    font-style: italic;
+}
+
+/* Info */
+.info_container {
+    width: 45%;
+    height: auto;
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+
+.info_text {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 3rem;
+    text-align: justify;
+    width: 95%;
+    line-height: 7.5rem;
+    margin-top: 0%;
+}

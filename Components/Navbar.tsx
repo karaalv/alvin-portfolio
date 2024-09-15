@@ -7,8 +7,8 @@
 import styles from '@/styles/Navbar.module.css'
 
 // Types.
-import { NavbarStates } from '@/Types/StyleTypes'
-import { NavBarProps } from '@/Types/ComponentProps'
+import { NavbarStates } from '@/types/StyleTypes'
+import { NavBarProps } from '@/types/ComponentProps'
 
 // React utilities.
 import { useState } from 'react'
