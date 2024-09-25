@@ -4,6 +4,9 @@
 
 import ExperienceTitle from "./Title"
 import Tracom from "./Tracom"
+import Racing from "./Racing"
+
+import Spacing from "../Spacing"
 
 /**
  * Wraps together:
@@ -25,6 +28,8 @@ export default function Experience(){
         >
             <ExperienceTitle/>
             <Tracom/>
+            <Spacing size='Large'/>
+            <Racing/>
         </div>
     )
 }
