@@ -11,6 +11,7 @@ import Navbar from '@/components/Navbar'
 
 // Sections.
 import About from "@/components/about/About"
+import Experience from '@/components/experience/Experience'
 
 // React utilities.
 import { useEffect, useState } from 'react'
@@ -49,7 +50,8 @@ export default function MainPage(){
     return(
         <div className={styles.mainPage}>
             <Navbar isActive={!hasScrolled}/>
-            <About/>
+            {/* <About/> */}
+            <Experience/>
         </div>
     )
 }

@@ -1,0 +1,25 @@
+/*** Tracom Section Styles ***/
+
+.terminal {
+    background-color: #181818;
+    border-radius: 50px;
+    width: 90%;
+    height: auto;
+    margin-top: 3rem;
+    align-self: center;
+    padding: 1rem;
+}
+
+.terminal_list {
+    list-style-type: none;
+    font-family: 'Andale Mono', monospace;
+    color: #4AF626;
+    /* text-shadow: 0 0 1rem #4AF626; */
+    font-size: 2.2rem;
+    line-height: 7rem;
+}
+
+.terminal_list li::before {
+    content: '>';
+    margin-right: 1rem;
+}

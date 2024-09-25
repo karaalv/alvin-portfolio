@@ -3,7 +3,7 @@
 /* Imports */
 
 // About section styles.
-import styles from '@/styles/AboutHero.module.css'
+import styles from '@/styles/about/AboutHero.module.css'
 
 // Font styles.
 import fonts from '@/styles/Typography.module.css'
