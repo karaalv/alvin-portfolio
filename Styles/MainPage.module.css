@@ -5,6 +5,7 @@
     padding: 2.5%;
     background-color: var(--Background-color);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
 }

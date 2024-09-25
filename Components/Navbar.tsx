@@ -11,7 +11,7 @@ import { NavbarStates } from '@/types/StyleTypes'
 import { NavBarProps } from '@/types/ComponentProps'
 
 // React utilities.
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 /**
  * Site navigation bar.
@@ -25,6 +25,25 @@ export default function Navbar({isActive}: NavBarProps){
 
 	// Active or passive state.
 	const [active, setActive] = useState<boolean>(isActive)
+
+    // Re-render when Navbar state updates.
+
+    // Active opacity.
+    useEffect(() => {
+        setActive(isActive)
+    }, [isActive])
+
+    // Scroll to section callback.
+    const scrollToSection = (section: NavbarStates) => {
+        // Set state.
+        setNavState(section)
+
+        // Fetch element ID and scroll.
+        const element = document.getElementById(section)
+        if(element){
+            element.scrollIntoView()
+        }
+    }
 
     // Section render function.
     const renderSections = (currentState: NavbarStates) => {
@@ -54,7 +73,11 @@ export default function Navbar({isActive}: NavBarProps){
 					return(
 						<p 
                         	className={`${styles.font} ${styles.nonactive}`}
-                        	onClick={() => setNavState(section)}
+                        	onClick={
+                                () => {
+                                    scrollToSection(section)
+                                }
+                            }
 							key={section}
                     	>
                         	{section}

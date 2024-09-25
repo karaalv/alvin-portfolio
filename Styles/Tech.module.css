@@ -1,0 +1,22 @@
+/*** About Tech Stack Styles ***/
+
+.tech_container{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: auto;
+    /* background-color: blueviolet; */
+    /* Font style */
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-weight: 500;
+    font-size: 3.2rem;
+    line-height: 6.5rem;
+}
+
+.tech_heading {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 3.6rem;
+    font-weight: bold;
+}

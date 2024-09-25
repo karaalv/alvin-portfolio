@@ -5,7 +5,7 @@
     color: var(--Active-color);
     font-size: 9.6rem;
     font-weight: bold;
-    width: 50%;
+    width: auto;
     height: auto;
 }
 
@@ -14,7 +14,7 @@
     color: var(--Active-color);
     font-size: 5rem;
     font-weight: bold;
-    width: 50%;
+    width: auto;
     height: auto;
 }
 

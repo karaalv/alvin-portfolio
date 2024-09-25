@@ -2,6 +2,9 @@
 
 /* Imports */
 import AboutHero from "./AboutHero";
+import AboutTech from "./Techstack";
+
+import Spacing from "../Spacing";
 
 /**
  * Wraps together:
@@ -12,6 +15,17 @@ import AboutHero from "./AboutHero";
  */
 export default function About(){
     return(
-        <AboutHero/>
+        <div 
+            id='About'
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%'
+            }}
+        >
+            <AboutHero/>
+            <Spacing size='Small'/>
+            <AboutTech/>
+        </div>
     )
 }

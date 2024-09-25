@@ -3,7 +3,7 @@
 /* Imports */
 
 // About section styles.
-import styles from '@/styles/About.module.css'
+import styles from '@/styles/AboutHero.module.css'
 
 // Font styles.
 import fonts from '@/styles/Typography.module.css'
@@ -13,7 +13,7 @@ import fonts from '@/styles/Typography.module.css'
  */
 export default function AboutHero(){
     return(
-        <div id='About' className={styles.section_container}>
+        <div className={styles.section_container}>
             {/* Hero section */}
             <div className={styles.hero_container}>
                 {/* Bio */}
