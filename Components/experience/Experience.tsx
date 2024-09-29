@@ -7,6 +7,7 @@ import Tracom from "./Tracom"
 import Racing from "./Racing"
 
 import Spacing from "../Spacing"
+import Fintech from "./Fintech"
 
 /**
  * Wraps together:
@@ -26,10 +27,12 @@ export default function Experience(){
                 width: '100%'
             }}
         >
-            {/* <ExperienceTitle/>
+            <ExperienceTitle/>
             <Tracom/>
-            <Spacing size='Large'/> */}
+            <Spacing size='Small'/>
             <Racing/>
+            <Spacing size='Small'/>
+            <Fintech/>
         </div>
     )
 }

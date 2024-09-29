@@ -50,7 +50,7 @@ export default function MainPage(){
     return(
         <div className={styles.mainPage}>
             <Navbar isActive={!hasScrolled}/>
-            {/* <About/> */}
+            <About/>
             <Experience/>
         </div>
     )

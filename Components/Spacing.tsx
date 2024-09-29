@@ -11,7 +11,7 @@ import { SpacingProps } from "@/types/ComponentProps"
 export default function Spacing({size}: SpacingProps){
     return(
         <div style={{
-            marginTop: size == 'Large'? '10%':'2.5%',
+            marginTop: size == 'Large'? '10%':'5%',
             // marginBottom: size == 'Large'? '10%':'2.5%',
         }}></div>
     )
