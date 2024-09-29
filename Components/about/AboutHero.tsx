@@ -30,6 +30,7 @@ export default function AboutHero(){
                             style={{
                                 maxWidth: '65%',
                                 height: 'auto',
+                                objectFit: 'contain'
                             }}
                         />
                     </div>

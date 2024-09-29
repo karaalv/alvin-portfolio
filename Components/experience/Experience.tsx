@@ -33,6 +33,7 @@ export default function Experience(){
             <Racing/>
             <Spacing size='Small'/>
             <Fintech/>
+            <Spacing size='Small'/>
         </div>
     )
 }
