@@ -13,7 +13,8 @@ export default function Racing(){
         <div style={{
             display: 'flex', 
             flexDirection: 'row',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            // backgroundColor: 'red'
         }}>
             {/* Bio */}
             <div style={{width: '40%'}}>
@@ -71,14 +72,13 @@ export default function Racing(){
             {/* PCB */}
             <div 
                 style={{
-                    width: '50%', 
+                    width: '55%', 
                     // backgroundColor: 'blue'
                 }}
                 className={styles.pcb}
             >
                 <PCB/>
             </div>
-
         </div>
     )
 }

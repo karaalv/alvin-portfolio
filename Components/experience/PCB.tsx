@@ -11,11 +11,12 @@ export default function PCB(){
     
     // Mounting reference.
     const mount = useRef<HTMLDivElement | null>(null)
-    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     const objectRef = useRef<THREE.Object3D | null>(null);
 
     useEffect(() => {
-        // Set up scene.
+
+        /** SCENE SETUP **/
+
         const scene = new THREE.Scene()
         const camera = new THREE.PerspectiveCamera(
             75, 
@@ -23,7 +24,7 @@ export default function PCB(){
             0.1, 
             1000
         )
-        const renderer = new THREE.WebGLRenderer({alpha: true})
+        const renderer = new THREE.WebGLRenderer({alpha: true, antialias: false})
         renderer.setSize(window.innerWidth, window.innerHeight)
 
         // Set render to DOM mount.
@@ -31,7 +32,8 @@ export default function PCB(){
             mount.current.appendChild(renderer.domElement)
         }
 
-        /* Paint scene */
+        /* PAINT SCENE */
+
         const mtlLoader = new MTLLoader();
         mtlLoader.load('/assets/PCB.mtl', (materials) => {
             // Load materials.
@@ -39,18 +41,23 @@ export default function PCB(){
     
             // Load the .obj file.
             const objLoader = new OBJLoader()
-            const scale = 0.04
-            const pos_x = 0
-            const pos_y = -4
-            const pos_z = -3
+            const scale = 0.035
+            const pos_x = -2.5
+            const pos_y = -3
+            const pos_z = 0
 
             // Set loaded materials.
             objLoader.setMaterials(materials)
             objLoader.load('/assets/PCB.obj', (object) => {
+                // Add object to scene.
                 scene.add(object)
                 objectRef.current = object
+
+                // Set object position.
                 object.position.set(pos_x, pos_y, pos_z)
                 object.rotation.z = Math.PI / 2
+
+                // Set object scale.
                 object.scale.set(scale, scale, scale)
             }, undefined, (error) => {
                 console.error('An error happened while loading the .obj file:', error)
@@ -60,13 +67,11 @@ export default function PCB(){
         })
 
         // Add ambient light
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.75); // White light with intensity 0.5
-        scene.add(ambientLight);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.75)
+        scene.add(ambientLight)
         
-        camera.position.z = 7
-        // camera.position.x = -1
-        // camera.position.y = 0
-        // camera.rotation.y = -Math.PI
+        camera.position.z = 6
+        camera.position.y = 0
 
         // Set renderer size to div.
         const updateRendererSize = () => {
@@ -82,21 +87,21 @@ export default function PCB(){
         updateRendererSize();
 
         // Orbit controls.
-        const controls = new OrbitControls( camera, renderer.domElement );
+        const controls = new OrbitControls( camera, renderer.domElement)
 
-        // Animation loop.
+        /** ANIMATION LOOP **/
+        
         const animate = () => {
             requestAnimationFrame(animate)
-            controls.update();
-            if(objectRef.current){
-                objectRef.current.rotation.y += 0.005
-            }
+
+            // Orbit controls.
+            controls.update()
             renderer.render(scene, camera)
         };
 
         animate();
 
-        // Clean up.
+        /** CLEAN UP **/
         return () => {
             if (mount.current) {
                 mount.current.removeChild(renderer.domElement)

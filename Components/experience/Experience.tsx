@@ -26,9 +26,9 @@ export default function Experience(){
                 width: '100%'
             }}
         >
-            <ExperienceTitle/>
+            {/* <ExperienceTitle/>
             <Tracom/>
-            <Spacing size='Large'/>
+            <Spacing size='Large'/> */}
             <Racing/>
         </div>
     )
