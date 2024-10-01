@@ -1,0 +1,27 @@
+/*** Contact Section Styles ***/
+
+.divider {
+    width: 100%;
+    height: 0.5rem;
+    border-radius: 50px;
+    background-color: #000000;
+    opacity: 0.5;
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.icon:hover {
+    opacity: 0.5;
+}
+
+.copyright {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: auto;
+    height: auto;
+    align-self: center;
+}

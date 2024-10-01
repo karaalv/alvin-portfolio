@@ -13,6 +13,7 @@ import Navbar from '@/components/Navbar'
 import About from "@/components/about/About"
 import Experience from '@/components/experience/Experience'
 import Projects from '@/components/projects/Projects'
+import Contact from '@/components/contact/contact'
 
 // React utilities.
 import { useEffect, useState } from 'react'
@@ -51,9 +52,10 @@ export default function MainPage(){
     return(
         <div className={styles.mainPage}>
             <Navbar isActive={!hasScrolled}/>
-            {/* <About/>
-            <Experience/> */}
+            <About/>
+            <Experience/>
             <Projects/>
+            <Contact/>
         </div>
     )
 }
