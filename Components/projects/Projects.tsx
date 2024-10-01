@@ -27,10 +27,11 @@ export default function Projects(){
             }}
         >   
             <ProjectsTitle/>
-            <Spacing size='Small'/>
-            <ML/>
-            <Getaway/>
             <Gatsby/>
+            <div style={{marginTop: '1%'}}/>
+            <ML/>
+            <div style={{marginTop: '1%'}}/>
+            <Getaway/>
         </div>
     )
 }

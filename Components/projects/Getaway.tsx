@@ -25,9 +25,26 @@ export default function Getaway(){
                 padding: '3rem',
             }}>
                 {/* Title */}
-                <p className={fonts.sub_heading}>
-                    Getaway.
-                </p>
+                <div className={common.title_container}>
+                    <img 
+                        src='/assets/link.png' 
+                        alt='Photo of app'
+                        style={{
+                            maxWidth: '5%',
+                            height: 'auto',
+                            marginRight: '1%',
+                            objectFit: 'contain'
+                        }}
+                    />
+                    <a 
+                        className={fonts.sub_heading}
+                        href='https://github.com/karaalv/Getaway'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        Getaway.
+                    </a>
+                </div>
                 {/* Tech stack */}
                 <p className={common.tech_stack}>
                     Three.js, JavaScript, HTML, CSS, Blender, Vite

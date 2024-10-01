@@ -25,9 +25,27 @@ export default function Gatsby(){
                 padding: '3rem',
             }}>
                 {/* Title */}
-                <p className={fonts.sub_heading}>
-                    Gatsby.
-                </p>
+                <div className={common.title_container}>
+                    <img 
+                        src='/assets/link.png' 
+                        alt='Photo of app'
+                        style={{
+                            maxWidth: '5%',
+                            height: 'auto',
+                            marginRight: '1%',
+                            objectFit: 'contain'
+                        }}
+                    />
+                    <a 
+                        className={fonts.sub_heading}
+                        href='https://github.com/karaalv/Gatsby-Public'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        Gatsby.
+                    </a>
+                </div>
+
                 {/* Tech stack */}
                 <p className={common.tech_stack}>
                     React Native, Typescript, Express.js, Expo, Solidity,
@@ -44,7 +62,7 @@ export default function Gatsby(){
                         Founded a ticket distribution mobile platform 
                         leveraging blockchain technology to facilitate 
                         a unique ticket authentication algorithm for 
-                        enhanced security.
+                        enhanced security
                     </li>
                 </ul>
             </div>

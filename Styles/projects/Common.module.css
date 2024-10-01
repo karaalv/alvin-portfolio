@@ -7,3 +7,13 @@
     font-weight: bold;
     font-style: italic;
 }
+
+.title_container {
+    display: flex;
+    justify-items: center;
+    cursor: pointer;
+}
+
+.title_container:hover {
+    opacity: 0.5;
+}

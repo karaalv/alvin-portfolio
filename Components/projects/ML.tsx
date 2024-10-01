@@ -25,9 +25,26 @@ export default function ML(){
                 padding: '3rem',
             }}>
                 {/* Title */}
-                <p className={fonts.sub_heading}>
-                    Machine Learning.
-                </p>
+                <div className={common.title_container}>
+                    <img 
+                        src='/assets/link.png' 
+                        alt='Photo of app'
+                        style={{
+                            maxWidth: '5%',
+                            height: 'auto',
+                            marginRight: '1%',
+                            objectFit: 'contain'
+                        }}
+                    />
+                    <a 
+                        className={fonts.sub_heading}
+                        href='https://github.com/karaalv/ES3H3-Assesment'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        Machine Learning.
+                    </a>
+                </div>
                 {/* Tech stack */}
                 <p className={common.tech_stack}>
                     MATLAB, Data Analysis, Linear Algebra, Multivariable Calculus
