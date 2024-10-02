@@ -3,3 +3,11 @@
 .pcb {
     cursor: pointer;
 }
+
+.pcb_tag {
+    font-family: var(--Primary-font);
+    color: var(--Active-color);
+    font-size: 1.6rem;
+    opacity: 0.8;
+    text-align: center;
+}

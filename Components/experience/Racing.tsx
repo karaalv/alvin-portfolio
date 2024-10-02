@@ -77,7 +77,30 @@ export default function Racing(){
                 }}
                 className={styles.pcb}
             >
-                <PCB/>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%'
+                }}>
+                    {/* PCB */}
+                    <div style={{
+                        width: '100%',
+                        height: '80%',
+                    }}>
+                        <PCB/>
+                    </div>
+                    {/* Tag */}
+                    <div style={{
+                        width: '100%',
+                        height: '20%',
+                        alignContent: 'flex-start',
+                    }}>
+                        <p className={styles.pcb_tag}>
+                            <span style={{fontWeight: 'bold'}}>Click </span> 
+                            and <span style={{fontWeight: 'bold'}}>Drag</span> for a closer look
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     )

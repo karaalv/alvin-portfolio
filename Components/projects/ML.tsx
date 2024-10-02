@@ -30,7 +30,7 @@ export default function ML(){
                         src='/assets/link.png' 
                         alt='Photo of app'
                         style={{
-                            maxWidth: '5%',
+                            width: '3rem',
                             height: 'auto',
                             marginRight: '1%',
                             objectFit: 'contain'
@@ -38,6 +38,9 @@ export default function ML(){
                     />
                     <a 
                         className={fonts.sub_heading}
+                        style={{
+                            whiteSpace: 'nowrap'
+                        }}
                         href='https://github.com/karaalv/ES3H3-Assesment'
                         target='_blank'
                         rel='noopener noreferrer'

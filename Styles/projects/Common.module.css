@@ -12,8 +12,10 @@
     display: flex;
     justify-items: center;
     cursor: pointer;
+    width: fit-content;
 }
 
 .title_container:hover {
     opacity: 0.5;
 }
+

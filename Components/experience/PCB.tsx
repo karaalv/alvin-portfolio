@@ -43,7 +43,7 @@ export default function PCB(){
             const objLoader = new OBJLoader()
             const scale = 0.035
             const pos_x = -2.5
-            const pos_y = -3
+            const pos_y = -2
             const pos_z = 0
 
             // Set loaded materials.
@@ -67,10 +67,10 @@ export default function PCB(){
         })
 
         // Add ambient light
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.75)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1)
         scene.add(ambientLight)
         
-        camera.position.z = 6
+        camera.position.z = 7
         camera.position.y = 0
 
         // Set renderer size to div.
@@ -87,7 +87,8 @@ export default function PCB(){
         updateRendererSize();
 
         // Orbit controls.
-        const controls = new OrbitControls( camera, renderer.domElement)
+        const controls = new OrbitControls(camera, renderer.domElement)
+        controls.enableZoom = false
 
         /** ANIMATION LOOP **/
         

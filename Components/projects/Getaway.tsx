@@ -30,7 +30,7 @@ export default function Getaway(){
                         src='/assets/link.png' 
                         alt='Photo of app'
                         style={{
-                            maxWidth: '5%',
+                            width: '3rem',
                             height: 'auto',
                             marginRight: '1%',
                             objectFit: 'contain'
