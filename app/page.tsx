@@ -3,8 +3,11 @@
 
 /* Imports */
 
-// Styles
+// Styles.
 import styles from '@/Styles/MainPage.module.css'
+
+// Types.
+import { NavbarStates } from '@/types/StyleTypes'
 
 // Navbar.
 import Navbar from '@/components/Navbar'
@@ -16,15 +19,18 @@ import Projects from '@/components/projects/Projects'
 import Contact from '@/components/contact/contact'
 
 // React utilities.
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 // Main hander for section components.
 export default function MainPage(){
 
-    // Handle user scroll.
+    // User scroll state.
     const [hasScrolled, setScrolled] = useState<boolean>(false)
     
-    // Scroll event listener.
+    // User navigation section.
+    const [currentSection, setCurrentSection] = useState<NavbarStates>('About')
+
+    // Navbar scroll event listener.
     useEffect(() => {
 
         const handleScroll = () => {
@@ -49,9 +55,33 @@ export default function MainPage(){
         }
     }, [hasScrolled])
 
+
+    // Section scroll listener.
+    const handleSectionScroll = () => {
+        const sections = document.querySelectorAll('section')
+        let current = ''
+
+        sections.forEach((section) => {
+            const rect = section.getBoundingClientRect()
+
+            if((rect.top >= 0 && rect.top < window.innerHeight)){
+                current = section.id
+                setCurrentSection(current as NavbarStates)
+                console.log(current)
+            }
+        })
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleSectionScroll)
+        return () => {
+            window.removeEventListener('scroll', handleSectionScroll)
+        }
+    }, [])
+
     return(
         <div className={styles.mainPage}>
-            <Navbar isActive={!hasScrolled}/>
+            <Navbar isActive={!hasScrolled} currentSection={currentSection}/>
             <About/>
             <Experience/>
             <Projects/>

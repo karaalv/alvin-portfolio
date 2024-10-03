@@ -6,8 +6,8 @@
 
 .pcb_tag {
     font-family: var(--Primary-font);
-    color: var(--Active-color);
+    color: rgba(15, 10, 1, 0.8);
     font-size: 1.6rem;
-    opacity: 0.8;
     text-align: center;
+    z-index: 1;
 }

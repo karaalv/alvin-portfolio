@@ -8,6 +8,7 @@ import Racing from "./Racing"
 
 import Spacing from "../Spacing"
 import Fintech from "./Fintech"
+import { useEffect, useRef, useState } from "react"
 
 /**
  * Wraps together:
@@ -19,7 +20,7 @@ import Fintech from "./Fintech"
  */
 export default function Experience(){
     return(
-        <div
+        <section
             id='Experience'
             style={{
                 display: 'flex',
@@ -34,6 +35,6 @@ export default function Experience(){
             <Spacing size='Small'/>
             <Fintech/>
             <Spacing size='Small'/>
-        </div>
+        </section>
     )
 }

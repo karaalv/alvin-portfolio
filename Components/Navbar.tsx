@@ -18,10 +18,7 @@ import { useEffect, useState } from 'react'
  * 
  * @returns Navbar component
  */
-export default function Navbar({isActive}: NavBarProps){
-
-	// Navigation state.
-    const [navState, setNavState] = useState<NavbarStates>('About')
+export default function Navbar({isActive, currentSection}: NavBarProps){
 
 	// Active or passive state.
 	const [active, setActive] = useState<boolean>(isActive)
@@ -35,8 +32,6 @@ export default function Navbar({isActive}: NavBarProps){
 
     // Scroll to section callback.
     const scrollToSection = (section: NavbarStates) => {
-        // Set state.
-        setNavState(section)
 
         // Fetch element ID and scroll.
         const element = document.getElementById(section)
@@ -94,12 +89,12 @@ export default function Navbar({isActive}: NavBarProps){
             {/* Navbar arrangement container */}
             <div 
 				className={styles.navbar_container}
-				style={{opacity: active? 1:0.15}}
+				style={{opacity: active? 1:0.1}}
 				onMouseEnter={() => setActive(true)}
 				onMouseLeave={() => setActive(isActive)}
 			>
 				{/* Render section titles */}
-				{renderSections(navState)}
+				{renderSections(currentSection)}
             </div>
         </div>
     )

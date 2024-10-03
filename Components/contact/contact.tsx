@@ -9,7 +9,7 @@ import styles from '@/styles/contact/Contact.module.css'
  */
 export default function Contact(){
     return(
-        <div
+        <section
             id='Contact'
             style={{
                 display: 'flex',
@@ -92,6 +92,6 @@ export default function Contact(){
             <p className={styles.copyright}>
                 Made with ❤️ Alvin Karanja © 2024
             </p>
-        </div>
+        </section>
     )
 }

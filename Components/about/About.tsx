@@ -15,7 +15,7 @@ import Spacing from "../Spacing";
  */
 export default function About(){
     return(
-        <div 
+        <section 
             id='About'
             style={{
                 display: 'flex',
@@ -26,6 +26,6 @@ export default function About(){
             <AboutHero/>
             <Spacing size='Small'/>
             <AboutTech/>
-        </div>
+        </section>
     )
 }

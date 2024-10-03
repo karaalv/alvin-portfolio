@@ -19,7 +19,12 @@
     align-items: center;
     align-self: center;
     align-self: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(100rem);
+    -webkit-backdrop-filter: blur(100rem); 
+    border-radius: 5rem;
     width: 80%;
+    z-index: 5;
 }
 
 .navbar_container:hover {

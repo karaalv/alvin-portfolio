@@ -18,7 +18,7 @@ import Getaway from "./Getaway";
  */
 export default function Projects(){
     return(
-        <div
+        <section
             id='Projects'
             style={{
                 display: 'flex',
@@ -32,6 +32,6 @@ export default function Projects(){
             <ML/>
             <div style={{marginTop: '1%'}}/>
             <Getaway/>
-        </div>
+        </section>
     )
 }
