@@ -17,16 +17,12 @@ export default function AboutTech(){
             display: 'flex',
             flexDirection: 'column'
         }}>
-            <p className={fonts.sub_heading}>Tech Stack.</p>
+            <p className={styles.tech_title}>Tech Stack.</p>
 
-            <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-around'
-            }}>
+            <div className={styles.tech_container}>
 
                 {/* Programming Languages */}
-                <div className={styles.tech_container}>
+                <div className={styles.tech_list}>
                     {/* Heading */}
                     <p 
                         className={styles.tech_heading}
@@ -49,7 +45,7 @@ export default function AboutTech(){
                 </div>
 
                 {/* Frameworks */}
-                <div className={styles.tech_container}>
+                <div className={styles.tech_list}>
                     {/* Heading */}
                     <p 
                         className={styles.tech_heading}
@@ -72,7 +68,7 @@ export default function AboutTech(){
                 </div>
 
                 {/* Development Tools */}
-                <div className={styles.tech_container}>
+                <div className={styles.tech_list}>
                     {/* Heading */}
                     <p 
                         className={styles.tech_heading}

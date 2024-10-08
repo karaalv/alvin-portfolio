@@ -8,10 +8,46 @@ import styles from '@/styles/about/AboutHero.module.css'
 // Font styles.
 import fonts from '@/styles/Typography.module.css'
 
+import { useResponsiveContext } from '../ResponsiveContext'
+import { useEffect, useState } from 'react'
+
 /**
  * @returns About hero section
  */
 export default function AboutHero(){
+    
+    const [isMobile, setMobile] = useState<boolean | null>(null)
+    const res = useResponsiveContext().isMobile
+
+    useEffect(() => {
+        setMobile(res)
+    }, [])
+
+    const renderTitles = () => {
+        return(
+            <div style={{
+                paddingLeft: isMobile? '0':'5rem',
+                marginTop: isMobile? '1rem':'5rem',
+            }}>
+                <p
+                    className={styles.swe_text}
+                >
+                    Full-Stack Software Engineer
+                </p>
+                <p
+                    className={styles.imperial_text}
+                >
+                    Imperial College London
+                </p>
+                <p
+                    className={styles.imperial_text}
+                >
+                    MSc, Business Analytics
+                </p>
+            </div>
+        )
+    }
+
     return(
         <div className={styles.section_container}>
             {/* Hero section */}
@@ -27,34 +63,11 @@ export default function AboutHero(){
                         <img 
                             src='/assets/Portrait.png' 
                             alt='Photo of me ;)'
-                            style={{
-                                maxWidth: '65%',
-                                height: 'auto',
-                                objectFit: 'contain'
-                            }}
+                            className={styles.portrait}
                         />
                     </div>
-                    {/* Titles */}
-                    <div style={{
-                        paddingLeft: '10%',
-                        marginTop: '5rem'
-                    }}>
-                        <p
-                            className={styles.swe_text}
-                        >
-                            Full-Stack Software Engineer
-                        </p>
-                        <p
-                            className={styles.imperial_text}
-                        >
-                            Imperial College London
-                        </p>
-                        <p
-                            className={styles.imperial_text}
-                        >
-                            MSc, Business Analytics
-                        </p>
-                    </div>
+                    {/* Titles - Web*/}
+                    {!isMobile? renderTitles(): <></>}
                 </div>
                 {/* Info */}
                 <div className={styles.info_container}>
@@ -83,6 +96,8 @@ export default function AboutHero(){
                         <span style={{fontWeight: 'bold'}}> Technology </span>to
                         build creative products
                     </p>
+                    {/* Titles - Mobile */}
+                    {isMobile? renderTitles(): <></>}
                 </div>
             </div>
         </div>
