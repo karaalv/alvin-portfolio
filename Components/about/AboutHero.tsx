@@ -26,7 +26,7 @@ export default function AboutHero(){
                     }}>
                         <img 
                             src='/assets/Portrait.png' 
-                            alt='Photo of me :)'
+                            alt='Photo of me ;)'
                             style={{
                                 maxWidth: '65%',
                                 height: 'auto',
@@ -79,7 +79,8 @@ export default function AboutHero(){
                     <p
                         className={styles.info_text}
                     >
-                        I am someone passionate about leveraging <span style={{fontWeight: 'bold'}}>Technology</span> to
+                        I am passionate about leveraging
+                        <span style={{fontWeight: 'bold'}}> Technology </span>to
                         build creative products
                     </p>
                 </div>

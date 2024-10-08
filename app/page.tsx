@@ -18,11 +18,16 @@ import Experience from '@/components/experience/Experience'
 import Projects from '@/components/projects/Projects'
 import Contact from '@/components/contact/contact'
 
+// Responsive provider.
+import ResponsiveProvider, {useResponsiveContext} from '@/components/ResponsiveContext'
+
 // React utilities.
 import { useEffect, useState, useRef } from 'react'
 
 // Main hander for section components.
 export default function MainPage(){
+
+    // Responsive state.
 
     // User scroll state.
     const [hasScrolled, setScrolled] = useState<boolean>(false)
@@ -80,12 +85,14 @@ export default function MainPage(){
     }, [])
 
     return(
-        <div className={styles.mainPage}>
-            <Navbar isActive={!hasScrolled} currentSection={currentSection}/>
-            <About/>
-            <Experience/>
-            <Projects/>
-            <Contact/>
-        </div>
+            <ResponsiveProvider>
+                <div className={styles.mainPage}>
+                    <Navbar isActive={!hasScrolled} currentSection={currentSection}/>
+                    <About/>
+                    <Experience/>
+                    <Projects/>
+                    <Contact/>
+                </div>
+            </ResponsiveProvider>
     )
 }

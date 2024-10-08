@@ -8,6 +8,7 @@ import styles from '@/styles/contact/Contact.module.css'
  * @returns Contact section
  */
 export default function Contact(){
+
     return(
         <section
             id='Contact'
@@ -21,12 +22,7 @@ export default function Contact(){
             <div className={styles.divider}/>
             {/* Content */}
             <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginTop: '3rem'
-                }}
+                className={styles.content_container}
             >
                 {/* Title */}
                 <p 
@@ -36,11 +32,7 @@ export default function Contact(){
                     Contact.
                 </p>
                 {/* Icons */}
-                <div style={{
-                    display: 'flex', 
-                    flexDirection: 'row',
-                    gap: '3rem'
-                }}>
+                <div className={styles.icon_container}>
                     <a
                         href='https://www.linkedin.com/in/alvin-n-karanja/'
                         target='_blank'

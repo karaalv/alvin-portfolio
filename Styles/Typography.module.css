@@ -1,12 +1,12 @@
 /* Typography Styles */
 
+/* BASE */
+
 .heading {
     font-family: var(--Primary-font);
     color: var(--Active-color);
     font-size: 9.6rem;
     font-weight: bold;
-    width: auto;
-    height: auto;
 }
 
 .sub_heading {
@@ -14,8 +14,6 @@
     color: var(--Active-color);
     font-size: 5rem;
     font-weight: bold;
-    width: auto;
-    height: auto;
     text-decoration: none;
 }
 
@@ -23,6 +21,36 @@
     font-family: var(--Primary-font);
     color: var(--Active-color);
     font-size: 2.8rem;
-    width: auto;
-    height: auto;
+}
+
+/* MOBILE */
+
+@media (max-width: 786px) {
+    .heading {
+        font-size: 6.4rem;
+    }
+    
+    .sub_heading {
+        font-size: 3.2rem;
+    }
+    
+    .body {
+        font-size: 1.8rem;
+    }
+}
+
+/* DESKTOP & TABLET */
+
+@media (min-width: 786px) {
+    .heading {
+        font-size: 9.6rem;
+    }
+    
+    .sub_heading {
+        font-size: 5rem;
+    }
+    
+    .body {
+        font-size: 2.8rem;
+    }
 }
