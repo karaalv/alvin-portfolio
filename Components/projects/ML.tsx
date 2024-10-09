@@ -4,26 +4,16 @@
 
 import fonts from '@/styles/Typography.module.css'
 import common from '@/styles/projects/Common.module.css'
+import styles from '@/styles/projects/ML.module.css'
 
 /**
  * @returns Gatsby Carousel Card
  */
 export default function ML(){
     return(
-        <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            width: '100%'
-        }}>
+        <div className={common.project_container}>
             {/* Content */}
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '50%',
-                // backgroundColor: 'red',
-                padding: '3rem',
-            }}>
+            <div className={styles.content_container}>
                 {/* Title */}
                 <div className={common.title_container}>
                     <img 
@@ -53,13 +43,8 @@ export default function ML(){
                     MATLAB, Data Analysis, Linear Algebra, Multivariable Calculus
                 </p>
                 {/* Bio */}
-                <ul
-                    className={fonts.body}
-                    style={{
-                        lineHeight: '7rem',
-                    }}
-                >
-                    <li>
+                <ul>
+                    <li className={`${fonts.body} ${common.info}`}>
                         Assessed various cost functions and applied advanced 
                         optimisation algorithms including, Linear Regression, 
                         Logistic Regression and Newtonian Descent
@@ -68,23 +53,13 @@ export default function ML(){
             </div>
 
             {/* Media */}
-            <div style={{
-                display: 'flex',
-                width: '45%', 
-                // backgroundColor: 'blue',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
+            <div className={styles.image_container}>
                 <video 
                     src="/assets/MLvideo.mov"
                     loop
                     muted
                     autoPlay
-                    style={{
-                        maxWidth: '80%',
-                        maxHeight: '80%',
-                        objectFit: 'contain',
-                    }}
+                    className={styles.app_image}
                 />
             </div>
         </div>

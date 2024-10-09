@@ -1,9 +1,13 @@
 /*** Common Project Styles ***/
 
+.project_container {
+    display: flex;
+    width: 100%;
+}
+
 .tech_stack {
     font-family: var(--Primary-font);
     color: var(--Active-color);
-    font-size: 2.4rem;
     font-weight: bold;
     font-style: italic;
 }
@@ -17,5 +21,40 @@
 
 .title_container:hover {
     opacity: 0.5;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 786px) {
+    .project_container {
+        flex-direction: column;
+    }
+
+    .tech_stack {
+        font-size: 1.8rem;
+        line-height: 3rem;
+    }
+
+    .info {
+        line-height: 5rem;
+    }
+}
+
+/* DESKTOP & TABLET */
+
+@media (min-width: 786px) {
+    .project_container {
+        justify-content: space-around;
+        flex-direction: row;
+    }
+
+    .tech_stack {
+        font-size: 2.4rem;
+    }
+
+    .info {
+        line-height: 7rem;
+    }
 }
 

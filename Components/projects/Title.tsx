@@ -10,7 +10,6 @@ export default function ProjectsTitle(){
     return(
         <div style={{
             display: 'flex',
-            flexDirection: 'row'
         }}>
             <p className={fonts.heading}>Projects</p>
         </div>

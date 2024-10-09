@@ -61,7 +61,7 @@ export default function Racing(){
                                 Oversaw the research and development of electronics 
                                 onto a third-generation electrical race vehicle, 
                                 competing at Silverstone racecourse and placing 9th 
-                                overall in the Electrical Vehicle class in Formula 
+                                overall in the Electrical Vehicle class at Formula 
                                 Student UK 2024
                             </li>
                         </ul>

@@ -4,26 +4,16 @@
 
 import fonts from '@/styles/Typography.module.css'
 import common from '@/styles/projects/Common.module.css'
+import styles from '@/styles/projects/Gatsby.module.css'
 
 /**
  * @returns Gatsby Carousel Card
  */
 export default function Gatsby(){
     return(
-        <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            width: '100%'
-        }}>
+        <div className={common.project_container}>
             {/* Content */}
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '60%',
-                // backgroundColor: 'red',
-                padding: '3rem',
-            }}>
+            <div className={styles.content_container}>
                 {/* Title */}
                 <div className={common.title_container}>
                     <img 
@@ -53,12 +43,7 @@ export default function Gatsby(){
                 </p>
                 {/* Bio */}
                 <ul>
-                    <li
-                        className={fonts.body}
-                        style={{
-                            lineHeight: '7rem',
-                        }}
-                    >
+                    <li className={`${fonts.body} ${common.info}`}>
                         Founded a ticket distribution mobile platform 
                         leveraging blockchain technology to facilitate 
                         a unique ticket authentication algorithm for 
@@ -68,21 +53,11 @@ export default function Gatsby(){
             </div>
 
             {/* Media */}
-            <div style={{
-                display: 'flex',
-                width: '35%', 
-                // backgroundColor: 'blue',
-                alignContent: 'center',
-                justifyContent: 'center',
-            }}>
+            <div className={styles.image_container}>
                 <img 
                     src='/assets/gatsby.png' 
                     alt='Photo of app'
-                    style={{
-                        maxWidth: '70%',
-                        height: 'auto',
-                        objectFit: 'contain'
-                    }}
+                    className={styles.app_image}
                 />
             </div>
         </div>

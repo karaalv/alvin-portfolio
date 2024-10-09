@@ -1,9 +1,66 @@
 /*** Gatsby Section Styles ***/
 
-.tech_stack {
-    font-family: var(--Primary-font);
-    color: var(--Active-color);
-    font-size: 2.2rem;
-    font-weight: bold;
-    font-style: italic;
+.project_container {
+    display: flex;
+    width: 100%;
+}
+
+.content_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.image_container {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.app_image {
+    height: auto;
+    object-fit: contain;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 786px) {
+    .project_container {
+        flex-direction: column;
+    }
+
+    .content_container {
+        width: 100%;
+    }
+
+    .image_container {
+        width: 100%;
+    }
+
+    .app_image {
+        margin: 5rem;
+        max-width: 65%;
+    }
+}
+
+/* DESKTOP & TABLET */
+
+@media (min-width: 786px) {
+    .project_container {
+        justify-content: space-around;
+        flex-direction: row;
+    }
+
+    .content_container {
+        width: 60%;
+        padding: 3rem;
+    }
+
+    .image_container {
+        width: 35%;
+    }
+
+    .app_image {
+        max-width: 65%;
+    }
 }

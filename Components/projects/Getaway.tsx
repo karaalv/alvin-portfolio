@@ -4,26 +4,16 @@
 
 import fonts from '@/styles/Typography.module.css'
 import common from '@/styles/projects/Common.module.css'
+import styles from '@/styles/projects/Getaway.module.css'
 
 /**
  * @returns Gatsby Carousel Card
  */
 export default function Getaway(){
     return(
-        <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            width: '100%'
-        }}>
+        <div className={styles.project_container}>
             {/* Content */}
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '50%',
-                // backgroundColor: 'red',
-                padding: '3rem',
-            }}>
+            <div className={styles.content_container}>
                 {/* Title */}
                 <div className={common.title_container}>
                     <img 
@@ -50,12 +40,7 @@ export default function Getaway(){
                     Three.js, JavaScript, HTML, CSS, Blender, Vite
                 </p>
                 {/* Bio */}
-                <ul
-                    className={fonts.body}
-                    style={{
-                        lineHeight: '7rem',
-                    }}
-                >
+                <ul className={`${fonts.body} ${common.info}`}>
                     <li>
                         Created an interactive 3D web-based game using the 
                         WebGL based framework Three.js
@@ -68,21 +53,11 @@ export default function Getaway(){
             </div>
 
             {/* Media */}
-            <div style={{
-                display: 'flex',
-                width: '45%', 
-                // backgroundColor: 'blue',
-                alignContent: 'center',
-                justifyContent: 'center',
-            }}>
+            <div className={styles.image_container}>
                 <img 
                     src='/assets/getaway.png' 
                     alt='Photo of app'
-                    style={{
-                        maxWidth: '100%',
-                        height: 'auto',
-                        objectFit: 'contain'
-                    }}
+                    className={styles.app_image}
                 />
             </div>
         </div>
