@@ -10,7 +10,7 @@ import styles from '@/Styles/MainPage.module.css'
 import { NavbarStates } from '@/types/StyleTypes'
 
 // Navbar.
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/navbar/Navbar'
 
 // Sections.
 import About from "@/components/about/About"
@@ -19,10 +19,10 @@ import Projects from '@/components/projects/Projects'
 import Contact from '@/components/contact/contact'
 
 // Responsive provider.
-import ResponsiveProvider, {useResponsiveContext} from '@/components/ResponsiveContext'
+import ResponsiveProvider from '@/components/ResponsiveContext'
 
 // React utilities.
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 // Main hander for section components.
 export default function MainPage(){
@@ -87,7 +87,7 @@ export default function MainPage(){
     return(
             <ResponsiveProvider>
                 <div className={styles.mainPage}>
-                    <Navbar isActive={!hasScrolled} currentSection={currentSection}/>
+                    <Navbar isActive={hasScrolled} currentSection={currentSection}/>
                     <About/>
                     <Experience/>
                     <Projects/>

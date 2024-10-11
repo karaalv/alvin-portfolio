@@ -1,34 +1,16 @@
-/*** Navbar Component ***/
-'use client'
+/*** Mobile Navbar Component ***/
 
-/* Imports */
-
-// Styles.
-import styles from '@/styles/Navbar.module.css'
-
-// Types.
-import { NavbarStates } from '@/types/StyleTypes'
+import styles from '@/styles/navbar/NavbarMobile.module.css'
 import { NavBarProps } from '@/types/ComponentProps'
-
-// React utilities.
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { NavbarStates } from '@/types/StyleTypes'
 
 /**
- * Site navigation bar.
- * 
- * @returns Navbar component
+ * @returns Mobile Navbar
  */
-export default function Navbar({isActive, currentSection}: NavBarProps){
-
-	// Active or passive state.
-	const [active, setActive] = useState<boolean>(isActive)
-
-    // Re-render when Navbar state updates.
-
-    // Active opacity.
-    useEffect(() => {
-        setActive(isActive)
-    }, [isActive])
+export default function NavbarMobile({isActive, currentSection}: NavBarProps){
+    // Toggle state.
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
     // Scroll to section callback.
     const scrollToSection = (section: NavbarStates) => {
@@ -40,7 +22,6 @@ export default function Navbar({isActive, currentSection}: NavBarProps){
         }
     }
 
-    // Section render function.
     const renderSections = (currentState: NavbarStates) => {
         const sections: NavbarStates[] = [
             'About', 
@@ -71,6 +52,7 @@ export default function Navbar({isActive, currentSection}: NavBarProps){
                         	onClick={
                                 () => {
                                     scrollToSection(section)
+                                    setIsOpen(false)
                                 }
                             }
 							key={section}
@@ -84,18 +66,24 @@ export default function Navbar({isActive, currentSection}: NavBarProps){
     }
 
     return(
-        // Navbar position container.
-        <div className={styles.navbar_position}>
-            {/* Navbar arrangement container */}
+        <>
+            {/* Hamburger */}
             <div 
-				className={styles.navbar_container}
-				style={{opacity: active? 1:0.1}}
-				onMouseEnter={() => setActive(true)}
-				onMouseLeave={() => setActive(isActive)}
-			>
-				{/* Render section titles */}
-				{renderSections(currentSection)}
+                className={styles.hamburger_container} 
+                onClick={() => setIsOpen(!isOpen)}
+                style={{
+                    opacity: isActive? 1:0.1
+                }}
+            >
+                <div className={styles.hamburger_bar}/>
+                <div className={styles.hamburger_bar}/>
+                <div className={styles.hamburger_bar}/>
             </div>
-        </div>
+
+            {/* Side menu */}
+            <div className={`${styles.side_menu} ${isOpen? styles.open:''}`}>
+                {renderSections(currentSection)}
+            </div>
+        </>
     )
 }

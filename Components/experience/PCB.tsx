@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { useResponsiveContext } from '../ResponsiveContext';
 
@@ -33,7 +33,6 @@ export default function PCB(){
 
     /* CAMERA */
     const pos_z = isMobile? 1:0
-
 
     // Mounting reference.
     const mount = useRef<HTMLDivElement | null>(null)
