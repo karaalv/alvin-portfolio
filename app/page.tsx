@@ -77,7 +77,6 @@ export default function MainPage(){
             if((rect.top >= 0 && rect.top < window.innerHeight)){
                 current = section.id
                 setCurrentSection(current as NavbarStates)
-                console.log(current)
             }
         })
     }
