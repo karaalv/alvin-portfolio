@@ -14,7 +14,7 @@ import styles from '@/styles/RootLayout.module.css'
 export const metadata: Metadata = {
     title: 'Alvin Karanja | Portfolio',
     icons: {
-        icon: '/Assets/favicon-16x16.png'
+        icon: '/assets/favicon-16x16.png'
     }
 }
 
