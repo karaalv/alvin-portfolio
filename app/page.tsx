@@ -4,7 +4,7 @@
 /* Imports */
 
 // Styles.
-import styles from '@/Styles/MainPage.module.css'
+import styles from '@/styles/MainPage.module.css'
 
 // Types.
 import { NavbarStates } from '@/types/StyleTypes'
