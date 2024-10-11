@@ -7,19 +7,19 @@
 import styles from '@/Styles/MainPage.module.css'
 
 // Types.
-import { NavbarStates } from '@/t/StyleTypes'
+import { NavbarStates } from '@/types/StyleTypes'
 
 // Navbar.
-import Navbar from '@/c/navbar/Navbar'
+import Navbar from '@/components/navbar/Navbar'
 
 // Sections.
-import About from "@/c/about/About"
-import Experience from '@/c/experience/Experience'
-import Projects from '@/c/projects/Projects'
-import Contact from '@/c/contact/contact'
+import About from "@/components/about/About"
+import Experience from '@/components/experience/Experience'
+import Projects from '@/components/projects/Projects'
+import Contact from '@/components/contact/contact'
 
 // Responsive provider.
-import ResponsiveProvider from '@/c/ResponsiveContext'
+import ResponsiveProvider from '@/components/ResponsiveContext'
 
 // React utilities.
 import { useEffect, useState } from 'react'

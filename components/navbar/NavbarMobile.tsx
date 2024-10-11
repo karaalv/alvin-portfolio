@@ -1,9 +1,9 @@
 /*** Mobile Navbar Component ***/
 
 import styles from '@/styles/navbar/NavbarMobile.module.css'
-import { NavBarProps } from '@/t/ComponentProps'
+import { NavBarProps } from '@/types/ComponentProps'
 import { useState } from 'react'
-import { NavbarStates } from '@/t/StyleTypes'
+import { NavbarStates } from '@/types/StyleTypes'
 
 /**
  * @returns Mobile Navbar
