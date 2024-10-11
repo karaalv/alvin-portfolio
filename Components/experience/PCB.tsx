@@ -7,17 +7,34 @@ import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { useEffect, useRef } from 'react'
 
+import { useResponsiveContext } from '../ResponsiveContext';
+
 // STOP INSPECTING MY WEBSITE !
 
 // jk, jk its all public on GitHub if you are curious.
 
-// This is just a Three.js environment mounted onto a div ref
+// This is just a Three.js environment mounted onto a div ref.
 
 /**
  * @returns PCB Component
  */
 export default function PCB(){
-    
+
+    // Define 3D properties based on viewport.
+
+    /* SCALE */
+    const {isMobile} = useResponsiveContext()
+    const baseScale = 0.035
+    const scale = isMobile? (baseScale): baseScale
+
+    /* SIZE */
+    const inHeight = window.innerHeight
+    const renderHeight = isMobile? (inHeight/2): inHeight
+
+    /* CAMERA */
+    const pos_z = isMobile? 1:0
+
+
     // Mounting reference.
     const mount = useRef<HTMLDivElement | null>(null)
     const objectRef = useRef<THREE.Object3D | null>(null);
@@ -34,7 +51,7 @@ export default function PCB(){
             1000
         )
         const renderer = new THREE.WebGLRenderer({alpha: true, antialias: false})
-        renderer.setSize(window.innerWidth, window.innerHeight)
+        renderer.setSize(window.innerWidth, renderHeight)
 
         // Set render to DOM mount.
         if(mount.current){
@@ -50,10 +67,8 @@ export default function PCB(){
     
             // Load the .obj file.
             const objLoader = new OBJLoader()
-            const scale = 0.035
             const pos_x = -2.5
             const pos_y = -2
-            const pos_z = 0
 
             // Set loaded materials.
             objLoader.setMaterials(materials)

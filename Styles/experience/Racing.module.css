@@ -1,5 +1,14 @@
 /*** Racing Section Styles ***/
 
+.section_container {
+    display: flex;
+}
+
+.bio_section {
+    display: flex;
+    flex-direction: column;
+}
+
 .pcb {
     cursor: pointer;
 }
@@ -10,4 +19,47 @@
     font-size: 1.6rem;
     text-align: center;
     z-index: 1;
+}
+
+/* MOBILE */
+
+@media (max-width: 786px) {
+    .section_container {
+        flex-direction: column;
+    }
+
+    .bio_section {
+        width: 100%;
+    }
+
+    .info {
+        line-height: 5rem;
+        padding-left: 1rem;
+    }
+
+    .pcb {
+        width: 100%;
+    }
+}
+
+
+/* DESKTOP & TABLET */
+
+@media (min-width: 786px) {
+    .section_container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .bio_section {
+        width: 40%;
+    }
+
+    .info {
+        line-height: 7rem;
+    }
+
+    .pcb {
+        width: 55%;
+    }
 }

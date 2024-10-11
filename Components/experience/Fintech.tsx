@@ -41,19 +41,9 @@ export default function Fintech(){
             </p>
 
             {/* Terminal */}
-            <div style={{
-                display: 'flex', 
-                flexDirection: 'row', 
-                // backgroundColor: 'red', 
-                width: '100%',
-                height: 'auto',
-                marginTop: '5rem'
-            }}>
+            <div className={styles.terminal_container}>
                 {/* Query */}
-                <div 
-                    style={{width: '40%'}}
-                    className={styles.terminal_query}
-                >
+                <div className={styles.terminal_query}>
                     {/* Query title */}
                     <div className={styles.title_container}>
                         <p>Query.sql</p>
@@ -68,16 +58,10 @@ export default function Fintech(){
                 </div>
 
                 {/* Divider */}
-                <div 
-                    style={{width: '0.1%'}}
-                    className={styles.terminal_divider}
-                />
+                <div className={styles.terminal_divider}/>
 
                 {/* Result */}
-                <div 
-                    style={{width: '59.9%'}}
-                    className={styles.terminal_result}
-                >
+                <div className={styles.terminal_result}>
                     {/* Result title */}
                     <div className={styles.title_container}>
                         <p>result</p>

@@ -31,6 +31,7 @@ export default function Experience(){
             <ExperienceTitle/>
             <Tracom/>
             <Spacing size='Small'/>
+            <div style={{margin: '1rem'}}/>
             <Racing/>
             <Spacing size='Small'/>
             <Fintech/>

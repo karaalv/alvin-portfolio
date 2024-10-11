@@ -3,23 +3,43 @@
 .terminal {
     background-color: #181818;
     border-radius: 50px;
-    width: 90%;
+    width: 95%;
     height: auto;
     margin-top: 3rem;
     align-self: center;
     padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .terminal_list {
     list-style-type: none;
     font-family: 'Andale Mono', monospace;
     color: #4AF626;
-    /* text-shadow: 0 0 1rem #4AF626; */
-    font-size: 2.2rem;
-    line-height: 7rem;
+    width: 90%;
 }
 
 .terminal_list li::before {
     content: '>';
     margin-right: 1rem;
+}
+
+/* MOBILE */
+
+@media (max-width: 786px) {
+    .terminal_list {
+        font-size: 1.6rem;
+        line-height: 5rem;
+        padding-left: 1rem;
+    }
+}
+
+/* DESKTOP & TABLET */
+
+@media (min-width: 786px) {
+    .terminal_list {
+        font-size: 2.2rem;
+        line-height: 7rem;
+    }
 }

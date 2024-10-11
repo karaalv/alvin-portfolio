@@ -19,6 +19,7 @@
     font-family: var(--Primary-font);
     color: var(--Active-color);
     font-size: 1.5rem;
+    margin-top: 2rem;
     font-weight: bold;
     width: auto;
     height: auto;
