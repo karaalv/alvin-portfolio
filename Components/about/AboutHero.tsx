@@ -87,7 +87,7 @@ export default function AboutHero(){
                             width: '100%'
                         }}
                     >
-                        Hey, I'm Alvin.
+                        Hey, I&apos;m Alvin.
                     </p>
                     <p
                         className={styles.info_text}

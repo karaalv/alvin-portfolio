@@ -1,8 +1,6 @@
 /*** Projects Section ***/
 
 /* Imports */
-import Spacing from "../Spacing";
-
 import ProjectsTitle from "./Title";
 import Gatsby from "./Gatsby";
 import ML from "./ML";

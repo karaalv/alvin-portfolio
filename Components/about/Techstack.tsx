@@ -5,9 +5,6 @@
 // Section Styles.
 import styles from '@/styles/about/Tech.module.css'
 
-// Font styles
-import fonts from '@/styles/Typography.module.css'
-
 /**
  * @returns About tech stack section
  */

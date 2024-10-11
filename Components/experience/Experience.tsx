@@ -8,7 +8,6 @@ import Racing from "./Racing"
 
 import Spacing from "../Spacing"
 import Fintech from "./Fintech"
-import { useEffect, useRef, useState } from "react"
 
 /**
  * Wraps together:

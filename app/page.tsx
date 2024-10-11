@@ -27,7 +27,12 @@ import { useEffect, useState } from 'react'
 // Main hander for section components.
 export default function MainPage(){
 
-    // Responsive state.
+    // Check if in client.
+    const [isClient, setIsClient] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     // User scroll state.
     const [hasScrolled, setScrolled] = useState<boolean>(false)
@@ -83,6 +88,11 @@ export default function MainPage(){
             window.removeEventListener('scroll', handleSectionScroll)
         }
     }, [])
+
+    // DO NOT RENDER IN SERVER.
+    if(!isClient){
+        return null
+    }
 
     return(
             <ResponsiveProvider>
