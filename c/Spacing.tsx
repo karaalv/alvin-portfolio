@@ -3,7 +3,7 @@
 /* Imports */
 
 // Types.
-import { SpacingProps } from "@/types/ComponentProps"
+import { SpacingProps } from "@/t/ComponentProps"
 
 /**
  * @returns Component to space sections.

@@ -2,7 +2,7 @@
 
 /* Imports */
 import { useResponsiveContext } from "../ResponsiveContext"
-import { NavBarProps } from "@/types/ComponentProps"
+import { NavBarProps } from "@/t/ComponentProps"
 import NavbarDesktop from "./NavbarDesktop"
 import NavbarMobile from "./NavbarMobile"
 
