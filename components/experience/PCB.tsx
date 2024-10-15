@@ -112,6 +112,7 @@ export default function PCB(){
         // Orbit controls.
         const controls = new OrbitControls(camera, renderer.domElement)
         controls.enableZoom = false
+        controls.enablePan = false
 
         /** ANIMATION LOOP **/
         

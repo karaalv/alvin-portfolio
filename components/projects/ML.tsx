@@ -59,6 +59,7 @@ export default function ML(){
                     loop
                     muted
                     autoPlay
+                    playsInline
                     className={styles.app_image}
                 />
             </div>
