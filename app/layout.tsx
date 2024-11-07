@@ -5,6 +5,7 @@
 // React & next utilities.
 import React from "react";
 import { Metadata } from "next";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 // Styles.
 import '@/styles/Globals.css'
@@ -31,6 +32,7 @@ export default function RootLayout(
         <html lang="en" className={styles.html}>
             <body className={styles.body}>
                 {children}
+                <SpeedInsights/>
             </body>
         </html>
     )
