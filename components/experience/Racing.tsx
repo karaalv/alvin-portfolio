@@ -25,7 +25,7 @@ export default function Racing(){
 
                 {/* Info */}
                 <p className={fonts.body}>
-                    September 2023 - July 2023
+                    September 2023 - July 2024
                 </p>
                 <p 
                     className={fonts.body}
