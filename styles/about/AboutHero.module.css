@@ -56,8 +56,7 @@
 .info_text {
     font-family: var(--Primary-font);
     color: var(--Active-color);
-    text-align: justify;
-    width: 95%;
+    width: 80%;
     margin-top: 0%;
 }
 
