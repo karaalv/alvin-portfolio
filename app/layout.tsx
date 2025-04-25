@@ -6,6 +6,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { GoogleTagManager } from "@next/third-parties/google";
 
 // Styles.
 import '@/styles/Globals.css'
@@ -30,6 +31,9 @@ export default function RootLayout(
 ){
     return(
         <html lang="en" className={styles.html}>
+            <head>
+                <GoogleTagManager gtmId="GTM-W8CMJRHW"/>
+            </head>
             <body className={styles.body}>
                 {children}
                 <SpeedInsights/>
