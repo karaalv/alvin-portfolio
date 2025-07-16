@@ -1,7 +1,9 @@
-/*** Main Webpage Handler ***/
 'use client'
-
-/* Imports */
+/**
+ * @description Main page for the website. 
+ * This page contains the main sections of
+ * my portfolio.
+ */
 
 // Styles.
 import styles from '@/styles/MainPage.module.css'

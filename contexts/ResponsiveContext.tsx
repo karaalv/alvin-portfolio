@@ -1,9 +1,10 @@
-/*** Responsive Context Wrapper ***/
+/**
+ * @description Responsive context provider
+ * for managing responsive states.
+ */
 
-/* Imports */
 import { useContext, createContext, useState, ReactNode } from "react";
 import { useMediaQuery } from "react-responsive";
-
 
 const ResponsiveContext = createContext<ResponsiveContextProps | undefined>(undefined)
 
@@ -32,4 +33,3 @@ export const useResponsiveContext = () => {
     }
     return context
 }
-

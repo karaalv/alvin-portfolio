@@ -1,6 +1,7 @@
-/*** Section Spacing Component ***/
-
-/* Imports */
+/**
+ * @description Component to add spacing
+ * between sections.
+ */
 
 // Types.
 import { SpacingProps } from "@/types/ComponentProps"

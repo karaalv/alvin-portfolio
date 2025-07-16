@@ -1,6 +1,7 @@
-/*** Webpage Root Layout ***/
-
-/* Imports */
+/**
+ * @description Root layout for the
+ * website.
+ */
 
 // React & next utilities.
 import React from "react";
