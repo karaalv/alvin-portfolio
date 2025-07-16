@@ -3,7 +3,7 @@
 .mainPage {
     width: 100%;
     padding: 2.5rem;
-    background-color: var(--Background-color);
+    background-color: var(--secondary);
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -10,7 +10,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GoogleTagManager } from "@next/third-parties/google";
 
 // Styles.
-import '@/styles/Globals.css'
+import '@styles/common/Global.css'
 import styles from '@styles/common/RootLayout.module.css'
 
 // Export metadata.

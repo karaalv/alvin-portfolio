@@ -6,7 +6,7 @@
  */
 
 // Styles.
-import styles from '@/styles/MainPage.module.css'
+import styles from '@styles/pages/MainPage.module.css'
 
 // Types.
 import { NavbarStates } from '@/types/StyleTypes'
@@ -15,13 +15,13 @@ import { NavbarStates } from '@/types/StyleTypes'
 import Navbar from '@/components/navbar/Navbar'
 
 // Sections.
-import About from "@/components/about/About"
-import Experience from '@/components/experience/Experience'
-import Projects from '@/components/projects/Projects'
-import Contact from '@/components/contact/contact'
+// import About from "@components/about/About"
+// import Experience from '@components/experience/Experience'
+// import Projects from '@components/projects/Projects'
+// import Contact from '@components/contact/contact'
 
 // Responsive provider.
-import ResponsiveProvider from '@/components/ResponsiveContext'
+import ResponsiveProvider from '@contexts/ResponsiveContext'
 
 // React utilities.
 import { useEffect, useState } from 'react'
@@ -96,14 +96,14 @@ export default function MainPage(){
     }
 
     return(
-            <ResponsiveProvider>
-                <div className={styles.mainPage}>
-                    <Navbar isActive={hasScrolled} currentSection={currentSection}/>
-                    <About/>
-                    <Experience/>
-                    <Projects/>
-                    <Contact/>
-                </div>
-            </ResponsiveProvider>
+        <ResponsiveProvider>
+            <div className={styles.mainPage}>
+                <Navbar isActive={hasScrolled} currentSection={currentSection}/>
+                {/* <About/>
+                <Experience/>
+                <Projects/>
+                <Contact/> */}
+            </div>
+        </ResponsiveProvider>
     )
 }

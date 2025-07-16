@@ -13,18 +13,24 @@
 }
 
 .navbar_container {
+    /* Arrangement */
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     align-self: center;
     align-self: center;
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(100rem);
-    -webkit-backdrop-filter: blur(100rem); 
-    border-radius: 5rem;
+
+    /* Glass */
+    background-color: var(--glass-colour);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+
+    /* Properties */
+    border-radius: var(--radius);
     width: 80%;
-    z-index: 5;
+    max-height: 6rem;
+    z-index: var(--z-index-navbar);
 }
 
 .navbar_container:hover {
@@ -34,8 +40,8 @@
 /* Navbar fonts */
 
 .font {
-    font-family: var(--Primary-font);
-    color: var(--Active-color);
+    font-family: var(--primary-font);
+    color: var(--primary);
     font-size: 2.2rem;
     width: auto;
     height: auto;
@@ -44,7 +50,7 @@
 
 /* State tracker */
 .circle {
-    background-color: var(--Active-color);
+    background-color: var(--primary);
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 100%;

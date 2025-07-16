@@ -1,6 +1,10 @@
-/*** Desktop Navbar Component ***/
+/**
+ * @description Desktop Navbar component.
+ * This component is used to display the
+ * desktop version of the navbar.
+ */
 
-/* Imports */
+import { useEffect, useState } from 'react'
 
 // Styles.
 import styles from '@/styles/navbar/NavbarDesktop.module.css'
@@ -9,13 +13,12 @@ import styles from '@/styles/navbar/NavbarDesktop.module.css'
 import { NavbarStates } from '@/types/StyleTypes'
 import { NavBarProps } from '@/types/ComponentProps'
 
-// React utilities.
-import { useEffect, useState } from 'react'
-
 /**
  * @returns Desktop Navbar component
  */
-export default function NavbarDesktop({isActive, currentSection}: NavBarProps){
+export default function NavbarDesktop(
+    {isActive, currentSection}: NavBarProps
+){
 
 	// Active or passive state.
 	const [active, setActive] = useState<boolean>(isActive)

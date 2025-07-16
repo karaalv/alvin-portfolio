@@ -1,5 +1,8 @@
-/*** Mobile Navbar Component ***/
-
+/**
+ * @description Mobile Navbar component.
+ * This component is used to display the
+ * navigation bar on mobile devices.
+ */
 import styles from '@/styles/navbar/NavbarMobile.module.css'
 import { NavBarProps } from '@/types/ComponentProps'
 import { useState } from 'react'
@@ -8,7 +11,9 @@ import { NavbarStates } from '@/types/StyleTypes'
 /**
  * @returns Mobile Navbar
  */
-export default function NavbarMobile({isActive, currentSection}: NavBarProps){
+export default function NavbarMobile(
+    {isActive, currentSection}: NavBarProps
+){
     // Toggle state.
     const [isOpen, setIsOpen] = useState<boolean>(false)
 

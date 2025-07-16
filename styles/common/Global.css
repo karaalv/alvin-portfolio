@@ -11,7 +11,7 @@
     --highlight: #CCCCCC;
     --accent: #E6E6E6;
     /* Effects */
-    --glass-colour: #000000;
+    --glass-colour: #0000001A;
 }
 
 /* Fonts */
@@ -26,4 +26,9 @@
 
     /* Glass */
     --glass-blur: 10rem;
+}
+
+/* Z Indices */
+:root {
+    --z-index-navbar: 5;
 }
