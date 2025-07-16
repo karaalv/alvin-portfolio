@@ -1,0 +1,29 @@
+/* Global Styles */
+
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* Colours */
+:root {
+    /* Main Colours */
+    --primary: #0b0b0A;
+    --secondary: #FFFFFF;
+    --highlight: #CCCCCC;
+    --accent: #E6E6E6;
+    /* Effects */
+    --glass-colour: #000000;
+}
+
+/* Fonts */
+:root {
+    --primary-font: 'Inter', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Properties */
+:root {
+    /* Border Radius */
+    --radius: 5rem;
+
+    /* Glass */
+    --glass-blur: 10rem;
+}

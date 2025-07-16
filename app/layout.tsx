@@ -11,7 +11,7 @@ import { GoogleTagManager } from "@next/third-parties/google";
 
 // Styles.
 import '@/styles/Globals.css'
-import styles from '@/styles/RootLayout.module.css'
+import styles from '@styles/common/RootLayout.module.css'
 
 // Export metadata.
 export const metadata: Metadata = {

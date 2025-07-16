@@ -3,21 +3,22 @@
 /* BASE */
 
 .heading {
-    font-family: var(--Primary-font);
-    color: var(--Active-color);
+    font-family: var(--primary-font);
+    color: var(--primary);
     font-weight: bold;
+    line-height: auto;
 }
 
 .sub_heading {
-    font-family: var(--Primary-font);
-    color: var(--Active-color);
+    font-family: var(--primary-font);
+    color: var(--primary);
     font-weight: bold;
-    text-decoration: none;
 }
 
 .body {
-    font-family: var(--Primary-font);
-    color: var(--Active-color);
+    font-family: var(--primary-font);
+    color: var(--primary);
+    line-height: auto;
 }
 
 /* MOBILE */
@@ -33,6 +34,7 @@
     
     .body {
         font-size: 1.8rem;
+        line-height: 7.5rem;
     }
 }
 
@@ -40,14 +42,15 @@
 
 @media (min-width: 786px) {
     .heading {
-        font-size: 9.6rem;
+        font-size: 8rem;
     }
     
     .sub_heading {
-        font-size: 5rem;
+        font-size: 6rem;
     }
     
     .body {
-        font-size: 2.8rem;
+        font-size: 3rem;
+        line-height: 7.5rem;
     }
 }
