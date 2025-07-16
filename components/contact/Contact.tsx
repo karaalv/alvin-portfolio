@@ -1,8 +1,12 @@
-/*** Contact Section ***/
+/**
+ * @description Contact section of the
+ * portfolio. This section contains
+ * contact information and links to
+ * social media.
+ */
 
-/* Imports */
-import fonts from '@/styles/Typography.module.css'
-import styles from '@/styles/contact/Contact.module.css'
+import Image from 'next/image'
+import styles from '@styles/contact/Contact.module.css'
 
 /**
  * @returns Contact section
@@ -12,11 +16,7 @@ export default function Contact(){
     return(
         <section
             id='Contact'
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                marginTop: '3rem'
-            }}
+            className={styles.section_container}
         >
             {/* Divider */}
             <div className={styles.divider}/>
@@ -26,8 +26,7 @@ export default function Contact(){
             >
                 {/* Title */}
                 <p 
-                    className={fonts.sub_heading} 
-                    style={{marginTop: '0px'}}
+                    className={styles.contact_title} 
                 >
                     Contact.
                 </p>
@@ -38,14 +37,12 @@ export default function Contact(){
                         target='_blank'
                         rel='noopener noreferrer'
                     >
-                        <img 
-                            src='/assets/linkedin.png' 
+                        <Image 
+                            src='/assets/linkedin.png'
+                            alt='LinkedIn Icon'
                             className={styles.icon}
-                            style={{
-                                maxWidth: '5rem',
-                                height: 'auto',
-                                objectFit: 'contain'
-                            }}
+                            width={40}
+                            height={40}
                         />
                     </a>
                     <a
@@ -53,14 +50,12 @@ export default function Contact(){
                         target='_blank'
                         rel='noopener noreferrer'
                     >
-                        <img 
-                            src='/assets/github.png' 
+                        <Image 
+                            src='/assets/github.png'
+                            alt='GitHub Icon'
+                            width={40}
+                            height={40}
                             className={styles.icon}
-                            style={{
-                                maxWidth: '5rem',
-                                height: 'auto',
-                                objectFit: 'contain'
-                            }}
                         />
                     </a>
                     <a
@@ -68,21 +63,19 @@ export default function Contact(){
                         target='_blank'
                         rel='noopener noreferrer'
                     >
-                        <img 
+                        <Image 
                             src='/assets/mail.png' 
+                            alt='Email Icon'
+                            width={40}
+                            height={40}
                             className={styles.icon}
-                            style={{
-                                maxWidth: '5rem',
-                                height: 'auto',
-                                objectFit: 'contain'
-                            }}
                         />
                     </a>
 
                 </div>
             </div>
             <p className={styles.copyright}>
-                Made with ❤️ Alvin Karanja © 2024
+                Made with ❤️ Alvin Karanja © 2025
             </p>
         </section>
     )

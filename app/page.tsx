@@ -18,7 +18,7 @@ import Navbar from '@/components/navbar/Navbar'
 // import About from "@components/about/About"
 // import Experience from '@components/experience/Experience'
 // import Projects from '@components/projects/Projects'
-// import Contact from '@components/contact/contact'
+import Contact from '@components/contact/Contact'
 
 // Responsive provider.
 import ResponsiveProvider from '@contexts/ResponsiveContext'
@@ -101,8 +101,8 @@ export default function MainPage(){
                 <Navbar isActive={hasScrolled} currentSection={currentSection}/>
                 {/* <About/>
                 <Experience/>
-                <Projects/>
-                <Contact/> */}
+                <Projects/> */}
+                <Contact/>
             </div>
         </ResponsiveProvider>
     )
