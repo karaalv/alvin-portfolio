@@ -1,0 +1,136 @@
+/* AI Engagement Chat Box */
+
+.container {
+    /* background-color: red; */
+    border-radius: var(--radius);
+    box-sizing: border-box;
+    padding: 2%;
+    border: 1px solid var(--highlight);
+    box-shadow: 0 0.1rem 0.5rem var(--accent);
+    
+    /* Arrangement */
+    margin: 0;
+    display: flex;
+    align-self: center;
+    position: relative;
+}
+
+.input {
+    /* Properties */
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--primary-font);
+    color: var(--primary);
+    /* border-radius: var(--radius); */
+    box-sizing: border-box;
+    
+    /* Text alignment */
+    text-align: left;
+    vertical-align: top;
+    padding: 0;
+    margin: 0;
+
+    /* Text styles */
+    font-weight: normal;
+    color: var(--primary);
+    font-family: var(--primary-font);
+    
+    resize: none;
+    overflow-wrap: break-word;
+}
+
+.input::placeholder {
+    font-family: var(--primary-font);
+    color: var(--highlight);
+}
+
+.send_button {
+    /* Position */
+    position: absolute;
+    
+    /* Properties */
+    border-radius: var(--radius);
+    background-color: var(--accent);
+    border: none;
+    
+    /* Arrangement */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.send_button:hover {
+    background-color: var(--highlight);
+}
+
+.icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--primary);
+}
+
+/* Mobile */
+
+@media (max-width: 786px) {
+    .container {
+        width: 100%;
+        height: 20rem;
+        padding: 1%;
+    }
+    
+    .input {
+        font-size: 1.8rem;
+        padding: 6%;
+    }
+
+    .input::placeholder {
+        font-size: 1.8rem;
+    }
+    
+    .send_button {
+        width: 4rem;
+        height: 4rem;
+        bottom: 7.5%;
+        right: 7.5%;
+    }
+    
+    .icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+/* Desktop & Tablet */
+
+@media (min-width: 786px) {
+    .container {
+        width: 70%;
+        height: 25rem;
+        padding: 2%;
+    }
+    
+    .input {
+        font-size: 2rem;
+    }
+
+    .input::placeholder {
+        font-size: 2rem;
+    }
+    
+    .send_button {
+        width: 5rem;
+        height: 5rem;
+        bottom: 5%;
+        right: 2.5%;
+    }
+    
+    .icon {
+        width: 2rem;
+        height: 2rem;
+    }
+}

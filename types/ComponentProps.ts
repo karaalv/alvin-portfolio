@@ -1,14 +1,12 @@
-/*** Component Prop Types ***/
+/**
+ * @description Component props for various
+ * components in the application.
+ */
 
-import { NavbarStates } from "./StyleTypes"
+import { NavbarStates } from "@/types/StyleTypes"
 
 // Navbar.
 export interface NavBarProps {
     isActive: boolean
     currentSection: NavbarStates
-}
-
-// Section spacing.
-export interface SpacingProps {
-    size: 'Small' | 'Large'
 }

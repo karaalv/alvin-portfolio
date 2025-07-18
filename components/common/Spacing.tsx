@@ -3,8 +3,9 @@
  * between sections.
  */
 
-// Types.
-import { SpacingProps } from "@/types/ComponentProps"
+interface SpacingProps {
+    size: 'small' | 'large'
+}
 
 /**
  * @returns Component to space sections.
@@ -12,8 +13,8 @@ import { SpacingProps } from "@/types/ComponentProps"
 export default function Spacing({size}: SpacingProps){
     return(
         <div style={{
-            marginTop: size == 'Large'? '10%':'5%',
-            // marginBottom: size == 'Large'? '10%':'2.5%',
-        }}></div>
+            marginTop: size == 'large'? '10%':'5%',
+            marginBottom: size == 'large'? '10%':'5%',
+        }}/>
     )
 }

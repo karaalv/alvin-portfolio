@@ -11,11 +11,13 @@ import styles from '@styles/pages/MainPage.module.css'
 // Types.
 import { NavbarStates } from '@/types/StyleTypes'
 
-// Navbar.
+// Util Components.
 import Navbar from '@/components/navbar/Navbar'
+import Spacing from '@/components/common/Spacing'
 
 // Sections.
 import About from "@components/about/About"
+import AIEngage from '@/components/ai-engage/AIEngage'
 // import Experience from '@components/experience/Experience'
 // import Projects from '@components/projects/Projects'
 import Contact from '@components/contact/Contact'
@@ -100,6 +102,8 @@ export default function MainPage(){
             <div className={styles.mainPage}>
                 <Navbar isActive={hasScrolled} currentSection={currentSection}/>
                 <About/>
+                <Spacing size='large'/>
+                <AIEngage/>
                 {/* <Experience/>
                 <Projects/> */}
                 <Contact/>
