@@ -31,4 +31,5 @@
 /* Z Indices */
 :root {
     --z-index-navbar: 5;
+    --z-index-content: 1;
 }
