@@ -22,7 +22,8 @@ import AIEngage from '@/components/ai-engage/AIEngage'
 // import Projects from '@components/projects/Projects'
 import Contact from '@components/contact/Contact'
 
-// Responsive provider.
+// Contexts.
+import AppProvider from '@/contexts/AppContext'
 import ResponsiveProvider from '@contexts/ResponsiveContext'
 
 // React utilities.
@@ -99,15 +100,17 @@ export default function MainPage(){
 
     return(
         <ResponsiveProvider>
-            <div className={styles.mainPage}>
-                <Navbar isActive={hasScrolled} currentSection={currentSection}/>
-                <About/>
-                <Spacing size='large'/>
-                <AIEngage/>
-                {/* <Experience/>
-                <Projects/> */}
-                <Contact/>
-            </div>
+            <AppProvider>
+                <div className={styles.mainPage}>
+                    <Navbar isActive={hasScrolled} currentSection={currentSection}/>
+                    <About/>
+                    <Spacing size='large'/>
+                    <AIEngage/>
+                    {/* <Experience/>
+                    <Projects/> */}
+                    <Contact/>
+                </div>
+            </AppProvider>
         </ResponsiveProvider>
     )
 }

@@ -68,6 +68,16 @@
     background-color: var(--highlight);
 }
 
+.send_button:disabled {
+    background-color: var(--accent);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.send_button:disabled:hover {
+    background-color: var(--accent);
+}
+
 .icon {
     width: 2rem;
     height: 2rem;

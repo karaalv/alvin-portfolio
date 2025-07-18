@@ -6,6 +6,11 @@
 
 import { useState, useEffect } from 'react'
 import { ArrowUp } from 'lucide-react'
+
+// Context
+import { useAppContext } from '@/contexts/AppContext'
+
+// Styles
 import styles from '@/styles/ai-engage/ChatBox.module.css'
 
 const placeholderOptions = [
@@ -22,13 +27,31 @@ const placeholderOptions = [
  * @returns ChatBox Component
  */
 export default function ChatBox() {
+    const { aiPrompt, setAiPrompt } = useAppContext()
     const [currentPlaceholder, setCurrentPlaceholder] = useState<string>("")
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [isTyping, setIsTyping] = useState<boolean>(true)
     const [charIndex, setCharIndex] = useState<number>(0)
 
-    // Typing effect for placeholder text.
+    // Handle input change
+    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setAiPrompt(e.target.value)
+    }
+
+    // Handle send button click
+    const handleSendClick = () => {
+        if (aiPrompt.trim()) {
+            // Here you can add logic to handle the message
+            console.log('Sending message:', aiPrompt)
+            // For now, we'll just clear the input
+            setAiPrompt('')
+        }
+    }
+
+    // Typing effect for placeholder text - only show when input is empty
     useEffect(() => {
+        if (aiPrompt) return // Don't show typing effect when there's text
+        
         const currentText = placeholderOptions[currentIndex]
         
         if (isTyping) {
@@ -58,18 +81,24 @@ export default function ChatBox() {
                 setIsTyping(true)
             }
         }
-    }, [charIndex, isTyping, currentIndex])
+    }, [charIndex, isTyping, currentIndex, aiPrompt])
     
     return (
         <div className={styles.container}>
             <textarea 
                 className={styles.input}
-                placeholder={currentPlaceholder}
+                placeholder={aiPrompt ? '' : currentPlaceholder}
+                value={aiPrompt}
+                onChange={handleInputChange}
                 rows={1}
             />
 
             {/* Send Button */}
-            <button className={styles.send_button}>
+            <button 
+                className={styles.send_button}
+                onClick={handleSendClick}
+                disabled={!aiPrompt.trim()}
+            >
                 <ArrowUp className={styles.icon}/>
             </button>
         </div>

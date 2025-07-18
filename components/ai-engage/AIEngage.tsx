@@ -6,6 +6,9 @@
 
 import { useResponsiveContext } from '@/contexts/ResponsiveContext'
 
+// Context
+import { useAppContext } from '@/contexts/AppContext'
+
 // Components
 import ChatBox from '@components/ai-engage/ChatBox'
 
@@ -14,7 +17,16 @@ import styles from '@/styles/ai-engage/AIEngage.module.css'
 import fonts from '@/styles/common/Typography.module.css'
 
 export default function AIEngage() {
+    const { aiPrompt, setAiPrompt } = useAppContext()
     const { isMobile } = useResponsiveContext()
+
+    const handlePromptClick = (prompt: string) => {
+        if (aiPrompt) {
+            setAiPrompt('')
+            return;
+        }
+        setAiPrompt(prompt)
+    }
 
     return (
         <div className={styles.container}>
@@ -32,17 +44,26 @@ export default function AIEngage() {
             </div>
             {/* Prompt Boxes */}
             <div className={styles.prompt_box_container}>
-                <div className={styles.prompt_box}>
+                <div 
+                    className={styles.prompt_box}
+                    onClick={() => handlePromptClick("Generate an ML Resume")}
+                >
                     <p className={styles.prompt_text}>
                         📄 Generate an ML Resume
                     </p>
                 </div>
-                <div className={styles.prompt_box}>
+                <div 
+                    className={styles.prompt_box}
+                    onClick={() => handlePromptClick("Summarise Skills")}
+                >
                     <p className={styles.prompt_text}>
                         🧠 Summarise Skills
                     </p>
                 </div>
-                <div className={styles.prompt_box}>
+                <div 
+                    className={styles.prompt_box}
+                    onClick={() => handlePromptClick("Project Highlights")}
+                >
                     <p className={styles.prompt_text}>
                         🛠️ Project Highlights
                     </p>
