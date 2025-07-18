@@ -5,7 +5,6 @@
  */
 import AboutHero from "./AboutHero";
 
-
 /**
  * @returns About section
  */

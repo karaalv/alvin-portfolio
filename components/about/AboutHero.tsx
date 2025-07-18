@@ -14,8 +14,6 @@ import VerticalTextCarousel from '@components/about/VerticalTextCarousel'
 import styles from '@/styles/about/AboutHero.module.css'
 import fonts from '@/styles/common/Typography.module.css'
 
-
-
 /**
  * @returns About hero section
  */
