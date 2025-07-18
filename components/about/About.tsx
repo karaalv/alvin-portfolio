@@ -1,16 +1,12 @@
-/*** About section ***/
-
-/* Imports */
+/**
+ * @description This component is a wrapper
+ * for the About section of the portfolio.
+ * It includes the About Hero component.
+ */
 import AboutHero from "./AboutHero";
-import AboutTech from "./Techstack";
 
-import Spacing from "../Spacing";
 
 /**
- * Wraps together:
- * - About Hero Component
- * - About Tech Component
- * 
  * @returns About section
  */
 export default function About(){
@@ -24,8 +20,6 @@ export default function About(){
             }}
         >
             <AboutHero/>
-            <Spacing size='Small'/>
-            <AboutTech/>
         </section>
     )
 }

@@ -11,7 +11,7 @@
     --highlight: #CCCCCC;
     --accent: #E6E6E6;
     /* Effects */
-    --glass-colour: #0000001A;
+    --glass-colour: #00000005;
 }
 
 /* Fonts */
@@ -25,7 +25,7 @@
     --radius: 5rem;
 
     /* Glass */
-    --glass-blur: 10rem;
+    --glass-blur: 20px;
 }
 
 /* Z Indices */

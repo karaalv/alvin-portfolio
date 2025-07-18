@@ -15,7 +15,7 @@ import { NavbarStates } from '@/types/StyleTypes'
 import Navbar from '@/components/navbar/Navbar'
 
 // Sections.
-// import About from "@components/about/About"
+import About from "@components/about/About"
 // import Experience from '@components/experience/Experience'
 // import Projects from '@components/projects/Projects'
 import Contact from '@components/contact/Contact'
@@ -99,8 +99,8 @@ export default function MainPage(){
         <ResponsiveProvider>
             <div className={styles.mainPage}>
                 <Navbar isActive={hasScrolled} currentSection={currentSection}/>
-                {/* <About/>
-                <Experience/>
+                <About/>
+                {/* <Experience/>
                 <Projects/> */}
                 <Contact/>
             </div>

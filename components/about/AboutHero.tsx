@@ -1,48 +1,80 @@
-/*** About Hero Section ***/
+/**
+ * @description This component renders the hero
+ * section of the About page, this is the first
+ * section that users will see when they visit
+ * the site.
+ */
+import { useEffect } from 'react'
+import { useResponsiveContext } from '@contexts/ResponsiveContext'
 
-/* Imports */
+// Components.
+import VerticalTextCarousel from '@components/about/VerticalTextCarousel'
 
-// About section styles.
+// Styles
 import styles from '@/styles/about/AboutHero.module.css'
+import fonts from '@/styles/common/Typography.module.css'
 
-// Font styles.
-import fonts from '@/styles/Typography.module.css'
 
-import { useResponsiveContext } from '../ResponsiveContext'
-import { useEffect, useState } from 'react'
 
 /**
  * @returns About hero section
  */
 export default function AboutHero(){
     
-    const [isMobile, setMobile] = useState<boolean | null>(null)
-    const res = useResponsiveContext().isMobile
+    const {isMobile} = useResponsiveContext()
+    const carouselItems = [
+        'Software Engineer',
+        'Machine Learning Engineer',
+        'Data Scientist',
+    ]
+    const speed = 3000
 
     useEffect(() => {
-        setMobile(res)
-    }, [])
+        // Rerender when mobile state changes
+    }, [isMobile])
 
-    const renderTitles = () => {
+    const renderIntro = () => {
         return(
-            <div style={{
-                paddingLeft: isMobile? '0':'5rem',
-                marginTop: isMobile? '1rem':'5rem',
-            }}>
-                <p
-                    className={styles.swe_text}
+            <>
+                <p 
+                    className={fonts.heading}
+                    style={{
+                        margin: '0%'
+                    }}
                 >
-                    Full-Stack Software Engineer
+                    About
                 </p>
-                <p
-                    className={styles.imperial_text}
+                <p 
+                    className={fonts.sub_heading}
+                    style={{
+                        marginTop: '10rem',
+                        marginBottom: isMobile? '3rem' : '7.5rem',
+                        width: '100%',
+                    }}
                 >
-                    Imperial College London
+                    Hey, I&apos;m Alvin 👋🏾.
                 </p>
-                <p
-                    className={styles.imperial_text}
-                >
-                    MSc, Business Analytics
+            </>
+        )
+    }
+
+    const renderBio = () => {
+        return(
+            <p className={styles.bio_text}>
+                Building creative systems with
+                <span style={{fontWeight: 'bold'}}> Technology</span>
+            </p>
+        )
+    }
+
+    const renderInstitutions = () => {
+        return(
+            <div className={styles.institution_container}>
+                <p className={styles.institution_text}>
+                    MSc, Imperial College London
+                </p>
+                <p className={styles.institution_text}>
+                    BEng, University of Warwick
                 </p>
             </div>
         )
@@ -52,52 +84,18 @@ export default function AboutHero(){
         <div className={styles.section_container}>
             {/* Hero section */}
             <div className={styles.hero_container}>
+                {/* Intro */}
+                <div className={styles.intro_container}>
+                    {renderIntro()}
+                    <VerticalTextCarousel
+                        items={carouselItems}
+                        speed={speed}
+                    />
+                </div>
                 {/* Bio */}
                 <div className={styles.bio_container}>
-                    {/* Profile */}
-                    <div style={{
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                    }}>
-                        <img 
-                            src='/assets/Portrait.png' 
-                            alt='Photo of me ;)'
-                            className={styles.portrait}
-                        />
-                    </div>
-                    {/* Titles - Web*/}
-                    {!isMobile? renderTitles(): <></>}
-                </div>
-                {/* Info */}
-                <div className={styles.info_container}>
-                    <p 
-                        className={fonts.heading}
-                        style={{
-                            margin: '0%'
-                        }}
-                    >
-                        About
-                    </p>
-                    <p 
-                        className={fonts.sub_heading}
-                        style={{
-                            marginTop: '4rem',
-                            marginBottom: '2rem',
-                            width: '100%'
-                        }}
-                    >
-                        Hey, I&apos;m Alvin.
-                    </p>
-                    <p
-                        className={styles.info_text}
-                    >
-                        I am passionate about leveraging
-                        <span style={{fontWeight: 'bold'}}> Technology </span>to
-                        build creative products
-                    </p>
-                    {/* Titles - Mobile */}
-                    {isMobile? renderTitles(): <></>}
+                    {renderBio()}
+                    {renderInstitutions()}
                 </div>
             </div>
         </div>

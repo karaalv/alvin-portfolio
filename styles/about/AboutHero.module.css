@@ -2,10 +2,9 @@
 
 .section_container {
     width: 100%;
-    /* background-color: red; */
     height: auto;
     display: flex;
-    margin-top: 5%;
+    margin-top: 10%;
 }
 
 /* Hero section */
@@ -17,35 +16,17 @@
     /* background-color: purple; */
 }
 
-.portrait {
-    max-width: 65%;
-    height: auto;
-    object-fit: contain;
-}
-
-/* Bio */
-.bio_container {
+/* Intro */
+.intro_container {
     height: auto;
     /* background-color: green; */
     display: flex;
     flex-direction: column;
-    margin-top: 4.8rem;
 }
 
-.swe_text {
-    font-family: var(--Primary-font);
-    color: var(--Active-color);
-    font-weight: bold;
-}
+/* Bio */
 
-.imperial_text {
-    font-family: var(--Primary-font);
-    color: var(--Active-color);
-    font-style: italic;
-}
-
-/* Info */
-.info_container {
+.bio_container {
     height: auto;
     /* background-color: blue; */
     display: flex;
@@ -53,73 +34,85 @@
     align-self: flex-start;
 }
 
-.info_text {
-    font-family: var(--Primary-font);
-    color: var(--Active-color);
+.bio_text {
+    font-family: var(--primary-font);
+    color: var(--primary);
     width: 80%;
     margin-top: 0%;
+}
+
+.institution_text {
+    font-family: var(--primary-font);
+    color: var(--primary);
+    font-style: italic;
+    margin: 0;
+}
+
+.institution_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5rem;
+    margin-top: 12rem;
 }
 
 /* MOBILE */
 
 @media (max-width: 786px) {
-    .info_text {
+    .bio_text {
         font-size: 1.8rem;
         line-height: 5rem;
+        margin-top: 3rem;
     }
 
-    .swe_text {
+    .institution_text {
         font-size: 2rem;
-    }
-
-    .imperial_text {
-        font-size: 2rem;
-    }
-
-    .portrait {
-        align-self: center;
-        margin-bottom: 5rem;
     }
 
     .hero_container {
         flex-direction: column;
     }
 
+    .intro_container {
+        width: 100%;
+    }
+
     .bio_container {
         width: 100%;
     }
 
-    .info_container {
-        width: 100%;
+    .institution_container {
+        margin-top: 3rem;
     }
 }
 
 /* DESKTOP & TABLET */
 
 @media (min-width: 786px) {
-    .info_text {
+    .bio_text {
         font-size: 3rem;
         line-height: 7.5rem;
     }
 
-    .swe_text {
-        font-size: 3.2rem;
-    }
-
-    .imperial_text {
+    .institution_text {
         font-size: 3.2rem;
     }
 
     .hero_container {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
+    }
+
+    .intro_container {
+        width: 45%;
     }
 
     .bio_container {
         width: 45%;
     }
 
-    .info_container {
-        width: 45%;
+    .institution_container {
+        margin-top: 12rem;
     }
 }
