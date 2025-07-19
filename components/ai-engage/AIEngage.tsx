@@ -17,14 +17,10 @@ import styles from '@/styles/ai-engage/AIEngage.module.css'
 import fonts from '@/styles/common/Typography.module.css'
 
 export default function AIEngage() {
-    const { aiPrompt, setAiPrompt } = useAppContext()
+    const { setAiPrompt } = useAppContext()
     const { isMobile } = useResponsiveContext()
 
     const handlePromptClick = (prompt: string) => {
-        if (aiPrompt) {
-            setAiPrompt('')
-            return;
-        }
         setAiPrompt(prompt)
     }
 

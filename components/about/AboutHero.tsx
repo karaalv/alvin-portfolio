@@ -59,8 +59,8 @@ export default function AboutHero(){
     const renderBio = () => {
         return(
             <p className={styles.bio_text}>
-                Building creative systems with
-                <span style={{fontWeight: 'bold'}}> Technology</span>
+                I like building creative things with
+                <span style={{fontWeight: 'bold'}}> technology</span>
             </p>
         )
     }
