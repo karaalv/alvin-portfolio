@@ -1,19 +1,14 @@
-/*** Projects Section ***/
-
-/* Imports */
-import ProjectsTitle from "./Title";
-import Gatsby from "./Gatsby";
-import ML from "./ML";
-import Getaway from "./Getaway";
-
 /**
- * Contains carousel for:
- * - Gatsby
- * - ML project
- * - Getaway
- * 
- * @returns Projects Carousel
+ * @description Projects component that contains
+ * a carousel of projects for the portfolio.
  */
+
+import Gatsby from '@components/projects/Gatsby'
+import Spacing from '@components/common/Spacing'
+// import styles from '@/styles/projects/Projects.module.css'
+import fonts from '@/styles/common/Typography.module.css'
+
+
 export default function Projects(){
     return(
         <section
@@ -24,12 +19,10 @@ export default function Projects(){
                 width: '100%'
             }}
         >   
-            <ProjectsTitle/>
+            <p className={fonts.heading}>Projects</p>
+            <Spacing size='small'/>
+            
             <Gatsby/>
-            <div style={{marginTop: '1%'}}/>
-            <ML/>
-            <div style={{marginTop: '1%'}}/>
-            <Getaway/>
         </section>
     )
 }

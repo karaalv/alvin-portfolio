@@ -19,7 +19,7 @@ import Spacing from '@/components/common/Spacing'
 import About from "@components/about/About"
 import AIEngage from '@/components/ai-engage/AIEngage'
 import Experience from '@components/experience/Experience'
-// import Projects from '@components/projects/Projects'
+import Projects from '@components/projects/Projects'
 import Contact from '@components/contact/Contact'
 
 // Contexts.
@@ -108,7 +108,7 @@ export default function MainPage(){
                     <AIEngage/>
                     <Spacing size='medium'/>
                     <Experience/>
-                    {/* <Projects/> */}
+                    <Projects/>
                     <Contact/>
                 </div>
             </AppProvider>

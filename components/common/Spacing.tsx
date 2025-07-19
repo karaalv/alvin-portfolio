@@ -17,7 +17,7 @@ export default function Spacing({size}: SpacingProps){
     }else if(size === 'medium'){
         margin = '5%'
     }else{
-        margin = '2.5%'
+        margin = '2%'
     }
     return(
         <div style={{

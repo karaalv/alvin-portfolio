@@ -1,33 +1,32 @@
-/*** Gatsby Carousel Card ***/
+/**
+ * @description Gatsby project component
+ */
+import Image from 'next/image'
+import { Link } from 'lucide-react'
+import { useResponsiveContext } from '@/contexts/ResponsiveContext'
 
-/* Imports */
-
-import fonts from '@/styles/Typography.module.css'
-import common from '@/styles/projects/Common.module.css'
-import styles from '@/styles/projects/Gatsby.module.css'
+// Styles
+import common from '@styles/projects/Common.module.css'
+import styles from '@styles/projects/Gatsby.module.css'
 
 /**
  * @returns Gatsby Carousel Card
  */
 export default function Gatsby(){
-    return(
-        <div className={common.project_container}>
-            {/* Content */}
-            <div className={styles.content_container}>
-                {/* Title */}
+    const { isMobile } = useResponsiveContext()
+    
+    const appSize = isMobile ? '300' : '500'
+    const iconSize = isMobile ? '125' : '250'
+
+    const renderTitle = () => {
+        return (
+            <div className={styles.glass_container}>
                 <div className={common.title_container}>
-                    <img 
-                        src='/assets/link.png' 
-                        alt='Photo of app'
-                        style={{
-                            width: '3rem',
-                            height: 'auto',
-                            marginRight: '1%',
-                            objectFit: 'contain'
-                        }}
+                    <Link
+                        className={common.link_icon}
                     />
                     <a 
-                        className={fonts.sub_heading}
+                        className={common.text}
                         href='https://github.com/karaalv/Gatsby-Public'
                         target='_blank'
                         rel='noopener noreferrer'
@@ -35,30 +34,64 @@ export default function Gatsby(){
                         Gatsby.
                     </a>
                 </div>
-
-                {/* Tech stack */}
-                <p className={common.tech_stack}>
-                    React Native, Typescript, Express.js, Expo, Solidity,
-                    web3.js
-                </p>
-                {/* Bio */}
-                <ul>
-                    <li className={`${fonts.body} ${common.info}`}>
-                        Founded a ticket distribution mobile platform 
-                        leveraging blockchain technology to facilitate 
-                        a unique ticket authentication algorithm for 
-                        enhanced security
-                    </li>
-                </ul>
             </div>
+        )
+    }
 
-            {/* Media */}
-            <div className={styles.image_container}>
-                <img 
+    const renderIcon = () => {
+        return (
+            <div className={styles.glass_container}>
+                <Image 
+                    src='/assets/gatsby_icon.png' 
+                    alt='Photo of app'
+                    className={styles.icon_image}
+                    width={iconSize}
+                    height={iconSize}
+                />
+            </div>
+        )
+    }
+
+    const renderImage = () => {
+        return (
+            <div className={styles.glass_container}>
+                <Image 
                     src='/assets/gatsby.png' 
                     alt='Photo of app'
                     className={styles.app_image}
+                    width={appSize}
+                    height={appSize}
                 />
+            </div>
+        )
+    }
+
+    return(
+        <div className={common.project_container}>
+
+            {/* Col 1 */}
+            <div className={styles.col_1}>
+                {renderImage()}
+            </div>
+
+            {/* Col 2 */}
+            <div className={styles.col_2}>
+                {renderTitle()}
+                {renderIcon()}
+            </div>
+
+            {/* Col 3 */}
+            <div className={styles.col_3}>
+                <div className={styles.glass_container}>
+                    <p className={common.text}>
+                        Blockchain Ticket System
+                    </p>
+                </div>
+                <div className={styles.glass_container}>
+                    <p className={common.text}>
+                        Typescript Solidity
+                    </p>
+                </div>
             </div>
         </div>
     )
