@@ -4,17 +4,25 @@
  */
 
 interface SpacingProps {
-    size: 'small' | 'large'
+    size: 'small' | 'medium' | 'large'
 }
 
 /**
  * @returns Component to space sections.
  */
 export default function Spacing({size}: SpacingProps){
+    let margin = ''
+    if(size === 'large'){
+        margin = '10%'
+    }else if(size === 'medium'){
+        margin = '5%'
+    }else{
+        margin = '2.5%'
+    }
     return(
         <div style={{
-            marginTop: size == 'large'? '10%':'5%',
-            marginBottom: size == 'large'? '10%':'5%',
+            marginTop: margin,
+            marginBottom: margin,
         }}/>
     )
 }
