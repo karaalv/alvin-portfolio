@@ -39,7 +39,6 @@
 .bio_text {
     font-family: var(--primary-font);
     color: var(--primary);
-    width: 80%;
     margin-top: 0%;
 }
 
@@ -62,9 +61,10 @@
 
 @media (max-width: 786px) {
     .bio_text {
-        font-size: 1.8rem;
+        font-size: 2rem;
         line-height: 5rem;
         margin-top: 3rem;
+        width: 100%;
     }
 
     .institution_text {
@@ -94,6 +94,7 @@
     .bio_text {
         font-size: 3rem;
         line-height: 7.5rem;
+        width: 80%;
     }
 
     .institution_text {

@@ -109,6 +109,7 @@ export default function MainPage(){
                     <Spacing size='medium'/>
                     <Experience/>
                     <Projects/>
+                    <Spacing size='medium'/>
                     <Contact/>
                 </div>
             </AppProvider>

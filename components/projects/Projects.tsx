@@ -27,7 +27,7 @@ export default function Projects(){
     const gatsbyProject: ProjectItemProps = {
         imageSrc: '/assets/gatsby.png',
         header: 'Blockchain ticketing platform',
-        techStack: 'Typescript, React, Solidity',
+        techStack: 'Typescript, React Native, Solidity',
         description: (
             'Ticket distribution mobile platform ' +
             'leveraging blockchain technology to ' +
