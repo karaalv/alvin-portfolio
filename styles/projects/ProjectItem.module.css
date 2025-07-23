@@ -39,7 +39,6 @@
 }
 
 .tech_text {
-    font-weight: bold;
     color: var(--highlight);
     margin: 0;
 }
