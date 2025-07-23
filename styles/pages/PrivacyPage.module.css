@@ -1,0 +1,89 @@
+/* Privacy Page Styles */
+
+.privacy_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.privacy_header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    margin-bottom: 5rem;
+}
+
+.updated_text {
+    font-family: var(--primary-font);
+    color: var(--highlight);
+    font-weight: bold;
+    line-height: auto;
+    margin: 0;
+}
+
+.heading {
+    font-family: var(--primary-font);
+    color: var(--primary);
+    font-weight: bold;
+    line-height: auto;
+}
+
+.body {
+    font-family: var(--primary-font);
+    color: var(--primary);
+    margin: 0;
+    text-align: justify;
+}
+
+
+/* Mobile Styles */
+@media (max-width: 786px) {
+    .updated_text {
+        font-size: 1.6rem;
+    }
+
+    .heading {
+        font-size: 2.8rem;
+    }
+
+    .body {
+        font-size: 1.8rem;
+        line-height: 3rem;
+    }
+
+    .content {
+        width: 90%;
+    }
+
+    .spacing {
+        margin-bottom: 3rem;
+    }
+}
+
+
+/* Desktop & Tablet Styles */
+@media (min-width: 786px) {
+    .updated_text {
+        font-size: 3.2rem;
+    }
+
+    .heading {
+        font-size: 3rem;
+    }
+
+    .body {
+        font-size: 2.4rem;
+        line-height: 5rem;
+    }
+
+    .content {
+        width: 70%;
+    }
+
+    .spacing {
+        margin-bottom: 5rem;
+    }
+}

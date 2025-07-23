@@ -21,13 +21,9 @@ export default function Contact(){
             {/* Divider */}
             <div className={styles.divider}/>
             {/* Content */}
-            <div
-                className={styles.content_container}
-            >
+            <div className={styles.content_container}>
                 {/* Title */}
-                <p 
-                    className={styles.contact_title} 
-                >
+                <p className={styles.contact_title}>
                     Contact.
                 </p>
                 {/* Icons */}
@@ -74,9 +70,16 @@ export default function Contact(){
 
                 </div>
             </div>
-            <p className={styles.copyright}>
-                Made with ❤️ Alvin Karanja © 2025
-            </p>
+            <div className={styles.footer_container}>
+                <p className={styles.copyright}>
+                    Made with ❤️ Alvin Karanja © 2025
+                </p>
+                <p className={styles.privacy}>
+                    <a href='/privacy'>
+                        Privacy Policy
+                    </a>
+                </p>
+            </div>
         </section>
     )
 }
