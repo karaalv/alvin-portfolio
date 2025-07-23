@@ -3,7 +3,7 @@
  * a carousel of projects for the portfolio.
  */
 
-import ProjectItem, { ProjectItemProps } from '@components/projects/ProjectItem'
+import ProjectItem, { ProjectItemProps } from '@components/main-page/projects/ProjectItem'
 import Spacing from '@components/common/Spacing'
 
 import styles from '@styles/projects/Projects.module.css'

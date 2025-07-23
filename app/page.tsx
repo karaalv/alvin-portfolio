@@ -12,15 +12,15 @@ import styles from '@styles/pages/MainPage.module.css'
 import { NavbarStates } from '@/types/StyleTypes'
 
 // Util Components.
-import Navbar from '@/components/navbar/Navbar'
-import Spacing from '@/components/common/Spacing'
+import Navbar from '@components/main-page/navbar/Navbar'
+import Spacing from '@components/common/Spacing'
 
 // Sections.
-import About from "@components/about/About"
-import AIEngage from '@/components/ai-engage/AIEngage'
-import Experience from '@components/experience/Experience'
-import Projects from '@components/projects/Projects'
-import Contact from '@components/contact/Contact'
+import About from "@components/main-page/about/About"
+import AIEngage from '@components/main-page/ai-engage/AIEngage'
+import Experience from '@components/main-page/experience/Experience'
+import Projects from '@components/main-page/projects/Projects'
+import Contact from '@components/main-page/contact/Contact'
 
 // Contexts.
 import AppProvider from '@/contexts/AppContext'

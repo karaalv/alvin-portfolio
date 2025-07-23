@@ -2,7 +2,7 @@
  * @description This component wraps together
  * the experience section of the portfolio.
  */
-import ExperienceItem from '@components/experience/ExperienceItem'
+import ExperienceItem from '@components/main-page/experience/ExperienceItem'
 import Spacing from '@components/common/Spacing'
 
 // Styles.

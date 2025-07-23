@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { ArrowUp } from 'lucide-react'
 
 // Context
-import { useAppContext } from '@/contexts/AppContext'
+import { useAppContext } from '@contexts/AppContext'
 
 // Styles
 import styles from '@/styles/ai-engage/ChatBox.module.css'

@@ -10,7 +10,7 @@ import { useResponsiveContext } from '@/contexts/ResponsiveContext'
 import { useAppContext } from '@/contexts/AppContext'
 
 // Components
-import ChatBox from '@components/ai-engage/ChatBox'
+import ChatBox from '@components/main-page/ai-engage/ChatBox'
 
 // Styles
 import styles from '@/styles/ai-engage/AIEngage.module.css'

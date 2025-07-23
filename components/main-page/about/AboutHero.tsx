@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { useResponsiveContext } from '@contexts/ResponsiveContext'
 
 // Components.
-import VerticalTextCarousel from '@components/about/VerticalTextCarousel'
+import VerticalTextCarousel from '@components/main-page/about/VerticalTextCarousel'
 
 // Styles
 import styles from '@/styles/about/AboutHero.module.css'

@@ -8,8 +8,8 @@
 /* Imports */
 import { useResponsiveContext } from "@contexts/ResponsiveContext"
 import { NavBarProps } from "@/types/ComponentProps"
-import NavbarDesktop from "@components/navbar/NavbarDesktop"
-import NavbarMobile from "@components/navbar/NavbarMobile"
+import NavbarDesktop from "@components/main-page/navbar/NavbarDesktop"
+import NavbarMobile from "@components/main-page/navbar/NavbarMobile"
 
 /**
  * @returns Navbar
