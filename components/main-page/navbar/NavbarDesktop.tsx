@@ -7,7 +7,7 @@
 import { useEffect, useState } from 'react'
 
 // Styles.
-import styles from '@/styles/navbar/NavbarDesktop.module.css'
+import styles from '@styles/main-page/navbar/NavbarDesktop.module.css'
 
 // Types.
 import { NavbarStates } from '@/types/StyleTypes'

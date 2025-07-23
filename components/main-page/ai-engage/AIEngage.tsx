@@ -13,8 +13,8 @@ import { useAppContext } from '@/contexts/AppContext'
 import ChatBox from '@components/main-page/ai-engage/ChatBox'
 
 // Styles
-import styles from '@/styles/ai-engage/AIEngage.module.css'
-import fonts from '@/styles/common/Typography.module.css'
+import styles from '@styles/main-page/ai-engage/AIEngage.module.css'
+import fonts from '@styles/common/Typography.module.css'
 
 export default function AIEngage() {
     const { setAiPrompt } = useAppContext()

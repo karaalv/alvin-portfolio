@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 
 // Styles.
-import styles from '@styles/about/VerticalTextCarousel.module.css';
+import styles from '@styles/main-page/about/VerticalTextCarousel.module.css';
 
 interface VerticalTextCarouselProps {
     items: string[];

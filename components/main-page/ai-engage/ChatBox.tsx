@@ -11,7 +11,7 @@ import { ArrowUp } from 'lucide-react'
 import { useAppContext } from '@contexts/AppContext'
 
 // Styles
-import styles from '@/styles/ai-engage/ChatBox.module.css'
+import styles from '@styles/main-page/ai-engage/ChatBox.module.css'
 
 const placeholderOptions = [
     "Tell me about Alvin's projects...",

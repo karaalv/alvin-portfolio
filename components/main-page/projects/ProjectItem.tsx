@@ -4,9 +4,9 @@
  */
 
 import Image from "next/image"
-import { useResponsiveContext } from "@/contexts/ResponsiveContext";
+import { useResponsiveContext } from "@contexts/ResponsiveContext";
 
-import styles from "@styles/projects/ProjectItem.module.css"
+import styles from "@styles/main-page/projects/ProjectItem.module.css"
 
 export interface ProjectItemProps {
     imageSrc: string;

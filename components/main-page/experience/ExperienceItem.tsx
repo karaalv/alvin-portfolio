@@ -3,7 +3,7 @@
  * style and layout for all experience items. 
  */
 
-import styles from '@styles/experience/ExperienceItem.module.css'
+import styles from '@styles/main-page/experience/ExperienceItem.module.css'
 import fonts from '@styles/common/Typography.module.css'
 
 interface ExperienceItemProps {

@@ -11,8 +11,8 @@ import { useResponsiveContext } from '@contexts/ResponsiveContext'
 import VerticalTextCarousel from '@components/main-page/about/VerticalTextCarousel'
 
 // Styles
-import styles from '@/styles/about/AboutHero.module.css'
-import fonts from '@/styles/common/Typography.module.css'
+import styles from '@styles/main-page/about/AboutHero.module.css'
+import fonts from '@styles/common/Typography.module.css'
 
 /**
  * @returns About hero section

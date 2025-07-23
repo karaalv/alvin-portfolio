@@ -3,7 +3,7 @@
  * This component is used to display the
  * navigation bar on mobile devices.
  */
-import styles from '@styles/navbar/NavbarMobile.module.css'
+import styles from '@styles/main-page/navbar/NavbarMobile.module.css'
 import { NavBarProps } from '@/types/ComponentProps'
 import { useState } from 'react'
 import { NavbarStates } from '@/types/StyleTypes'

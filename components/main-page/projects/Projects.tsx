@@ -6,7 +6,7 @@
 import ProjectItem, { ProjectItemProps } from '@components/main-page/projects/ProjectItem'
 import Spacing from '@components/common/Spacing'
 
-import styles from '@styles/projects/Projects.module.css'
+import styles from '@styles/main-page/projects/Projects.module.css'
 import fonts from '@/styles/common/Typography.module.css'
 
 

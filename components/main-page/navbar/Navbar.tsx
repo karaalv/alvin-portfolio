@@ -5,7 +5,6 @@
  * Uses responsive context to switch.
  */
 
-/* Imports */
 import { useResponsiveContext } from "@contexts/ResponsiveContext"
 import { NavBarProps } from "@/types/ComponentProps"
 import NavbarDesktop from "@components/main-page/navbar/NavbarDesktop"

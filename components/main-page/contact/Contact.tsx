@@ -6,7 +6,7 @@
  */
 
 import Image from 'next/image'
-import styles from '@styles/contact/Contact.module.css'
+import styles from '@styles/main-page/contact/Contact.module.css'
 
 /**
  * @returns Contact section
