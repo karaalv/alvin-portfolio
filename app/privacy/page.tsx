@@ -1,18 +1,39 @@
+'use client'
 /**
  * @description Privacy policy page
  * for the website. 
  */
+import { useState } from 'react'
+import { PanelLeft } from 'lucide-react'
 
 // Components
 import Spacing from '@/components/common/Spacing'
+import PrivacyNav from '@/components/privacy-page/PrivacyNav'
 
 // Styles
 import styles from '@styles/pages/PrivacyPage.module.css'
 import fonts from '@styles/common/Typography.module.css'
 
 export default function PrivacyPage() {
+    const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
+
     return (
         <div className={styles.privacy_page}>
+            {/* Navigation */}
+            <div className={styles.nav}>
+
+                <div 
+                    className={styles.nav_icon_container}
+                    onClick={() => setIsNavOpen(!isNavOpen)}
+                >
+                    <PanelLeft className={styles.nav_icon} />
+                </div>
+
+                <div className={styles.nav_text}>
+                    <PrivacyNav isOpen={isNavOpen} />
+                </div>
+            </div>
+
             {/* Header */}
             <div className={styles.privacy_header}>
                 <p className={fonts.sub_heading}>
