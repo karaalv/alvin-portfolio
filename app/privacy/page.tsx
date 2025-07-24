@@ -20,8 +20,7 @@ export default function PrivacyPage() {
     return (
         <div className={styles.privacy_page}>
             {/* Navigation */}
-            <div className={styles.nav}>
-
+            <div>
                 <div 
                     className={styles.nav_icon_container}
                     onClick={() => setIsNavOpen(!isNavOpen)}
@@ -29,9 +28,7 @@ export default function PrivacyPage() {
                     <PanelLeft className={styles.nav_icon} />
                 </div>
 
-                <div className={styles.nav_text}>
-                    <PrivacyNav isOpen={isNavOpen} />
-                </div>
+                <PrivacyNav isOpen={isNavOpen} />
             </div>
 
             {/* Header */}

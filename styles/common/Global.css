@@ -12,6 +12,8 @@
     --accent: #E6E6E6;
     /* Effects */
     --glass-colour: #00000005;
+    /* Functional */
+    --danger: #FF0000;
 }
 
 /* Fonts */
@@ -26,6 +28,9 @@
 
     /* Glass */
     --glass-blur: 20px;
+
+    /* Hover Opacity */
+    --hover-opacity: 0.6;
 }
 
 /* Z Indices */

@@ -1,4 +1,4 @@
-/* Privacy Page Navigation Styles */
+/* Chat Page Navigation Styles */
 .closed {
     width: 0;
 }
@@ -17,7 +17,7 @@
     z-index: var(--z-index-behind-navbar);
     background-color: transparent;
     overflow: hidden; 
-    transition: width 0.4s ease;
+    transition: width 0.3s ease;
     box-sizing: border-box;
 }
 
@@ -60,6 +60,28 @@
 
 .link_text:hover {
     opacity: var(--hover-opacity);
+}
+
+.divider {
+    width: 100%;
+    align-self: center;
+    height: 0.3rem;
+    background-color: var(--accent);
+    border-radius: var(--radius);
+    margin: 5rem 0;
+}
+
+.danger_text {
+    font-family: var(--primary-font);
+    color: var(--danger);
+    font-size: 2.8rem;
+    text-decoration: none;
+    align-self: center;
+    cursor: pointer;
+}
+
+.danger_text:hover {
+    opacity: var(--hover-opacity)
 }
 
 /* Mobile */
