@@ -55,7 +55,7 @@ export default function Projects(){
             className={styles.section}
         >   
             <p className={fonts.heading}>Projects</p>
-            <Spacing size='small'/>
+            <Spacing size='medium'/>
             <div className={styles.container}>
                 <ProjectItem {...agentProject} />
                 <ProjectItem {...gatsbyProject} />

@@ -177,7 +177,7 @@ export default function PrivacyPage() {
                     </a>
                 </p>
             </div>
-            <Spacing size='small'/>
+            <Spacing size='medium'/>
         </div>
     )
 }

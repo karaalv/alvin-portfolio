@@ -3,6 +3,18 @@
 /* Import Inter font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
 /* Colours */
 :root {
     /* Main Colours */
@@ -35,8 +47,8 @@
 
 /* Z Indices */
 :root {
-    --z-index-navbar: 5;
-    --z-index-behind-navbar: 4;
-    --z-index-input: 3;
+    --z-index-navbar: 1000;
+    --z-index-behind-navbar: 999;
+    --z-index-input: 998;
     --z-index-content: 1;
 }

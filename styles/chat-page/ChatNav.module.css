@@ -19,6 +19,7 @@
     overflow: hidden; 
     transition: width 0.3s ease;
     box-sizing: border-box;
+    /* background-color: red; */
 }
 
 .glass_container {
@@ -45,14 +46,14 @@
 
 .section_text {
     font-family: var(--primary-font);
-    font-size: 2.4rem;
-    margin: 0;
+    font-size: 2rem;
+    margin-bottom: 2rem;
 }
 
 .link_text {
     font-family: var(--primary-font);
     color: var(--primary);
-    font-size: 3.2rem;
+    font-size: 2.4rem;
     text-decoration: none;
     align-self: center;
     cursor: pointer;
@@ -66,15 +67,14 @@
     width: 100%;
     align-self: center;
     height: 0.3rem;
-    background-color: var(--accent);
     border-radius: var(--radius);
-    margin: 5rem 0;
+    margin: 4rem 0;
 }
 
 .danger_text {
     font-family: var(--primary-font);
     color: var(--danger);
-    font-size: 2.8rem;
+    font-size: 2.4rem;
     text-decoration: none;
     align-self: center;
     cursor: pointer;
@@ -100,11 +100,14 @@
 
     .link_container {
         gap: 5rem;
-        margin-top: 5rem;
     }
 
     .section_text {
         color: var(--primary);
+    }
+
+    .divider {
+        background-color: var(--primary);
     }
 }
 
@@ -117,17 +120,20 @@
 
     .glass_container {
         height: 50%;
-        width: 60%;
+        width: 70%;
         padding: 5rem;
         border-radius: var(--radius);
     }
 
     .link_container {
         gap: 4rem;
-        margin-top: 5rem;
     }
 
     .section_text {
         color: var(--highlight);
+    }
+
+    .divider {
+        background-color: var(--highlight);
     }
 }

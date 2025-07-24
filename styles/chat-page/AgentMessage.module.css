@@ -1,0 +1,31 @@
+/* Agent Module Styles */
+
+.agent_message {
+    /* Properties */
+    padding: 1rem 1.5rem;
+    box-sizing: border-box;
+
+    /* Dimensions */
+    width: fit-content;
+    height: fit-content;
+
+    /* Arrangement */
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 1rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .agent_message {
+        max-width: 100%;
+    }
+}
+
+/* Desktop & Tablet */
+@media (min-width: 769px) {
+    .agent_message {
+        max-width: 75%;
+    }
+}

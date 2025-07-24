@@ -42,6 +42,8 @@
     justify-content: center;
     align-self: center;
     margin-bottom: 5rem;
+    margin-top: 5rem;
+    gap: 3rem;
 }
 
 .updated_text {
@@ -65,6 +67,10 @@
     margin: 0;
 }
 
+.body li {
+    margin-left: 5rem;
+}
+
 /* Mobile Styles */
 @media (max-width: 786px) {
 
@@ -80,6 +86,7 @@
 
     .heading {
         font-size: 2.8rem;
+        margin: 3rem 0;
     }
 
     .body {
@@ -111,6 +118,7 @@
 
     .heading {
         font-size: 3rem;
+        margin: 5rem 0;
     }
 
     .body {

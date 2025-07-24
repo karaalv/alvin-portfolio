@@ -30,6 +30,7 @@
     /* Properties */
     border-radius: var(--radius);
     width: 80%;
+    padding: 2rem;
     max-height: 6rem;
     z-index: var(--z-index-navbar);
     border: 1px solid var(--glass-colour);

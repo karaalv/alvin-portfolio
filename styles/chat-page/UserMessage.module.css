@@ -1,0 +1,35 @@
+/* User Message Styles */
+
+.user_message {
+    /* Properties */
+    background-color: var(--accent);
+    border-radius: 2rem;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
+
+    /* Dimensions */
+    width: fit-content;
+    height: fit-content;
+
+    /* Arrangement */
+    display: block;
+    align-self: flex-end;
+
+    text-align: left;
+    white-space: pre-wrap; 
+    word-wrap: break-word;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .user_message {
+        max-width: 100%;
+    }
+}
+
+/* Desktop & Tablet */
+@media (min-width: 769px) {
+    .user_message {
+        max-width: 50%;
+    }
+}

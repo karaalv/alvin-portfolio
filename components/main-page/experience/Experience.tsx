@@ -71,7 +71,7 @@ export default function Experience(){
             <p className={fonts.heading}>
                 Experience
             </p>
-            <Spacing size='small'/>
+            <Spacing size='medium'/>
             <ExperienceItem
                 company={Tracom.company}
                 date={Tracom.date}

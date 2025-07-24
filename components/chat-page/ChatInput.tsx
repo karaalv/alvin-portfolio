@@ -12,10 +12,12 @@ import { useAppContext } from '@/contexts/AppContext'
 import styles from '@styles/chat-page/ChatInput.module.css'
 import fonts from '@styles/common/Typography.module.css'
 
+// Types
+import { AgentMemory } from '@/types/service.types'
 
 interface ChatInputProps {
-    messages: string[]
-    setMessages: React.Dispatch<React.SetStateAction<string[]>>
+    messages: AgentMemory[]
+    setMessages: React.Dispatch<React.SetStateAction<AgentMemory[]>>
 }
 
 export default function ChatInput(
@@ -26,7 +28,6 @@ export default function ChatInput(
         setMessage,
         isLoading, 
         setIsLoading, 
-        error, 
         setError 
     } = useAppContext()
     const inputRef = useRef<HTMLTextAreaElement>(null)
@@ -38,9 +39,18 @@ export default function ChatInput(
         setIsLoading(true)
         setError(null)
 
+        const newMessage: AgentMemory = {
+            user_id: '1',
+            chat_id: (messages.length + 1).toString(),
+            content: message,
+            source: 'user',
+            timestamp: new Date().toISOString(),
+            canvas: null
+        }
+
         // Simulate sending a message
         setTimeout(() => {
-            setMessages([...messages, message])
+            setMessages([...messages, newMessage])
             setMessage('')
             setIsLoading(false)
         }, 1000)

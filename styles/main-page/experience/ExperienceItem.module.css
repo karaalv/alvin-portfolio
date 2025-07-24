@@ -1,7 +1,7 @@
 /* Experience Item Styles */
 
 .container {
-    width: 95%;
+    width: 90%;
     flex-direction: column;
     display: flex;
     gap: 3rem;

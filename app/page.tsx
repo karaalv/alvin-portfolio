@@ -45,30 +45,16 @@ export default function MainPage(){
     // User navigation section.
     const [currentSection, setCurrentSection] = useState<NavbarStates>('About')
 
-    // Navbar scroll event listener.
+    // Navbar timer - hide after 5 seconds.
     useEffect(() => {
-
-        const handleScroll = () => {
-            // Ensure scroll state is set.
-            setScrolled(previous => {
-                if(!previous){
-                    return true
-                }
-                return previous
-            })
-
-            // Remove listener.
-            if(hasScrolled){
-                window.removeEventListener('scroll', handleScroll)
-            }
-        }
-
-        window.addEventListener('scroll', handleScroll)
+        const timer = setTimeout(() => {
+            setScrolled(true)
+        }, 5000) // 5 seconds
 
         return () => {
-            window.removeEventListener('scroll', handleScroll)
+            clearTimeout(timer)
         }
-    }, [hasScrolled])
+    }, [])
 
 
     // Section scroll listener.
@@ -108,8 +94,9 @@ export default function MainPage(){
                     <AIEngage/>
                     <Spacing size='medium'/>
                     <Experience/>
+                    <Spacing size='small'/>
                     <Projects/>
-                    <Spacing size='medium'/>
+                    <Spacing size='small'/>
                     <Contact/>
                 </div>
             </AppProvider>

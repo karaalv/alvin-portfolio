@@ -10,19 +10,47 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    
+    /* Account for fixed input at bottom */
+    padding-bottom: 12rem;
 }
 
-.chat_section{
+.content_container {
+    /* Properties */
+    flex: 1;
+    
     /* Arrangement */
     display: flex;
     flex-direction: column;
-    gap: 3rem;
-
-    /* Decoration */
-    padding: 2rem 2rem 10rem 2rem;
-    align-self: center;
-
+    align-items: center;
+    
     /* Scrolling */
     overflow-y: auto;
     scroll-behavior: smooth;
+}
+
+.chat_messages{
+    /* Arrangement */
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+
+    /* Decoration */
+    align-self: center;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .chat_messages {
+        width: 90%;
+        padding: 1rem 1rem 5rem 1rem;
+    }
+}
+
+/* Desktop & Tablet */
+@media (min-width: 769px) {
+    .chat_messages {
+        width: 70%;
+        padding: 5rem 2rem 20rem 2rem;
+    }
 }

@@ -39,7 +39,8 @@
     height: auto;
     border-radius: var(--radius);
     box-sizing: border-box;
-    border: 1px solid var(--highlight);
+    border: 1px solid var(--accent);
+    padding: 1.5rem 0.25rem;
         
     /* Arrangement */
     display: flex;
@@ -50,18 +51,16 @@
 }
 
 .prompt_box:hover {
-    box-shadow: 0 0.1rem 0.5rem var(--highlight);
+    box-shadow: 0 0.1rem 0.5rem var(--accent);
 }
 
 /* Mobile */
 
 @media (max-width: 786px) {
-
     .prompt_box_container {
         flex-direction: column;
         gap: 3rem;
     }
-
 }
 
 /* Desktop & Tablet */
