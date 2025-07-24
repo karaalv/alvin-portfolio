@@ -39,25 +39,19 @@
 /* Mobile */
 @media (max-width: 786px) {
     .nav_icon_container {
-        width: 3.5rem;
-        height: 3.5rem;
+        opacity: 0.25;
+        top: 1rem;
+        left: 1rem;
     }
 
-    .nav_icon {
-        height: 2rem;
-        width: 2rem;
-    }
+
 }
 
 /* Desktop & Tablet */
 @media (min-width: 786px) {
     .nav_icon_container {
-        width: 4rem;
-        height: 4rem;
+        top: 3rem;
+        left: 3rem;
     }
 
-    .nav_icon {
-        height: 2.5rem;
-        width: 2.5rem;
-    }
 }

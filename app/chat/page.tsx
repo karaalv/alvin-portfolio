@@ -9,6 +9,7 @@ import { PanelLeft } from 'lucide-react'
 
 // Components
 import ChatNav from '@/components/chat-page/ChatNav'
+import ChatSection from '@/components/chat-page/ChatSection'
 
 // Styles
 import styles from '@styles/pages/ChatPage.module.css'
@@ -30,7 +31,7 @@ export default function ChatPage() {
             </div>
 
             {/* Chat Section */}
-
+            <ChatSection />
 
             {/* Canvas */}
         </div>

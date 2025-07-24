@@ -27,7 +27,7 @@ const placeholderOptions = [
  * @returns ChatBox Component
  */
 export default function ChatBox() {
-    const { aiPrompt, setAiPrompt } = useAppContext()
+    const { message, setMessage } = useAppContext()
     const [currentPlaceholder, setCurrentPlaceholder] = useState<string>("")
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [isTyping, setIsTyping] = useState<boolean>(true)
@@ -35,23 +35,23 @@ export default function ChatBox() {
 
     // Handle input change
     const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setAiPrompt(e.target.value)
+        setMessage(e.target.value)
     }
 
     // Handle send button click
     const handleSendClick = () => {
-        if (aiPrompt.trim()) {
+        if (message.trim()) {
             // Here you can add logic to handle the message
-            console.log('Sending message:', aiPrompt)
+            console.log('Sending message:', message)
             // For now, we'll just clear the input
-            setAiPrompt('')
+            setMessage('')
         }
     }
 
     // Typing effect for placeholder text - only show when input is empty
     useEffect(() => {
-        if (aiPrompt) return // Don't show typing effect when there's text
-        
+        if (message) return // Don't show typing effect when there's text
+
         const currentText = placeholderOptions[currentIndex]
         
         if (isTyping) {
@@ -81,14 +81,14 @@ export default function ChatBox() {
                 setIsTyping(true)
             }
         }
-    }, [charIndex, isTyping, currentIndex, aiPrompt])
+    }, [charIndex, isTyping, currentIndex, message])
     
     return (
         <div className={styles.container}>
             <textarea 
                 className={styles.input}
-                placeholder={aiPrompt ? '' : currentPlaceholder}
-                value={aiPrompt}
+                placeholder={message ? '' : currentPlaceholder}
+                value={message}
                 onChange={handleInputChange}
                 rows={1}
             />
@@ -97,7 +97,7 @@ export default function ChatBox() {
             <button 
                 className={styles.send_button}
                 onClick={handleSendClick}
-                disabled={!aiPrompt.trim()}
+                disabled={!message.trim()}
             >
                 <ArrowUp className={styles.icon}/>
             </button>

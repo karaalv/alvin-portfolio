@@ -1,0 +1,123 @@
+/* Chat Input Component Styles */
+
+.main_container {
+    /* Dimensions */
+    width: 100%;
+
+    /* Position */
+    position: fixed;
+    bottom: 3rem;
+    left: 0;
+    right: 0;
+    z-index: var(--z-index-input);
+
+    /* Arrangement */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+}
+
+.sub_container {
+    /* Dimensions */
+    min-height: 5rem;
+    height: auto;
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-sizing: border-box;
+
+    /* Decoration */
+    border: 1.5px solid var(--accent);
+
+    /* Decoration */
+    border-radius: var(--radius);
+    background-color: var(--secondary);
+
+    /* Arrangement */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Chat input */
+
+.chat_input {
+    /* Dimensions */
+    width: 100%;
+    min-height: 1.5rem;
+    height: auto;
+    max-height: 20rem;
+
+    /* Properties */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    resize: none;
+    line-height: 1.5;
+    box-sizing: border-box;
+
+    /* Removing Styles */
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.chat_input::placeholder {
+    color: var(--highlight);
+}
+
+/* Icons */
+
+.icon_container {
+    /* Dimensions */
+    min-width: 3rem;
+    min-height: 3rem;
+
+    /* Arrangement */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Decoration */
+    border-radius: var(--radius);
+    background-color: var(--highlight);
+}
+
+.loading_square {
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--Primary);
+    border-radius: 2px;
+}
+
+.icon {
+    width: 2rem;
+    height: 2rem;
+    color: var(--Primary);
+}
+
+.copyright {
+    font-family: var(--primary-font);
+    color: var(--highlight);
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+
+/* Mobile */
+@media (max-width: 786px) {
+    .sub_container {
+        width: 90%;
+    }
+}
+
+/* Desktop & Tablet */
+@media (min-width: 786px) {
+    .sub_container {
+        width: 70%;
+    }  
+}
