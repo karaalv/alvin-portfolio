@@ -6,7 +6,7 @@
  */
 
 import { useResponsiveContext } from "@contexts/ResponsiveContext"
-import { NavBarProps } from "@/types/ComponentProps"
+import { NavBarProps } from "@/types/components.types"
 import NavbarDesktop from "@components/main-page/navbar/NavbarDesktop"
 import NavbarMobile from "@components/main-page/navbar/NavbarMobile"
 
@@ -14,7 +14,7 @@ import NavbarMobile from "@components/main-page/navbar/NavbarMobile"
  * @returns Navbar
  */
 export default function Navbar(
-    {isActive, currentSection}: NavBarProps
+    {isActive}: NavBarProps
 ){
     const {isMobile} = useResponsiveContext()
 
@@ -24,12 +24,10 @@ export default function Navbar(
                 isMobile?
                     <NavbarMobile 
                         isActive={!isActive} 
-                        currentSection={currentSection}
                     />
                 :
                     <NavbarDesktop 
                         isActive={!isActive} 
-                        currentSection={currentSection}
                     />
             }
         </>

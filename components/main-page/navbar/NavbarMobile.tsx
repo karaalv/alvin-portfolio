@@ -4,7 +4,7 @@
  * navigation bar on mobile devices.
  */
 import styles from '@styles/main-page/navbar/NavbarMobile.module.css'
-import { NavBarProps } from '@/types/ComponentProps'
+import { NavBarProps } from '@/types/components.types'
 import { useState } from 'react'
 import { NavbarStates } from '@/types/StyleTypes'
 
@@ -12,7 +12,7 @@ import { NavbarStates } from '@/types/StyleTypes'
  * @returns Mobile Navbar
  */
 export default function NavbarMobile(
-    {isActive, currentSection}: NavBarProps
+    {isActive}: NavBarProps
 ){
     // Toggle state.
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -27,7 +27,7 @@ export default function NavbarMobile(
         }
     }
 
-    const renderSections = (currentState: NavbarStates) => {
+    const renderSections = () => {
         const sections: NavbarStates[] = [
             'About', 
             'Experience', 
@@ -38,7 +38,7 @@ export default function NavbarMobile(
         // Render each section title according to state.
         return sections.map(
             (section) => {
-                if(section == currentState){
+                if(false){
                     // Active section.
                     return(
                         <div 
@@ -87,7 +87,7 @@ export default function NavbarMobile(
 
             {/* Side menu */}
             <div className={`${styles.side_menu} ${isOpen? styles.open:''}`}>
-                {renderSections(currentSection)}
+                {renderSections()}
             </div>
         </>
     )

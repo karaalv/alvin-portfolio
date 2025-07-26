@@ -55,7 +55,7 @@ export default function Contact(){
                         />
                     </a>
                     <a
-                        href='mailto:alvin.karanja24@imperial.ac.uk'
+                        href='mailto:alviinkaranjja@gmail.com'
                         target='_blank'
                         rel='noopener noreferrer'
                     >

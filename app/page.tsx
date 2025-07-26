@@ -8,9 +8,6 @@
 // Styles.
 import styles from '@styles/pages/MainPage.module.css'
 
-// Types.
-import { NavbarStates } from '@/types/StyleTypes'
-
 // Util Components.
 import Navbar from '@components/main-page/navbar/Navbar'
 import Spacing from '@components/common/Spacing'
@@ -27,59 +24,76 @@ import AppProvider from '@/contexts/AppContext'
 import ResponsiveProvider from '@contexts/ResponsiveContext'
 
 // React utilities.
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // Main hander for section components.
 export default function MainPage(){
+    
+    /**
+     * @todo Update currentSection state
+     */
+    // const [currentSection, setCurrentSection] = useState<NavbarStates>('About')
 
-    // Check if in client.
+    // // Navbar scroll event listener.
+    // useEffect(() => {
+
+    //     const handleScroll = () => {
+    //         // Ensure scroll state is set.
+    //         setScrolled(previous => {
+    //             if(!previous){
+    //                 return true
+    //             }
+    //             return previous
+    //         })
+
+    //         // Remove listener.
+    //         if(hasScrolled){
+    //             window.removeEventListener('scroll', handleScroll)
+    //         }
+    //     }
+
+    //     window.addEventListener('scroll', handleScroll)
+
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll)
+    //     }
+    // }, [hasScrolled])
+
+
+    // // Section scroll listener.
+    // const handleSectionScroll = () => {
+    //     const sections = document.querySelectorAll('section')
+    //     console.log(`Current sections: ${sections}`)
+    //     let current = ''
+
+    //     sections.forEach((section) => {
+    //         const rect = section.getBoundingClientRect()
+
+    //         if((rect.top >= 0 && rect.top < window.innerHeight)){
+    //             current = section.id
+    //             setCurrentSection(current as NavbarStates)
+    //         }
+    //     })
+    // }
+
     const [isClient, setIsClient] = useState(false)
+    const [navbarActive, setNavbarActive] = useState<boolean>(false)
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setNavbarActive(true)
+        }, 3000)
+
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [])
 
     useEffect(() => {
         setIsClient(true)
     }, [])
 
-    // User scroll state.
-    const [hasScrolled, setScrolled] = useState<boolean>(false)
-    
-    // User navigation section.
-    const [currentSection, setCurrentSection] = useState<NavbarStates>('About')
-
-    // Navbar timer - hide after 5 seconds.
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setScrolled(true)
-        }, 5000) // 5 seconds
-
-        return () => {
-            clearTimeout(timer)
-        }
-    }, [])
-
-
-    // Section scroll listener.
-    const handleSectionScroll = () => {
-        const sections = document.querySelectorAll('section')
-        let current = ''
-
-        sections.forEach((section) => {
-            const rect = section.getBoundingClientRect()
-
-            if((rect.top >= 0 && rect.top < window.innerHeight)){
-                current = section.id
-                setCurrentSection(current as NavbarStates)
-            }
-        })
-    }
-
-    useEffect(() => {
-        window.addEventListener('scroll', handleSectionScroll)
-        return () => {
-            window.removeEventListener('scroll', handleSectionScroll)
-        }
-    }, [])
-
-    // DO NOT RENDER IN SERVER.
+    // DO NOT RENDER IF NOT CLIENT!!!
     if(!isClient){
         return null
     }
@@ -88,7 +102,7 @@ export default function MainPage(){
         <ResponsiveProvider>
             <AppProvider>
                 <div className={styles.mainPage}>
-                    <Navbar isActive={hasScrolled} currentSection={currentSection}/>
+                    <Navbar isActive={navbarActive}/>
                     <About/>
                     <Spacing size='large'/>
                     <AIEngage/>

@@ -8,4 +8,5 @@
     box-sizing: border-box;
     padding: 2.5rem;
     box-sizing: border-box;
+    overflow-y: scroll;
 }

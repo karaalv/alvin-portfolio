@@ -11,13 +11,13 @@ import styles from '@styles/main-page/navbar/NavbarDesktop.module.css'
 
 // Types.
 import { NavbarStates } from '@/types/StyleTypes'
-import { NavBarProps } from '@/types/ComponentProps'
+import { NavBarProps } from '@/types/components.types'
 
 /**
  * @returns Desktop Navbar component
  */
 export default function NavbarDesktop(
-    {isActive, currentSection}: NavBarProps
+    {isActive}: NavBarProps
 ){
 
 	// Active or passive state.
@@ -41,7 +41,7 @@ export default function NavbarDesktop(
     }
 
     // Section render function.
-    const renderSections = (currentState: NavbarStates) => {
+    const renderSections = () => {
         const sections: NavbarStates[] = [
             'About', 
             'Experience', 
@@ -52,7 +52,7 @@ export default function NavbarDesktop(
         // Render each section title according to state.
         return sections.map(
             (section) => {
-                if(section == currentState){
+                if(false){
                     // Active section.
                     return(
                         <div 
@@ -94,7 +94,7 @@ export default function NavbarDesktop(
 				onMouseLeave={() => setActive(isActive)}
 			>
 				{/* Render section titles */}
-				{renderSections(currentSection)}
+				{renderSections()}
             </div>
         </div>
     )
