@@ -48,6 +48,7 @@ html, body {
 
 /* Z Indices */
 :root {
+    --z-index-overlay: 10000;
     --z-index-navbar: 1000;
     --z-index-behind-navbar: 999;
     --z-index-input: 998;

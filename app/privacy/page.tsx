@@ -106,7 +106,7 @@ export default function PrivacyPage() {
                     I may manually review anonymised message data to 
                     debug or improve the chatbots functionality. However, 
                     <span style={{ fontWeight: 'bold' }}> 
-                        do not share any sensitive or confidential information
+                    do not share any sensitive or confidential information
                     </span>
                     -while best efforts are made to protect data, complete 
                     security cannot be guaranteed.

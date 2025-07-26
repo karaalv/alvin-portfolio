@@ -1,0 +1,84 @@
+/* Delete Confirmation Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-index-overlay);
+}
+
+.confirmation_box {
+    background: var(--secondary);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+}
+
+.button_container {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 0;
+}
+
+.button_common {
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+.confirm_button {
+    background: var(--danger);
+    color: white;
+}
+
+.cancel_button {
+    background: var(--highlight);
+    color: white;
+}
+
+.button_fonts {
+    font-family: var(--primary-font);
+}
+
+.heading_text {
+    font-family: var(--primary-font);
+    color: var(--primary);
+    margin-bottom: 3rem;
+    font-weight: bold;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .confirmation_box {
+        padding: 3rem;
+    }
+
+    .heading_text {
+        font-size: 2rem;
+    }
+
+    .button_fonts {
+        font-size: 1.6rem;
+    }
+}
+
+/* Desktop & Tablet */
+@media (min-width: 769px) {
+    .confirmation_box {
+        padding: 4rem;
+    }
+
+    .heading_text {
+        font-size: 2.4rem;
+    }
+
+    .button_fonts {
+        font-size: 1.8rem;
+    }
+}
