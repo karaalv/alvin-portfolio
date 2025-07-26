@@ -20,18 +20,24 @@ import styles from '@styles/chat-page/ChatSection.module.css'
 import { AgentMemory } from '@/types/service.types'
 
 interface ChatSectionProps {
-    messages: AgentMemory[]
+    messages: AgentMemory[],
+    canvasOpen: boolean,
     setMessages: React.Dispatch<React.SetStateAction<AgentMemory[]>>
 }
 
 export default function ChatSection(
-    { messages, setMessages }: ChatSectionProps
+    { messages, canvasOpen, setMessages }: ChatSectionProps
 ) {
     const { error, isLoading } = useAppContext()
 
     const renderMessages = () => {
         return (
-            <div className={styles.chat_messages}>
+            <div 
+                className={`
+                    ${styles.chat_messages} 
+                    ${canvasOpen ? styles.chat_messages_small : styles.chat_messages_big}
+                `}
+            >
                 {
                     messages.map((message) => {
                         if (message.source === 'user') {

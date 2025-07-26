@@ -39,9 +39,18 @@
     align-self: center;
 }
 
+.chat_messages_small {
+    /* Properties */
+    width: 90%;
+    padding: 5rem 1rem 20rem 1rem;
+
+    /* Arrangement */
+    align-self: center;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
-    .chat_messages {
+    .chat_messages_big {
         width: 90%;
         padding: 1rem 1rem 5rem 1rem;
     }
@@ -49,7 +58,7 @@
 
 /* Desktop & Tablet */
 @media (min-width: 769px) {
-    .chat_messages {
+    .chat_messages_big {
         width: 70%;
         padding: 5rem 2rem 20rem 2rem;
     }
