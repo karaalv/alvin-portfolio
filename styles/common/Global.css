@@ -26,6 +26,7 @@ html, body {
     --glass-colour: #00000005;
     /* Functional */
     --danger: #FF0000;
+    --danger-glass: #ff000092;
 }
 
 /* Fonts */

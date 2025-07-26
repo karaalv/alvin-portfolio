@@ -23,7 +23,7 @@ import Contact from '@components/main-page/contact/Contact'
 import AppProvider from '@/contexts/AppContext'
 import ResponsiveProvider from '@contexts/ResponsiveContext'
 
-// React utilities.
+// Utilities.
 import { useState, useEffect } from 'react'
 
 // Main hander for section components.

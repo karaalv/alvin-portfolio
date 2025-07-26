@@ -4,11 +4,14 @@
  */
 
 import { useState } from 'react'
+import { useAppContext } from '@/contexts/AppContext'
 
 // Components
 import ChatInput from '@/components/chat-page/ChatInput'
 import UserMessage from '@/components/chat-page/UserMessage'
 import AgentMessage from '@/components/chat-page/AgentMessage'
+import PlaceHolder from '@components/chat-page/PlaceHolder'
+import ErrorMessage from '@components/chat-page/ErrorMessage'
 
 // Styles
 import styles from '@styles/chat-page/ChatSection.module.css'
@@ -17,6 +20,7 @@ import styles from '@styles/chat-page/ChatSection.module.css'
 import { AgentMemory } from '@/types/service.types'
 
 export default function ChatSection() {
+    const {error} = useAppContext()
     const [messages, setMessages] = useState<AgentMemory[]>([
         {
             user_id: '1',
@@ -124,7 +128,9 @@ export default function ChatSection() {
         <div className={styles.main_container}>
             {/* Chat Messages */}
             <div className={styles.content_container}>
-                {renderMessages()}
+                {messages.length > 0 ? renderMessages() : <PlaceHolder />}
+                {/* Error Message */}
+                {error && <ErrorMessage message={error} />}
             </div>
 
             {/* Chat Input */}
