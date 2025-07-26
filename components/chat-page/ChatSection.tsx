@@ -11,6 +11,7 @@ import UserMessage from '@/components/chat-page/UserMessage'
 import AgentMessage from '@/components/chat-page/AgentMessage'
 import PlaceHolder from '@components/chat-page/PlaceHolder'
 import ErrorMessage from '@components/chat-page/ErrorMessage'
+import Loader from '@components/chat-page/Loader'
 
 // Styles
 import styles from '@styles/chat-page/ChatSection.module.css'
@@ -26,7 +27,7 @@ interface ChatSectionProps {
 export default function ChatSection(
     { messages, setMessages }: ChatSectionProps
 ) {
-    const { error } = useAppContext()
+    const { error, isLoading } = useAppContext()
 
     const renderMessages = () => {
         return (
@@ -59,6 +60,7 @@ export default function ChatSection(
             {/* Chat Messages */}
             <div className={styles.content_container}>
                 {messages.length > 0 ? renderMessages() : <PlaceHolder />}
+                {isLoading && <Loader />}
                 {/* Error Message */}
                 {error && <ErrorMessage message={error} />}
             </div>

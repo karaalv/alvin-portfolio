@@ -1,3 +1,4 @@
+'use client'
 /**
  * @description This component renders the AI 
  * engagement section, which prompts users to

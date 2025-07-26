@@ -1,9 +1,11 @@
+'use client'
 /**
  * @description This component renders the chat
  * box for AI engagement section, allowing users
  * to interact with AI features.
  */
 
+import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { ArrowUp } from 'lucide-react'
 
@@ -27,7 +29,8 @@ const placeholderOptions = [
  * @returns ChatBox Component
  */
 export default function ChatBox() {
-    const { message, setMessage } = useAppContext()
+    const router = useRouter()
+    const { message, setMessage, setIsLoading } = useAppContext()
     const [currentPlaceholder, setCurrentPlaceholder] = useState<string>("")
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [isTyping, setIsTyping] = useState<boolean>(true)
@@ -39,12 +42,23 @@ export default function ChatBox() {
     }
 
     // Handle send button click
-    const handleSendClick = () => {
+    const sendMessage = () => {
         if (message.trim()) {
             // Here you can add logic to handle the message
             console.log('Sending message:', message)
             // For now, we'll just clear the input
             setMessage('')
+            setIsLoading(true)
+            router.push('/chat')
+        }
+    }
+
+    const handleKeyPress = (
+        event: React.KeyboardEvent<HTMLTextAreaElement>
+    ) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault()
+            sendMessage()
         }
     }
 
@@ -90,13 +104,14 @@ export default function ChatBox() {
                 placeholder={message ? '' : currentPlaceholder}
                 value={message}
                 onChange={handleInputChange}
+                onKeyDown={handleKeyPress}
                 rows={1}
             />
 
             {/* Send Button */}
             <button 
                 className={styles.send_button}
-                onClick={handleSendClick}
+                onClick={sendMessage}
                 disabled={!message.trim()}
             >
                 <ArrowUp className={styles.icon}/>
