@@ -1,5 +1,5 @@
 /* Place Holder Styles */
-.placeholder_container {
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,6 +7,55 @@
     gap: 5rem;
     height: 100%;
     width: 100%;
-    padding: 2.5rem;
     box-sizing: border-box;
+}
+
+.placeholder_title {
+    /* Properties */
+    font-family: var(--primary-font);
+    color: var(--primary);
+    text-align: left;
+    font-weight: bold;
+}
+
+.placeholder_text {
+    /* Properties */
+    font-family: var(--primary-font);
+    color: var(--primary);
+    line-height: 3rem;
+    text-align: left;
+}
+
+/* Mobile */
+@media (max-width: 786px) {
+    .container {
+        padding: 2rem;
+    }
+
+    .placeholder_title {
+        font-size: 2.4rem;
+        min-width: 30rem;
+    }
+
+    .placeholder_text {
+        font-size: 1.6rem;
+        min-width: 30rem;
+    }
+}
+
+/* Desktop & Tablet */
+@media (min-width: 786px) {
+    .container {
+        padding: 2rem;
+    }
+
+    .placeholder_title {
+        font-size: 3.2rem;
+        min-width: 70rem;
+    }
+
+    .placeholder_text {
+        font-size: 2rem;
+        min-width: 70rem;
+    }
 }

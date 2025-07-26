@@ -4,15 +4,14 @@
  */
 
 import styles from '@styles/chat-page/PlaceHolder.module.css'
-import fonts from '@styles/common/Typography.module.css'
 
 export default function PlaceHolder() {
     return (
-        <div className={styles.placeholder_container}>
-            <p className={fonts.sub_heading}>
-                Portfolio Agent.
+        <div className={styles.container}>
+            <p className={styles.placeholder_title}>
+            Portfolio Agent.
             </p>
-            <p className={fonts.body}>
+            <p className={styles.placeholder_text}>
                 Need a custom CV? Curious about my work? 
                 Ask a question or specify a role to get 
                 started.

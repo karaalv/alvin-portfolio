@@ -91,7 +91,7 @@ export default function ChatPage() {
                 `}
             >
                 <Canvas 
-                    content='# Agent Canvas'
+                    content=''
                 />
             </div>
         </div>

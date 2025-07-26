@@ -1,6 +1,11 @@
 /* Privacy Page Navigation Styles */
 .closed {
     width: 0;
+    opacity: 0;
+}
+
+.open {
+    opacity: 1;
 }
 
 .container {
@@ -17,7 +22,7 @@
     z-index: var(--z-index-behind-navbar);
     background-color: transparent;
     overflow: hidden; 
-    transition: width 0.4s ease;
+    transition: width 0.4s ease-in-out, opacity 0.2s ease-in-out;
     box-sizing: border-box;
 }
 
