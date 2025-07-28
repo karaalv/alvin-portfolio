@@ -10,3 +10,50 @@
     box-sizing: border-box;
     overflow-y: scroll;
 }
+
+.nav_icon_container {
+    /* Position */
+    position: fixed;
+
+    /* Properties */
+    z-index: var(--z-index-navbar);
+    border-radius: var(--radius);
+    width: 4rem;
+    height: 4rem;
+    cursor: pointer;
+
+    /* Arrangement */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav_icon {
+    /* Properties */
+    color: var(--primary);
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.nav_icon_container:hover {
+    background-color: var(--accent);
+}
+
+/* Mobile */
+@media (max-width: 786px) {
+
+    .nav_icon_container {
+        opacity: 0.25;
+        top: 1rem;
+        left: 1rem;
+    }
+}
+
+/* Desktop & Tablet */
+@media (min-width: 786px) {
+
+    .nav_icon_container {
+        top: 3rem;
+        left: 3rem;
+    }
+}

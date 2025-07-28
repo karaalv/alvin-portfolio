@@ -11,6 +11,7 @@ import styles from '@styles/pages/MainPage.module.css'
 // Util Components.
 import Navbar from '@components/main-page/navbar/Navbar'
 import Spacing from '@components/common/Spacing'
+import PageNav from '@/components/main-page/navbar/PageNav'
 
 // Sections.
 import About from "@components/main-page/about/About"
@@ -25,6 +26,7 @@ import ResponsiveProvider from '@contexts/ResponsiveContext'
 
 // Utilities.
 import { useState, useEffect } from 'react'
+import { PanelLeft } from 'lucide-react'
 
 // Main hander for section components.
 export default function MainPage(){
@@ -78,7 +80,8 @@ export default function MainPage(){
 
     const [isClient, setIsClient] = useState(false)
     const [navbarActive, setNavbarActive] = useState<boolean>(false)
-
+    const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
+    
     useEffect(() => {
         const timeout = setTimeout(() => {
             setNavbarActive(true)
@@ -102,6 +105,17 @@ export default function MainPage(){
         <ResponsiveProvider>
             <AppProvider>
                 <div className={styles.mainPage}>
+                    {/* Navigation */}
+                    <div>
+                        <div 
+                            className={styles.nav_icon_container}
+                            onClick={() => setIsNavOpen(!isNavOpen)}
+                        >
+                            <PanelLeft className={styles.nav_icon} />
+                        </div>
+
+                        <PageNav isOpen={isNavOpen} />
+                    </div>
                     <Navbar isActive={navbarActive}/>
                     <About/>
                     <Spacing size='large'/>

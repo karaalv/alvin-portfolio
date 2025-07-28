@@ -45,7 +45,7 @@ export default function AboutHero(){
                 <p 
                     className={fonts.sub_heading}
                     style={{
-                        marginTop: '10rem',
+                        marginTop: isMobile ? '5rem' : '10rem',
                         marginBottom: isMobile? '3rem' : '7.5rem',
                         width: '100%',
                     }}

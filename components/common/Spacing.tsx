@@ -3,6 +3,8 @@
  * between sections.
  */
 
+import { useResponsiveContext } from "@/contexts/ResponsiveContext"
+
 interface SpacingProps {
     size: 'small' | 'medium' | 'large'
 }
@@ -11,13 +13,14 @@ interface SpacingProps {
  * @returns Component to space sections.
  */
 export default function Spacing({size}: SpacingProps){
+    const { isMobile } = useResponsiveContext()
     let margin = ''
     if(size === 'large'){
-        margin = '10%'
+        margin = isMobile ? '5rem' : '12.5rem'
     }else if(size === 'medium'){
-        margin = '5%'
+        margin = isMobile ? '3.5rem' : '7.5rem'
     }else{
-        margin = '2%'
+        margin = isMobile ? '2rem' : '5rem'
     }
     return(
         <div style={{
