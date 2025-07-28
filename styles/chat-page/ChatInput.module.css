@@ -1,9 +1,6 @@
 /* Chat Input Component Styles */
 
 .main_container {
-    /* Dimensions */
-    width: 100%;
-
     /* Position */
     position: fixed;
     bottom: 3rem;
@@ -16,15 +13,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
     /* background-color: red; */
+    transition: width 0.5s ease-in-out;
+}
+
+.main_container.big {
+    /* Dimensions */
+    width: 100%;
+}
+
+.main_container.small {
+    /* Dimensions */
+    width: 50%;
 }
 
 .sub_container {
     /* Dimensions */
-    min-height: 5rem;
+    min-height: 3rem;
     height: auto;
     border-radius: var(--radius);
-    padding: 2rem;
+    padding: 1.5rem 2rem;
     box-sizing: border-box;
 
     /* Decoration */
@@ -107,17 +116,38 @@
     margin-bottom: 0;
 }
 
-
 /* Mobile */
 @media (max-width: 786px) {
-    .sub_container {
-        width: 90%;
+
+    .sub_container.small {
+        /* Dimensions */
+        width: 95%;
+    }
+
+    .sub_container.big {
+        /* Dimensions */
+        width: 95%;
+    }
+
+    .copyright {
+        min-width: 35rem;
     }
 }
 
 /* Desktop & Tablet */
 @media (min-width: 786px) {
-    .sub_container {
+
+    .sub_container.small {
+        /* Dimensions */
+        width: 90%;
+    }
+
+    .sub_container.big {
+        /* Dimensions */
         width: 70%;
-    }  
+    }
+
+    .copyright {
+        min-width: 50rem;
+    }
 }

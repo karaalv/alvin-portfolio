@@ -1,5 +1,15 @@
 /* User Message Styles */
 
+.container {
+    /* Properties */
+    height: fit-content;
+    box-sizing: border-box;
+
+    /* Arrangement */
+    display: flex;
+    justify-content: flex-end;
+}
+
 .user_message {
     /* Properties */
     background-color: var(--accent);
@@ -25,11 +35,19 @@
     .user_message {
         max-width: 100%;
     }
+
+    .container {
+        min-width: 35rem;
+    }
 }
 
 /* Desktop & Tablet */
 @media (min-width: 769px) {
     .user_message {
         max-width: 50%;
+    }
+
+    .container {
+        min-width: 70rem;
     }
 }

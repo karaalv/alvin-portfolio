@@ -10,10 +10,12 @@ export default function UserMessage(
     { message }: { message: string }
 ) {
     return (
-        <div className={styles.user_message}>
-            <p className={fonts.ai_chat}>
-                {message}
-            </p>
+        <div className={styles.container}>
+            <div className={styles.user_message}>
+                <p className={fonts.ai_chat}>
+                    {message}
+                </p>
+            </div>
         </div>
     )
 }

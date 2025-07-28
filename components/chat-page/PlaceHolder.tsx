@@ -9,7 +9,7 @@ export default function PlaceHolder() {
     return (
         <div className={styles.container}>
             <p className={styles.placeholder_title}>
-            Portfolio Agent.
+                Portfolio Agent.
             </p>
             <p className={styles.placeholder_text}>
                 Need a custom CV? Curious about my work? 

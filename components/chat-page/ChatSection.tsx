@@ -73,7 +73,8 @@ export default function ChatSection(
 
             {/* Chat Input */}
             <ChatInput 
-                messages={messages} 
+                messages={messages}
+                canvasOpen={canvasOpen}
                 setMessages={setMessages}
             />
         </div>

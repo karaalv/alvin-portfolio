@@ -17,11 +17,12 @@ import { AgentMemory } from '@/types/service.types'
 
 interface ChatInputProps {
     messages: AgentMemory[]
+    canvasOpen: boolean
     setMessages: React.Dispatch<React.SetStateAction<AgentMemory[]>>
 }
 
 export default function ChatInput(
-    { messages, setMessages }: ChatInputProps
+    { messages, canvasOpen, setMessages }: ChatInputProps
 ) {
     const {
         message,
@@ -84,12 +85,21 @@ export default function ChatInput(
     }
 
     return (
-        <div className={styles.main_container}>
-            <div className={styles.sub_container}>
+        <div className={`
+            ${styles.main_container}
+            ${canvasOpen ? styles.small : styles.big}
+        `}>
+            <div className={`
+                ${styles.sub_container}
+                ${canvasOpen ? styles.small : styles.big}
+            `}>
                 {/* Input */}
                 <textarea
                     ref={inputRef}
-                    className={`${styles.chat_input} ${fonts.ai_chat}`}
+                    className={`
+                        ${styles.chat_input} 
+                        ${fonts.ai_chat}
+                    `}
                     placeholder='Type your message here...'
                     value={message}
                     onChange={chatInput}

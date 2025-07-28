@@ -23,7 +23,24 @@ export default function ChatPage() {
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const [canvasOpen, setCanvasOpen] = useState<boolean>(false)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
-    const [messages, setMessages] = useState<AgentMemory[]>([])
+    const [messages, setMessages] = useState<AgentMemory[]>([
+        {
+            user_id: '1',
+            chat_id: '1',
+            content: 'Hello, how can I help you today?',
+            source: 'agent',
+            timestamp: new Date().toISOString(),
+            canvas: null
+        },
+        {
+            user_id: '1',
+            chat_id: '2',
+            content: 'I need help with my account.',
+            source: 'user',
+            timestamp: new Date().toISOString(),
+            canvas: null
+        }
+    ])
 
     /**
      * @todo Load messages here
