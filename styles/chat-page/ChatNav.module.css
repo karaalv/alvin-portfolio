@@ -53,6 +53,7 @@
     font-family: var(--primary-font);
     font-size: 2rem;
     margin-bottom: 2rem;
+    color: #00000060;
 }
 
 .link_text {
@@ -74,6 +75,7 @@
     height: 0.3rem;
     border-radius: var(--radius);
     margin: 4rem 0;
+    background-color: #00000060;
 }
 
 .danger_text {
@@ -106,14 +108,6 @@
     .link_container {
         gap: 5rem;
     }
-
-    .section_text {
-        color: var(--primary);
-    }
-
-    .divider {
-        background-color: var(--primary);
-    }
 }
 
 /* Desktop & Tablet */
@@ -132,13 +126,5 @@
 
     .link_container {
         gap: 4rem;
-    }
-
-    .section_text {
-        color: var(--highlight);
-    }
-
-    .divider {
-        background-color: var(--highlight);
     }
 }
