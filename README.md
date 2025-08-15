@@ -1,4 +1,4 @@
-# Personal Portfolio – Alvin Karanja 👨🏾‍💻
+# Personal Portfolio 👨🏾‍💻
 
 This repository contains the **frontend code** for my personal portfolio website. Here, I showcase my skills, featured projects, and professional history in a clean, modern UI.
 

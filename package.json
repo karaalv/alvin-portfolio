@@ -17,6 +17,8 @@
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
     "react-responsive": "^10.0.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
     "three": "^0.168.0"
   },
   "devDependencies": {

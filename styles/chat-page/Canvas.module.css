@@ -5,6 +5,7 @@
     height: 100%;
     box-sizing: border-box;
     background-color: var(--secondary);
+    overflow-y: auto;
 }
 
 .placeholder_container {
@@ -40,6 +41,8 @@
 @media (max-width: 786px) {
     .container {
         padding: 2rem;
+        font-size: 1.6rem;
+        line-height: 3rem;
     }
 
     .placeholder_title {
@@ -58,6 +61,8 @@
     .container {
         padding: 2rem;
         border-left: solid 0.25rem var(--accent);
+        font-size: 1.8rem;
+        line-height: 4rem;
     }
 
     .placeholder_title {

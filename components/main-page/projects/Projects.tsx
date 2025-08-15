@@ -21,7 +21,7 @@ export default function Projects(){
             'answer questions and generate tailored CVs using a ' +
             'retrieval-augmented pipeline'
         ),
-        link: 'https://github.com/username/Portfolio-Agent'
+        link: 'https://github.com/karaalv/portfolio-agent'
     }
 
     const gatsbyProject: ProjectItemProps = {

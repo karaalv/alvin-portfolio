@@ -4,6 +4,9 @@
  */
 
 import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
+
 import styles from '@styles/chat-page/Canvas.module.css'
 
 export default function Canvas(
@@ -15,7 +18,9 @@ export default function Canvas(
             return <div>No content available</div>
         }
         return (
-            <ReactMarkdown>
+            <ReactMarkdown
+                rehypePlugins={[rehypeRaw, rehypeSanitize]}
+            >
                 {content}
             </ReactMarkdown>
         )
