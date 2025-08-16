@@ -29,7 +29,6 @@
     border: none;
     padding: 1rem 1.5rem;
     border-radius: var(--radius);
-    cursor: pointer;
 }
 
 .confirm_button {
@@ -53,6 +52,12 @@
     font-weight: bold;
 }
 
+.error_text {
+    color: var(--danger);
+    font-family: var(--primary-font);
+    margin-bottom: 3rem;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
     .confirmation_box {
@@ -65,6 +70,10 @@
 
     .button_fonts {
         font-size: 1.6rem;
+    }
+
+    .error_text {
+        font-size: 1.8rem;
     }
 }
 
@@ -80,5 +89,9 @@
 
     .button_fonts {
         font-size: 1.8rem;
+    }
+
+    .error_text {
+        font-size: 2rem;
     }
 }

@@ -1,8 +1,6 @@
-/*** Style Types ***/
-
 /**
- * This file is used to main types used to manage
- * styling.
+ * @description This file contains types
+ * for styling components across the UI.
  */
 
 export type NavbarStates = (

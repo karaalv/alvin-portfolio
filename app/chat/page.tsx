@@ -4,8 +4,9 @@
  * interface for the website.
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PanelLeft, DraftingCompass } from 'lucide-react'
+import { useAppContext } from '@/contexts/AppContext'
 
 // Components
 import ChatNav from '@/components/chat-page/ChatNav'
@@ -19,32 +20,29 @@ import styles from '@styles/pages/ChatPage.module.css'
 // Types
 import { AgentMemory } from '@/types/service.types'
 
+// Services
+import { getAgentMemory } from '@/services/interface'
+
 export default function ChatPage() {
+    const { setError } = useAppContext()
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const [canvasOpen, setCanvasOpen] = useState<boolean>(false)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
-    const [messages, setMessages] = useState<AgentMemory[]>([
-        {
-            user_id: '1',
-            chat_id: '1',
-            content: 'Hello, how can I help you today?',
-            source: 'agent',
-            timestamp: new Date().toISOString(),
-            canvas: null
-        },
-        {
-            user_id: '1',
-            chat_id: '2',
-            content: 'I need help with my account.',
-            source: 'user',
-            timestamp: new Date().toISOString(),
-            canvas: null
-        }
-    ])
+    const [messages, setMessages] = useState<AgentMemory[]>([])
 
-    /**
-     * @todo Load messages here
-     */
+    useEffect(() => {
+        const loadMessages = async () => {
+            setError(null)
+            try {
+                const data = await getAgentMemory()
+                setMessages(data)
+            } catch (error) {
+                setError("There was an error loading messages")
+            }
+        }
+        loadMessages()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div className={styles.chat_page}>
@@ -73,8 +71,6 @@ export default function ChatPage() {
                     setMessages={setMessages} 
                 />
             )}
-
-            {/* Main Chat Section */}
 
             {/* Chat Section */}
             <div 

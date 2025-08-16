@@ -13,12 +13,12 @@
     padding: 1rem;
     box-sizing: border-box;
     border-radius: 2rem;
+    margin: 3rem 0;
     /* Glass */
     background-color: var(--glass-colour);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     box-shadow: inset 0 0 3px 3px var(--glass-colour);
-
 }
 
 .error_text {
