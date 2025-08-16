@@ -30,6 +30,10 @@ export default function ChatPage() {
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
     const [messages, setMessages] = useState<AgentMemory[]>([])
 
+    /**
+     * @todo Main socket connection goes here
+     */
+
     useEffect(() => {
         const loadMessages = async () => {
             setError(null)
