@@ -6,13 +6,16 @@
 import { createContext, useContext, ReactNode, useState } from 'react';
 
 interface AppContextProps {
-    // Global application state
     message: string;
     setMessage: (message: string) => void;
     isLoading: boolean;
     setIsLoading: (loading: boolean) => void;
     error: string | null;
     setError: (error: string | null) => void;
+    canvasContent: string;
+    setCanvasContent: (content: string) => void;
+    isCanvasOpen: boolean;
+    setCanvasOpen: (open: boolean) => void;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -20,9 +23,14 @@ const AppContext = createContext<AppContextProps | undefined>(undefined);
 export default function AppProvider (
     { children }: { children: ReactNode }
 ) {
+    // Message state
     const [message, setMessage] = useState<string>('');
+    // Loading and error state
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    // Canvas state
+    const [canvasContent, setCanvasContent] = useState<string>('');
+    const [isCanvasOpen, setCanvasOpen] = useState<boolean>(false);
 
     return (
         <AppContext.Provider 
@@ -32,7 +40,11 @@ export default function AppProvider (
                 isLoading,
                 setIsLoading,
                 error,
-                setError
+                setError,
+                canvasContent,
+                setCanvasContent,
+                isCanvasOpen,
+                setCanvasOpen
             }}
         >
             {children}

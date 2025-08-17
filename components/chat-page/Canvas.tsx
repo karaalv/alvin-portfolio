@@ -6,22 +6,21 @@
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
+import { useAppContext } from '@/contexts/AppContext'
 
+import { X } from 'lucide-react'
 import styles from '@styles/chat-page/Canvas.module.css'
 
-export default function Canvas(
-    { content }: { content: string | null }
-) {
+export default function Canvas() {
+
+    const { canvasContent, setCanvasOpen } = useAppContext();
 
     const renderContent = () => {
-        if (!content) {
-            return <div>No content available</div>
-        }
         return (
             <ReactMarkdown
                 rehypePlugins={[rehypeRaw, rehypeSanitize]}
             >
-                {content}
+                {canvasContent}
             </ReactMarkdown>
         )
     }
@@ -45,7 +44,13 @@ export default function Canvas(
 
     return (
         <div className={styles.container}>
-            {content ? renderContent() : renderPlaceholder()}
+            <div className={styles.header}>
+                <X 
+                    className={styles.icon}
+                    onClick={() => setCanvasOpen(false)} 
+                />
+            </div>
+            {canvasContent ? renderContent() : renderPlaceholder()}
         </div>
     )
 }

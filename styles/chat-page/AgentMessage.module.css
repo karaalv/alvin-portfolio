@@ -46,7 +46,7 @@
 }
 
 .canvas_icon_container:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
     cursor: pointer;
 }
 
@@ -56,9 +56,8 @@
 
 .canvas_title {
     color: var(--primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 .canvas_writing_container {
@@ -67,18 +66,14 @@
     flex-direction: column;
     gap: 1rem;
     /* Text */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 .canvas_writing_section {
     max-width: 100%;
     margin-top: 1rem;
     font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .shimmer_text {
@@ -90,15 +85,11 @@
         var(--highlight) 75%
     );
     background-size: 200% 100%;
-    animation: shimmer 7s infinite linear;
+    animation: shimmer 5s infinite linear;
 
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    /* Text */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* Keyframes for movement */

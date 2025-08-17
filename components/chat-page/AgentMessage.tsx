@@ -5,6 +5,7 @@
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { DraftingCompass } from 'lucide-react'
+import { useAppContext } from '@/contexts/AppContext'
 
 // Styles
 import styles from '@styles/chat-page/AgentMessage.module.css'
@@ -16,13 +17,26 @@ import {AgentMemory, AgentCanvas} from '@/types/service.types'
 export default function AgentMessage(
     { agentMemory }: { agentMemory: AgentMemory }
 ) {
+    const {setCanvasContent, setCanvasOpen} = useAppContext();
+    const [isWriting, setIsWriting] = useState(true);
+    const hasCanvas = useState<boolean>(!!agentMemory.agent_canvas);
 
-    const [isWriting, setIsWriting] = useState(false);
+    // --- Managing Canvas State ---
+
+    const handleCanvasOpen = () => {
+        if (!agentMemory.agent_canvas) return;
+        setCanvasContent(agentMemory.agent_canvas.content);
+        setTimeout(() => {
+            setCanvasOpen(true);
+        }, 100);
+    }
+
+    // --- Rendering Canvas Icon ---
 
     const renderCanvasTitle = () => {
         return (
             <p className={styles.canvas_title}>
-                Machine Learning Resume
+                {agentMemory.agent_canvas!.title}
             </p>
         )
     }
@@ -45,7 +59,10 @@ export default function AgentMessage(
 
     const renderCanvasIcon = () => {
         return (
-            <div className={styles.canvas_icon_container}>
+            <div 
+                className={styles.canvas_icon_container}
+                onClick={handleCanvasOpen}
+            >
                 <DraftingCompass className={styles.icon} />
                 {isWriting ? renderCanvasWriting() : renderCanvasTitle()}
             </div>
@@ -67,7 +84,7 @@ export default function AgentMessage(
                     Alvin AI
                 </p>
             </div>
-            {renderCanvasIcon()}
+            {hasCanvas && renderCanvasIcon()}
         </div>
     )
 }

@@ -36,5 +36,6 @@ export interface AgentMemory {
 
 export interface AgentCanvas {
     id: string;
+    title: string;
     content: string;
 }
