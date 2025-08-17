@@ -3,6 +3,7 @@
  * @description This file acts as the 
  * interface to backend services.
  */
+import { cookies } from "next/headers";
 import { SignJWT } from "jose";
 import { APIResponse, AgentMemory } from "@/types/service.types"
 
@@ -26,6 +27,15 @@ export async function createFrontendToken(): Promise<string> {
         .setIssuedAt()
         .setExpirationTime(TOKEN_EXPIRY)
         .sign(secret);
+}
+
+/**
+ * Gets the WebSocket URL for the frontend.
+ * @returns The WebSocket URL as a string.
+ */
+export async function getSocketURL(): Promise<string> {
+    const token = await createFrontendToken();
+    return `${process.env.WS_URL}?ft=${token}`;
 }
 
 // --- Main Interface Function ---
@@ -60,13 +70,16 @@ async function fetchAPI<T>(
     data?: unknown
 ): Promise<APIResponse<T> | Response> {
     const token = await createFrontendToken();
+    const cookieStore = await cookies();
+
     const options: RequestInit = {
         method,
         headers: {
             'Content-Type': 'application/json',
-            'frontend-token': `${token}`
+            'frontend-token': `${token}`,
+            'cookie': cookieStore.toString()
         },
-        credentials: 'include',
+        credentials: 'include'
     }
 
     if (method!== 'GET' && data) {
@@ -78,9 +91,8 @@ async function fetchAPI<T>(
         options
     )
 
-    // if (!response.ok) {
-    //     throw new Error("Failed to fetch API");
-    // }
+    // Errors handled in calling 
+    // component
 
     if (!parsed) {
         return response
@@ -116,6 +128,7 @@ export async function getAgentMemory(
         'GET',
         true
     );
+    console.log("Agent memory data:", response.data);
     return response.data;
 }
 

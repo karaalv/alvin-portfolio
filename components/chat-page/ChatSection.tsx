@@ -65,7 +65,7 @@ export default function ChatSection(
         <div className={styles.main_container}>
             {/* Chat Messages */}
             <div className={styles.content_container}>
-                {messages.length > 0 ? renderMessages() : <PlaceHolder />}
+                {messages?.length > 0 ? renderMessages() : <PlaceHolder />}
                 {isLoading && <Loader />}
                 {/* Error Message */}
                 {error && <ErrorMessage message={error} />}

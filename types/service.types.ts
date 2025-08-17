@@ -23,6 +23,11 @@ export interface SocketResponse<T> {
     data: T;
 }
 
+export interface SocketMessage {
+    type: string;
+    input: string;
+}
+
 // --- Agent Interactions ---
 
 export interface AgentMemory {
