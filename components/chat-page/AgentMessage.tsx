@@ -2,7 +2,7 @@
  * @description This component renders the
  * agent message in the chat interface.
  */
-import { useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { DraftingCompass } from 'lucide-react'
 import { useAppContext } from '@/contexts/AppContext'
@@ -19,7 +19,35 @@ export default function AgentMessage(
 ) {
     const {setCanvasContent, setCanvasOpen} = useAppContext();
     const [isWriting, setIsWriting] = useState(true);
-    const hasCanvas = useState<boolean>(!!agentMemory.agent_canvas);
+    const [illusion] = useState<boolean>(agentMemory.illusion);
+    const [displayContent, setDisplayContent] = useState<string>('');
+    const [hasCanvas] = useState<boolean>(!!agentMemory.agent_canvas);
+
+    // Streaming illusion
+    useEffect(() => {
+        if (!agentMemory.content) return;
+        
+        let interval: number;
+        
+        if (illusion) {
+            setDisplayContent("");
+            const chars = agentMemory.content.split("");
+            let index = 0;
+
+            interval = window.setInterval(() => {
+                if (index < chars.length) {
+                    setDisplayContent(chars.slice(0, index + 1).join(""));
+                    index += 1;
+                } else {
+                    if (interval) clearInterval(interval);
+                }
+            }, 40);
+        } else {
+            setDisplayContent(agentMemory.content);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // --- Managing Canvas State ---
 
@@ -78,7 +106,7 @@ export default function AgentMessage(
         >
             <div className={styles.message_content}>
                 <ReactMarkdown>
-                    {agentMemory.content}
+                    {displayContent}
                 </ReactMarkdown>
                 <p style={{ color: 'var(--highlight)' }}>
                     Alvin AI

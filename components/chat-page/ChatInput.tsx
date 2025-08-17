@@ -19,20 +19,15 @@ import { AgentMemory } from '@/types/service.types'
 import { getTimestamp, generateNonce } from '@/utils/processing'
 import { useSocketContext } from '@/contexts/SocketContext'
 
-interface ChatInputProps {
-    canvasOpen: boolean
-    setMessages: React.Dispatch<React.SetStateAction<AgentMemory[]>>
-}
-
-export default function ChatInput(
-    {canvasOpen, setMessages }: ChatInputProps
-) {
+export default function ChatInput() {
     const {
         message,
         setMessage,
         isLoading, 
         setIsLoading, 
-        setError 
+        setError,
+        setMemory,
+        isCanvasOpen
     } = useAppContext()
     const { sendMessage } = useSocketContext()
     const inputRef = useRef<HTMLTextAreaElement>(null)
@@ -48,15 +43,16 @@ export default function ChatInput(
             id: generateNonce(),
             content: message,
             source: 'user',
+            illusion: false,
             created_at: getTimestamp(),
             agent_canvas: null
         }
 
         // Send message through WebSocket
-        sendMessage({type: 'message', input: message})
+        sendMessage({type: 'message', data: message})
 
         // Adjust local state
-        setMessages(prev => [...prev, newMessage])
+        setMemory(prev => [...prev, newMessage])
         setMessage('')
     }
 
@@ -90,11 +86,11 @@ export default function ChatInput(
     return (
         <div className={`
             ${styles.main_container}
-            ${canvasOpen ? styles.small : styles.big}
+            ${isCanvasOpen ? styles.small : styles.big}
         `}>
             <div className={`
                 ${styles.sub_container}
-                ${canvasOpen ? styles.small : styles.big}
+                ${isCanvasOpen ? styles.small : styles.big}
             `}>
                 {/* Input */}
                 <textarea

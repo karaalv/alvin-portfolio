@@ -2,7 +2,7 @@
  * @description This component is the main chat
  * interface for the website.
  */
-
+import { useEffect, useRef } from 'react';
 import { useAppContext } from '@/contexts/AppContext'
 
 // Components
@@ -16,30 +16,34 @@ import Loader from '@components/chat-page/Loader'
 // Styles
 import styles from '@styles/chat-page/ChatSection.module.css'
 
-// Types
-import { AgentMemory } from '@/types/service.types'
+export default function ChatSection() {
+    const { 
+        error, 
+        isLoading,
+        memory,
+        isCanvasOpen
+    } = useAppContext()
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-interface ChatSectionProps {
-    messages: AgentMemory[],
-    canvasOpen: boolean,
-    setMessages: React.Dispatch<React.SetStateAction<AgentMemory[]>>
-}
+    // Scroll to Bottom
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
 
-export default function ChatSection(
-    { messages, canvasOpen, setMessages }: ChatSectionProps
-) {
-    const { error, isLoading } = useAppContext()
+    useEffect(() => {
+        scrollToBottom();
+    }, [memory]);
 
     const renderMessages = () => {
         return (
             <div 
                 className={`
                     ${styles.chat_messages} 
-                    ${canvasOpen ? styles.chat_messages_small : styles.chat_messages_big}
+                    ${isCanvasOpen ? styles.chat_messages_small : styles.chat_messages_big}
                 `}
             >
                 {
-                    messages.map((message) => {
+                    memory.map((message) => {
                         if (message.source === 'user') {
                             return (
                                 <UserMessage 
@@ -57,6 +61,7 @@ export default function ChatSection(
                         }
                     })
                 }
+                <div ref={messagesEndRef} />
             </div>
         )
     }
@@ -65,17 +70,14 @@ export default function ChatSection(
         <div className={styles.main_container}>
             {/* Chat Messages */}
             <div className={styles.content_container}>
-                {messages?.length > 0 ? renderMessages() : <PlaceHolder />}
+                {memory?.length > 0 ? renderMessages() : <PlaceHolder />}
                 {isLoading && <Loader />}
                 {/* Error Message */}
                 {error && <ErrorMessage message={error} />}
             </div>
 
             {/* Chat Input */}
-            <ChatInput 
-                canvasOpen={canvasOpen}
-                setMessages={setMessages}
-            />
+            <ChatInput />
         </div>
     )
 }

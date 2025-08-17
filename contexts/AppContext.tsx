@@ -3,21 +3,39 @@
  * global application state.
  */
 
-import { createContext, useContext, ReactNode, useState } from 'react';
+import { 
+    createContext, useContext, ReactNode, 
+    useState, Dispatch, SetStateAction,
+    useMemo
+} from 'react';
 import { useMediaQuery } from "react-responsive";
+import { AgentMemory } from '@/types/service.types';
 
 interface AppContextProps {
+    // Message state
     message: string;
-    setMessage: (message: string) => void;
+    setMessage: Dispatch<SetStateAction<string>>;
+
+    // Loading and error state
     isLoading: boolean;
-    setIsLoading: (loading: boolean) => void;
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
+
     error: string | null;
-    setError: (error: string | null) => void;
+    setError: Dispatch<SetStateAction<string | null>>;
+
+    // Canvas state
     canvasContent: string;
-    setCanvasContent: (content: string) => void;
+    setCanvasContent: Dispatch<SetStateAction<string>>;
+
     isCanvasOpen: boolean;
-    setCanvasOpen: (open: boolean) => void;
+    setCanvasOpen: Dispatch<SetStateAction<boolean>>;
+
+    // Responsive state
     isMobile: boolean;
+
+    // Memory state
+    memory: AgentMemory[];
+    setMemory: Dispatch<SetStateAction<AgentMemory[]>>;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -35,23 +53,39 @@ export default function AppProvider (
     // Canvas state
     const [canvasContent, setCanvasContent] = useState<string>('');
     const [isCanvasOpen, setCanvasOpen] = useState<boolean>(false);
+    // Memory state
+    const [memory, setMemory] = useState<AgentMemory[]>([]);
+
+    // Memoisation
+    const value = useMemo(
+        () => ({
+            message,
+            setMessage,
+            isLoading,
+            setIsLoading,
+            error,
+            setError,
+            canvasContent,
+            setCanvasContent,
+            isCanvasOpen,
+            setCanvasOpen,
+            isMobile,
+            memory,
+            setMemory,
+        }),
+        [
+            message,
+            isLoading,
+            error,
+            canvasContent,
+            isCanvasOpen,
+            isMobile,
+            memory,
+        ]
+    );
 
     return (
-        <AppContext.Provider 
-            value={{
-                message,
-                setMessage,
-                isLoading,
-                setIsLoading,
-                error,
-                setError,
-                canvasContent,
-                setCanvasContent,
-                isCanvasOpen,
-                setCanvasOpen,
-                isMobile
-            }}
-        >
+        <AppContext.Provider value={value}>
             {children}
         </AppContext.Provider>
     )

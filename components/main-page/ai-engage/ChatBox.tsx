@@ -30,7 +30,7 @@ const placeholderOptions = [
  */
 export default function ChatBox() {
     const router = useRouter()
-    const { message, setMessage, setIsLoading } = useAppContext()
+    const { message, setMessage, setIsLoading, setError } = useAppContext()
     const [currentPlaceholder, setCurrentPlaceholder] = useState<string>("")
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [isTyping, setIsTyping] = useState<boolean>(true)
@@ -42,13 +42,15 @@ export default function ChatBox() {
     }
 
     // Handle send button click
+    /**
+     * Message is stored in app state, on 
+     * navigation to chat page socket connection
+     * is established and message is sent.
+     */ 
     const sendMessage = () => {
         if (message.trim()) {
-            // Here you can add logic to handle the message
-            console.log('Sending message:', message)
-            // For now, we'll just clear the input
-            setMessage('')
             setIsLoading(true)
+            setError(null)
             router.push('/chat')
         }
     }

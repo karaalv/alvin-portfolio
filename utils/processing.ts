@@ -3,6 +3,7 @@
  * utility functions for processing
  * on the client-side.
  */
+import { AgentMemory } from "@/types/service.types"
 
 /**
  * Current timestamp in UTC. (ISO 8601)
@@ -24,4 +25,23 @@ export function generateNonce(): string {
         Math.random().toString(36).substring(2, 15) +
         Math.random().toString(36).substring(2, 15)
     )
+}
+
+/**
+ * Packages the agent response into the desired format.
+ * @param response - The response string from the agent.
+ * @returns The packaged agent memory object.
+ */
+export function packageAgentResponse(
+    response: string
+): AgentMemory {
+    return {
+        id: generateNonce(),
+        user_id: generateNonce(),
+        source: 'agent',
+        content: response,
+        created_at: getTimestamp(),
+        illusion: true,
+        agent_canvas: null
+    }
 }

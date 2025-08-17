@@ -6,17 +6,17 @@ import { useState } from 'react'
 import { deleteAgentMemory } from '@/services/interface'
 import styles from '@styles/chat-page/DeleteConfirm.module.css'
 
-// Types
-import { AgentMemory } from '@/types/service.types'
+// Services
+import { useAppContext } from '@/contexts/AppContext'
 
 interface DeleteConfirmProps {
     setDeleteConfirm: React.Dispatch<React.SetStateAction<boolean>>
-    setMessages: React.Dispatch<React.SetStateAction<AgentMemory[]>>
 }
 
 export default function DeleteConfirm(
-    { setDeleteConfirm, setMessages }: DeleteConfirmProps
+    { setDeleteConfirm }: DeleteConfirmProps
 ) {
+    const { setMemory } = useAppContext()
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -36,7 +36,7 @@ export default function DeleteConfirm(
                 )
             }
             // Clear UI
-            setMessages([])
+            setMemory([])
             setDeleteConfirm(false)
         } catch (error) {
             setError(

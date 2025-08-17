@@ -25,7 +25,7 @@ export interface SocketResponse<T> {
 
 export interface SocketMessage {
     type: string;
-    input: string;
+    data: string;
 }
 
 // --- Agent Interactions ---
@@ -36,6 +36,7 @@ export interface AgentMemory {
     source: 'agent' | 'user';
     content: string;
     created_at: string;
+    illusion: boolean;
     agent_canvas: AgentCanvas | null;
 }
 

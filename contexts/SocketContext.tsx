@@ -7,9 +7,17 @@ import {
     createContext, useRef, ReactNode, useEffect, 
     useState, useContext, useCallback
 } from 'react';
+
+// Context and Utils
 import { useAppContext } from '@contexts/AppContext';
+import { packageAgentResponse } from '@/utils/processing';
+
+// Server side requests
 import { getSocketURL } from '@/services/interface';
-import { SocketMessage } from '@/types/service.types';
+
+// Types
+import { SocketMessage, SocketResponse } from '@/types/service.types';
+
 
 interface SocketContextProps {
     connected: boolean;
@@ -21,7 +29,7 @@ const SocketContext = createContext<SocketContextProps | undefined>(undefined);
 export default function SocketProvider(
     { children }: { children: ReactNode }
 ) {
-    const { setError } = useAppContext();
+    const { message, setMessage, setError, setMemory, setIsLoading } = useAppContext();
     const wsRef = useRef<WebSocket | null>(null);
     const [connected, setConnected] = useState<boolean>(false);
     const backoffRef = useRef(1000);
@@ -35,6 +43,19 @@ export default function SocketProvider(
         ws.send(JSON.stringify(message));
         return true;
     }, [])
+
+    // --- Managing State Updates ---
+
+    /**
+     * Updates the agent response in 
+     * chat history.
+     */
+    const updateAgentResponse = (agentMessage: string) => {
+        if (!agentMessage) return;
+        const packaged = packageAgentResponse(agentMessage);
+        setIsLoading(false);
+        setMemory((prev) => [...prev, packaged]);
+    }
 
     useEffect(() => {
         aliveRef.current = true;
@@ -61,6 +82,12 @@ export default function SocketProvider(
                             ws.send(JSON.stringify({ type: "ping", data: "ping" }));
                         }
                     }, 10000); // Send a ping every 10 seconds
+
+                    // If persistent message exists send
+                    if (message && message.trim()) {
+                        sendMessage({ type: "message", data: message });
+                        setMessage('');
+                    }
                 }
 
                 ws.onerror = (error) => {
@@ -85,9 +112,23 @@ export default function SocketProvider(
 
                 ws.onmessage = (event) => {
                     try{
-                        const data = JSON.parse(event.data);
-                        console.log("Received message:", data);
-                        // TODO: Handle incoming messages
+                        const dataRaw = JSON.parse(event.data);                        
+                        // Handle message types
+                        const response: SocketResponse<unknown> = dataRaw;
+                        switch (response.type) {
+                            case "ping":
+                                break;
+                            case "agent_memory":
+                                console.log("New message:", response);
+                                updateAgentResponse(response.data as string);
+                                break;
+                            case "agent_thinking":
+                                console.error("WebSocket error:", response);
+                                break;
+                            default:
+                                console.warn("Unknown WebSocket message type:", response);
+                        }
+
                     } catch (error) {
                         console.error("Error parsing WebSocket message:", error);
                     }

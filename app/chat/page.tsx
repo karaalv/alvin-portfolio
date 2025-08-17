@@ -17,28 +17,20 @@ import Canvas from '@/components/chat-page/Canvas'
 // Styles
 import styles from '@styles/pages/ChatPage.module.css'
 
-// Types
-import { AgentMemory } from '@/types/service.types'
-
 // Services
 import { getAgentMemory } from '@/services/interface'
 
 export default function ChatPage() {
-    const { setError, isCanvasOpen } = useAppContext()
+    const { setError, isCanvasOpen, setMemory } = useAppContext()
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
-    const [messages, setMessages] = useState<AgentMemory[]>([])
-
-    /**
-     * @todo Main socket connection goes here
-     */
 
     useEffect(() => {
         const loadMessages = async () => {
             setError(null)
             try {
                 const data = await getAgentMemory()
-                setMessages(data)
+                setMemory(data)
             } catch (error) {
                 setError("There was an error loading messages")
             }
@@ -71,7 +63,6 @@ export default function ChatPage() {
             {deleteConfirm && (
                 <DeleteConfirm 
                     setDeleteConfirm={setDeleteConfirm} 
-                    setMessages={setMessages} 
                 />
             )}
 
@@ -82,11 +73,7 @@ export default function ChatPage() {
                     ${isCanvasOpen ? styles.open : styles.closed}
                 `}
             >
-                <ChatSection 
-                    messages={messages}
-                    canvasOpen={isCanvasOpen}
-                    setMessages={setMessages}
-                />
+                <ChatSection />
             </div>
 
             {/* Canvas */}
