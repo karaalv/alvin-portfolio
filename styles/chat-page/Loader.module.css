@@ -1,8 +1,14 @@
 /* Loader Styles */
 .loader_container {
+    /* Properties */
     width: 70%;
     box-sizing: border-box;
-    padding: 2rem 0;
+    padding: 2rem 2rem;
+    /* Arrangement */
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    align-items: center;
 }
 
 .loading_icon {
@@ -11,7 +17,47 @@
     background-color: var(--primary);
     border-radius: 10rem;
     animation: pulse 1.5s ease-in-out infinite;
-    align-self: flex-start;
+}
+
+.loading_text {
+    /* Properties */
+    color: var(--primary);
+    font-family: var(--primary-font);
+    font-size: 1.8rem;
+    /* Arrangement */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.shimmer_text {
+    /* Shimmer */
+    background: linear-gradient(
+        90deg,
+        var(--highlight) 25%,
+        var(--accent) 50%,
+        var(--highlight) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 7s infinite linear;
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    /* Text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Keyframes for movement */
+@keyframes shimmer {
+    0% {
+        background-position: -800px 0;
+    }
+    100% {
+        background-position: 800px 0;
+    }
 }
 
 @keyframes pulse {

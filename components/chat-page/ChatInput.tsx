@@ -42,11 +42,11 @@ export default function ChatInput(
 
         const newMessage: AgentMemory = {
             user_id: '1',
-            chat_id: (messages.length + 1).toString(),
+            id: (messages.length + 1).toString(),
             content: message,
             source: 'user',
-            timestamp: new Date().toISOString(),
-            canvas: null
+            created_at: new Date().toISOString(),
+            agent_canvas: null
         }
 
         // Simulate sending a message

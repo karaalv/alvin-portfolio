@@ -2,7 +2,7 @@
 
 .agent_message {
     /* Properties */
-    padding: 1rem 1.5rem;
+    padding: 1rem;
     box-sizing: border-box;
 
     /* Dimensions */
@@ -13,7 +13,102 @@
     display: flex;
     flex-direction: column;
     align-self: flex-start;
+    gap: 2rem;
+}
+
+.message_content {
+    padding: 0 2rem; 
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
+}
+
+.canvas_icon_container {
+    /* Properties */
+    border-radius: var(--radius);
+    padding: 1.5rem 2rem;
+    height: fit-content;
+    min-height: 5rem;
+    /* Arrangement */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* Glass Effect */
+    background-color: var(--glass-colour);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    box-shadow: inset 0 0 3px 3px var(--glass-colour);
+    /* Animation */
+    transition: transform 0.3s ease;
+    /* Text */
+    font-family: var(--primary-font);
+    font-size: 2rem;
+}
+
+.canvas_icon_container:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.icon {
+    color: var(--primary);
+}
+
+.canvas_title {
+    color: var(--primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.canvas_writing_container {
+    /* Arrangement */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* Text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.canvas_writing_section {
+    max-width: 100%;
+    margin-top: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shimmer_text {
+    /* Shimmer */
+    background: linear-gradient(
+        90deg,
+        var(--highlight) 25%,
+        var(--accent) 50%,
+        var(--highlight) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 7s infinite linear;
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    /* Text */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Keyframes for movement */
+@keyframes shimmer {
+    0% {
+        background-position: -800px 0;
+    }
+    100% {
+        background-position: 800px 0;
+    }
 }
 
 /* Mobile */
@@ -22,6 +117,17 @@
         max-width: 100%;
         min-width: 35rem;
     }
+
+    .canvas_icon_container {
+        max-width: 100%;
+        font-size: 1.6rem;
+        gap: 1.5rem;
+    }
+
+    .icon {
+        height: 3rem;
+        width: 3rem;
+    }
 }
 
 /* Desktop & Tablet */
@@ -29,5 +135,16 @@
     .agent_message {
         max-width: 75%;
         min-width: 70rem;
+    }
+
+    .canvas_icon_container {
+        max-width: 50rem;
+        font-size: 2rem;
+        gap: 3rem;
+    }
+
+    .icon {
+        height: 4rem;
+        width: 4rem;
     }
 }

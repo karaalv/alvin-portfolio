@@ -97,7 +97,7 @@
 .loading_square {
     width: 1rem;
     height: 1rem;
-    background-color: var(--Primary);
+    background-color: var(--primary);
     border-radius: 2px;
 }
 

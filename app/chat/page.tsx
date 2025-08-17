@@ -28,7 +28,16 @@ export default function ChatPage() {
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const [canvasOpen, setCanvasOpen] = useState<boolean>(false)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
-    const [messages, setMessages] = useState<AgentMemory[]>([])
+    const [messages, setMessages] = useState<AgentMemory[]>([
+        {
+            id: "test",
+            user_id: "user",
+            source: 'agent',
+            content: "Hello, world!",
+            created_at: "2023-01-01T00:00:00Z",
+            agent_canvas: null
+        }
+    ])
 
     /**
      * @todo Main socket connection goes here

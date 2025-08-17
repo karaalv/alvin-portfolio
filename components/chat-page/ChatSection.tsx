@@ -43,15 +43,15 @@ export default function ChatSection(
                         if (message.source === 'user') {
                             return (
                                 <UserMessage 
-                                    key={message.chat_id} 
+                                    key={message.id} 
                                     message={message.content} 
                                 />
                             )
                         } else if (message.source === 'agent') {
                             return (
                                 <AgentMessage 
-                                    key={message.chat_id} 
-                                    message={message.content} 
+                                    key={message.id} 
+                                    agentMemory={message} 
                                 />
                             )
                         }

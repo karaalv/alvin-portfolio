@@ -26,12 +26,12 @@ export interface SocketResponse<T> {
 // --- Agent Interactions ---
 
 export interface AgentMemory {
+    id: string;
     user_id: string;
-    chat_id: string;
-    timestamp: string;
-    content: string;
     source: 'agent' | 'user';
-    canvas: AgentCanvas | null;
+    content: string;
+    created_at: string;
+    agent_canvas: AgentCanvas | null;
 }
 
 export interface AgentCanvas {
