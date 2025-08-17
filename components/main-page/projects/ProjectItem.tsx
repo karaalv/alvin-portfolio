@@ -4,7 +4,7 @@
  */
 
 import Image from "next/image"
-import { useResponsiveContext } from "@contexts/ResponsiveContext";
+import { useAppContext } from "@/contexts/AppContext";
 
 import styles from "@styles/main-page/projects/ProjectItem.module.css"
 
@@ -23,7 +23,7 @@ export default function ProjectItem({
     description,
     link
 }: ProjectItemProps) {
-    const { isMobile } = useResponsiveContext();
+    const { isMobile } = useAppContext();
     const imageSize = isMobile ? '250' : '300';
 
     return (

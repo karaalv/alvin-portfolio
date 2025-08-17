@@ -5,8 +5,6 @@
  * interact with AI features.
  */
 
-import { useResponsiveContext } from '@/contexts/ResponsiveContext'
-
 // Context
 import { useAppContext } from '@/contexts/AppContext'
 
@@ -18,8 +16,7 @@ import styles from '@styles/main-page/ai-engage/AIEngage.module.css'
 import fonts from '@styles/common/Typography.module.css'
 
 export default function AIEngage() {
-    const { setMessage } = useAppContext()
-    const { isMobile } = useResponsiveContext()
+    const { setMessage, isMobile } = useAppContext()
 
     const handlePromptClick = (prompt: string) => {
         setMessage(prompt)

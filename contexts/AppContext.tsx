@@ -4,6 +4,7 @@
  */
 
 import { createContext, useContext, ReactNode, useState } from 'react';
+import { useMediaQuery } from "react-responsive";
 
 interface AppContextProps {
     message: string;
@@ -16,6 +17,7 @@ interface AppContextProps {
     setCanvasContent: (content: string) => void;
     isCanvasOpen: boolean;
     setCanvasOpen: (open: boolean) => void;
+    isMobile: boolean;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -23,6 +25,8 @@ const AppContext = createContext<AppContextProps | undefined>(undefined);
 export default function AppProvider (
     { children }: { children: ReactNode }
 ) {
+    // Media query for mobile responsiveness
+    const [isMobile] = useState(useMediaQuery({query: '(max-width: 786px)'}))
     // Message state
     const [message, setMessage] = useState<string>('');
     // Loading and error state
@@ -44,7 +48,8 @@ export default function AppProvider (
                 canvasContent,
                 setCanvasContent,
                 isCanvasOpen,
-                setCanvasOpen
+                setCanvasOpen,
+                isMobile
             }}
         >
             {children}

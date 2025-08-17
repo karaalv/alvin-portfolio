@@ -1,3 +1,4 @@
+'use client'
 /**
  * @description Root layout for the
  * website.
@@ -5,7 +6,6 @@
 
 // React & next utilities.
 import React from "react";
-import { Metadata } from "next";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GoogleTagManager } from "@next/third-parties/google";
 
@@ -13,13 +13,8 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import '@styles/common/Global.css'
 import styles from '@styles/common/RootLayout.module.css'
 
-// Export metadata.
-export const metadata: Metadata = {
-    title: 'Alvin Karanja | Portfolio',
-    icons: {
-        icon: '/assets/favicon-16x16.png'
-    }
-}
+// Contexts.
+import AppProvider from "@/contexts/AppContext";
 
 /**
  * Root layout.
@@ -33,10 +28,14 @@ export default function RootLayout(
     return(
         <html lang="en" className={styles.html}>
             <head>
+                <title>Alvin Karanja | Portfolio</title>
+                <link rel="icon" type="image/x-icon" href="/assets/favicon-16x16.png" />
                 <GoogleTagManager gtmId="GTM-W8CMJRHW"/>
             </head>
             <body className={styles.body}>
-                {children}
+                <AppProvider>
+                    {children}
+                </AppProvider>
                 <SpeedInsights/>
             </body>
         </html>

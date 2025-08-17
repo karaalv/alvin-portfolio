@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { PanelLeft } from 'lucide-react'
 
 // Components
-import Spacing from '@/components/common/Spacing'
 import PrivacyNav from '@/components/privacy-page/PrivacyNav'
 
 // Styles
@@ -177,7 +176,6 @@ export default function PrivacyPage() {
                     </a>
                 </p>
             </div>
-            <Spacing size='medium'/>
         </div>
     )
 }

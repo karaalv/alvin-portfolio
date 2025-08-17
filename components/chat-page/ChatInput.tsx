@@ -15,14 +15,17 @@ import fonts from '@styles/common/Typography.module.css'
 // Types
 import { AgentMemory } from '@/types/service.types'
 
+// Services and utilities
+import { getTimestamp, generateNonce } from '@/utils/processing'
+import { useSocketContext } from '@/contexts/SocketContext'
+
 interface ChatInputProps {
-    messages: AgentMemory[]
     canvasOpen: boolean
     setMessages: React.Dispatch<React.SetStateAction<AgentMemory[]>>
 }
 
 export default function ChatInput(
-    { messages, canvasOpen, setMessages }: ChatInputProps
+    {canvasOpen, setMessages }: ChatInputProps
 ) {
     const {
         message,
@@ -31,30 +34,30 @@ export default function ChatInput(
         setIsLoading, 
         setError 
     } = useAppContext()
+    const { sendMessage } = useSocketContext()
     const inputRef = useRef<HTMLTextAreaElement>(null)
 
-
     // --- Send message function ---
-    const sendMessage = () => {
+    const handleSendMessage = () => {
         if (!message.trim() || isLoading) return
         setIsLoading(true)
         setError(null)
 
         const newMessage: AgentMemory = {
-            user_id: '1',
-            id: (messages.length + 1).toString(),
+            user_id: generateNonce(),
+            id: generateNonce(),
             content: message,
             source: 'user',
-            created_at: new Date().toISOString(),
+            created_at: getTimestamp(),
             agent_canvas: null
         }
 
-        // Simulate sending a message
-        setTimeout(() => {
-            setMessages([...messages, newMessage])
-            setMessage('')
-            setIsLoading(false)
-        }, 1000)
+        // Send message through WebSocket
+        sendMessage({type: 'message', input: message})
+
+        // Adjust local state
+        setMessages(prev => [...prev, newMessage])
+        setMessage('')
     }
 
     // --- Handle input and key press ---
@@ -80,7 +83,7 @@ export default function ChatInput(
     ) => {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault()
-            sendMessage()
+            handleSendMessage()
         }
     }
 
@@ -110,7 +113,7 @@ export default function ChatInput(
                 {/* Icon */}
                 <div 
                     className={styles.icon_container}
-                    onClick={sendMessage}
+                    onClick={handleSendMessage}
                     style={{ 
                         cursor: message.trim() && !isLoading ? 'pointer' : 'default',
                         opacity: message.trim() && !isLoading ? 1 : 0.5 

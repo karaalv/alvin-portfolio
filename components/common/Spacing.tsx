@@ -1,9 +1,10 @@
+'use client'
 /**
  * @description Component to add spacing
  * between sections.
  */
 
-import { useResponsiveContext } from "@/contexts/ResponsiveContext"
+import { useAppContext } from "@/contexts/AppContext"
 
 interface SpacingProps {
     size: 'small' | 'medium' | 'large'
@@ -13,7 +14,7 @@ interface SpacingProps {
  * @returns Component to space sections.
  */
 export default function Spacing({size}: SpacingProps){
-    const { isMobile } = useResponsiveContext()
+    const { isMobile } = useAppContext()
     let margin = ''
     if(size === 'large'){
         margin = isMobile ? '5rem' : '12.5rem'

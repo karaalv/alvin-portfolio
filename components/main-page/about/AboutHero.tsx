@@ -5,7 +5,7 @@
  * the site.
  */
 import { useEffect } from 'react'
-import { useResponsiveContext } from '@contexts/ResponsiveContext'
+import { useAppContext } from '@/contexts/AppContext'
 
 // Components.
 import VerticalTextCarousel from '@components/main-page/about/VerticalTextCarousel'
@@ -18,8 +18,8 @@ import fonts from '@styles/common/Typography.module.css'
  * @returns About hero section
  */
 export default function AboutHero(){
-    
-    const {isMobile} = useResponsiveContext()
+
+    const {isMobile} = useAppContext()
     const carouselItems = [
         'Software Engineer',
         'Machine Learning Engineer',

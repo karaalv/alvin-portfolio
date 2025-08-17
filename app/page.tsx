@@ -20,10 +20,6 @@ import Experience from '@components/main-page/experience/Experience'
 import Projects from '@components/main-page/projects/Projects'
 import Contact from '@components/main-page/contact/Contact'
 
-// Contexts.
-import AppProvider from '@/contexts/AppContext'
-import ResponsiveProvider from '@contexts/ResponsiveContext'
-
 // Utilities.
 import { useState, useEffect } from 'react'
 import { PanelLeft } from 'lucide-react'
@@ -102,32 +98,28 @@ export default function MainPage(){
     }
 
     return(
-        <ResponsiveProvider>
-            <AppProvider>
-                <div className={styles.mainPage}>
-                    {/* Navigation */}
-                    <div>
-                        <div 
-                            className={styles.nav_icon_container}
-                            onClick={() => setIsNavOpen(!isNavOpen)}
-                        >
-                            <PanelLeft className={styles.nav_icon} />
-                        </div>
-
-                        <PageNav isOpen={isNavOpen} />
-                    </div>
-                    <Navbar isActive={navbarActive}/>
-                    <About/>
-                    <Spacing size='large'/>
-                    <AIEngage/>
-                    <Spacing size='medium'/>
-                    <Experience/>
-                    <Spacing size='small'/>
-                    <Projects/>
-                    <Spacing size='small'/>
-                    <Contact/>
+        <div className={styles.mainPage}>
+            {/* Navigation */}
+            <div>
+                <div 
+                    className={styles.nav_icon_container}
+                    onClick={() => setIsNavOpen(!isNavOpen)}
+                >
+                    <PanelLeft className={styles.nav_icon} />
                 </div>
-            </AppProvider>
-        </ResponsiveProvider>
+
+                <PageNav isOpen={isNavOpen} />
+            </div>
+            <Navbar isActive={navbarActive}/>
+            <About/>
+            <Spacing size='large'/>
+            <AIEngage/>
+            <Spacing size='medium'/>
+            <Experience/>
+            <Spacing size='small'/>
+            <Projects/>
+            <Spacing size='small'/>
+            <Contact/>
+        </div>
     )
 }
