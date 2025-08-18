@@ -34,9 +34,9 @@ export default function ChatInput() {
 
     // --- Send message function ---
     const handleSendMessage = () => {
-        if (!message.trim() || isLoading) return
-        setIsLoading(true)
-        setError(null)
+        if (!message.trim() || isLoading) return;
+        setIsLoading(true);
+        setError(null);
 
         const newMessage: AgentMemory = {
             user_id: generateNonce(),
@@ -51,9 +51,14 @@ export default function ChatInput() {
         // Send message through WebSocket
         sendMessage({type: 'message', data: message})
 
-        // Adjust local state
+        // Adjust local state and reset input
+        // height
         setMemory(prev => [...prev, newMessage])
         setMessage('')
+
+        if(inputRef.current) {
+            inputRef.current.style.height = 'auto'
+        }
     }
 
     // --- Handle input and key press ---

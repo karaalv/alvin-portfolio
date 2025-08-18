@@ -12,16 +12,24 @@ import styles from '@styles/chat-page/AgentMessage.module.css'
 import fonts from '@styles/common/Typography.module.css'
 
 // Types
-import {AgentMemory, AgentCanvas} from '@/types/service.types'
+import {AgentMemory} from '@/types/service.types'
 
 export default function AgentMessage(
     { agentMemory }: { agentMemory: AgentMemory }
 ) {
-    const {setCanvasContent, setCanvasOpen} = useAppContext();
-    const [isWriting, setIsWriting] = useState(true);
+    const {
+        isAgentWriting,
+        agentWritingPhase,
+        agentWritingThinking,
+        setCanvasContent,
+        setCanvasOpen
+    } = useAppContext();
     const [illusion] = useState<boolean>(agentMemory.illusion);
-    const [displayContent, setDisplayContent] = useState<string>('');
-    const [hasCanvas] = useState<boolean>(!!agentMemory.agent_canvas);
+    const [displayContent, setDisplayContent] = useState<string>("");
+    const streamingWindow = useRef<number>(0);
+    const [currentThinking, setCurrentThinking] = useState<string>("");
+
+    // --- Effects and State Update ---
 
     // Streaming illusion
     useEffect(() => {
@@ -30,29 +38,57 @@ export default function AgentMessage(
         let interval: number;
         
         if (illusion) {
-            setDisplayContent("");
             const chars = agentMemory.content.split("");
-            let index = 0;
+            const step = 3;
+
+            const start = Math.min(streamingWindow.current, chars.length);
+            const curr = chars.slice(0, start).join("");
+            let index = start;
 
             interval = window.setInterval(() => {
                 if (index < chars.length) {
-                    setDisplayContent(chars.slice(0, index + 1).join(""));
-                    index += 1;
+                    index = Math.min(index + step, chars.length);
+                    setDisplayContent(
+                        curr + chars.slice(start, index).join("")
+                    );
+                    streamingWindow.current = index;
                 } else {
                     if (interval) clearInterval(interval);
                 }
-            }, 40);
+            }, 60);
         } else {
             setDisplayContent(agentMemory.content);
         }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [agentMemory.content]);
+
+    // Thinking iteration
+    useEffect(() => {
+        const headers = Array.from(agentWritingThinking ?? []);
+
+        if (headers.length === 0) return;
+
+        if (!currentThinking) {
+            setCurrentThinking(headers[0]);
+        }
+
+        const interval = setInterval(() => {
+            setCurrentThinking(prev => {
+                const currentIndex = headers.indexOf(prev);
+                const nextIndex = (currentIndex + 1) % headers.length;
+                return headers[nextIndex];
+            });
+        }, 2000);
+
+        return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [agentWritingThinking])
 
     // --- Managing Canvas State ---
 
     const handleCanvasOpen = () => {
         if (!agentMemory.agent_canvas) return;
+        if (isAgentWriting) return;
         setCanvasContent(agentMemory.agent_canvas.content);
         setTimeout(() => {
             setCanvasOpen(true);
@@ -76,10 +112,10 @@ export default function AgentMessage(
                     Reading context from:
                 </p>
                 <p className={styles.shimmer_text}>
-                    Undergraduate Degree Information
+                    {currentThinking}
                 </p>
                 <p className={styles.canvas_writing_section}>
-                    Writing relevant experience
+                    {agentWritingPhase}
                 </p>
             </div>
         )
@@ -87,13 +123,22 @@ export default function AgentMessage(
 
     const renderCanvasIcon = () => {
         return (
-            <div 
+            <button 
                 className={styles.canvas_icon_container}
                 onClick={handleCanvasOpen}
+                disabled={isAgentWriting}
+                style={{
+                    cursor: isAgentWriting ? 'not-allowed' : 'pointer'
+                }}
             >
                 <DraftingCompass className={styles.icon} />
-                {isWriting ? renderCanvasWriting() : renderCanvasTitle()}
-            </div>
+                {
+                    isAgentWriting && illusion ? 
+                        renderCanvasWriting() 
+                    : 
+                        renderCanvasTitle()
+                    }
+            </button>
         )
     }
 
@@ -112,7 +157,7 @@ export default function AgentMessage(
                     Alvin AI
                 </p>
             </div>
-            {hasCanvas && renderCanvasIcon()}
+            {!!agentMemory.agent_canvas && renderCanvasIcon()}
         </div>
     )
 }

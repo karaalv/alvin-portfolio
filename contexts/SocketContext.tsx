@@ -10,12 +10,13 @@ import {
 
 // Context and Utils
 import { useAppContext } from '@contexts/AppContext';
-import { packageAgentResponse } from '@/utils/processing';
+import { packageAgentResponse, rateLimit } from '@/utils/processing';
 
 // Server side requests
 import { getSocketURL } from '@/services/interface';
 
 // Types
+import { AgentMemory } from '@/types/service.types';
 import { SocketMessage, SocketResponse } from '@/types/service.types';
 
 
@@ -29,7 +30,23 @@ const SocketContext = createContext<SocketContextProps | undefined>(undefined);
 export default function SocketProvider(
     { children }: { children: ReactNode }
 ) {
-    const { message, setMessage, setError, setMemory, setIsLoading } = useAppContext();
+    const { 
+        message, 
+        setMessage, 
+        setError, 
+        setMemory, 
+        // Streaming state
+        setIsLoading,
+        setThinkingSet,
+        // Writing state
+        isCanvasOpen,
+        setCanvasOpen,
+        setCanvasContent,
+        isAgentWriting,
+        setIsAgentWriting,
+        setAgentWritingPhase,
+        setAgentWritingThinking
+    } = useAppContext();
     const wsRef = useRef<WebSocket | null>(null);
     const [connected, setConnected] = useState<boolean>(false);
     const backoffRef = useRef(1000);
@@ -49,13 +66,115 @@ export default function SocketProvider(
     /**
      * Updates the agent response in 
      * chat history.
+     * @param agentMessage The message from the agent.
      */
     const updateAgentResponse = (agentMessage: string) => {
         if (!agentMessage) return;
         const packaged = packageAgentResponse(agentMessage);
-        setIsLoading(false);
+        // Clean up loading state
+        setThinkingSet(null);
+        // Send message to UI
         setMemory((prev) => [...prev, packaged]);
     }
+
+    /**
+     * Updates the thinking set with new headers.
+     * @param headers Array of header strings to 
+     * add to the thinking set.
+     */
+    const updateThinkingSet = (headers: string[]) => {
+        if (!headers || headers.length === 0) return;
+
+        setThinkingSet(prev => {
+            const currentSet = new Set(prev ?? []);
+            headers.forEach(header => currentSet.add(header));
+            return currentSet;
+        });
+    };
+
+    const limitedUpdateThinkingSet = rateLimit(updateThinkingSet);
+
+    /**
+     * Updates the agent writing illusion.
+     * @param agentMemory The memory of the agent
+     * to start writing.
+     */
+    const updateAgentWriting = (agentMemory: AgentMemory) => {
+        // State management
+        if (!isAgentWriting) setIsAgentWriting(true);
+        if (!isCanvasOpen) setCanvasOpen(true);
+
+        // Set streaming message with new
+        // data
+        setMemory((prev) => {
+            const set = new Set(prev.map(m => m.id));
+            if (set.has(agentMemory.id)) {
+                return prev.map(message => {
+                    if (message.id === agentMemory.id) {
+                        return {
+                            ...message,
+                            content: agentMemory.content,
+                            agent_canvas: agentMemory.agent_canvas
+                        };
+                    }
+                    return message;
+                })
+            } else {
+                return [...prev, agentMemory];
+            }
+        })
+        // Set canvas content
+        setCanvasContent(agentMemory.agent_canvas!.content);
+    };
+
+    const limitedAgentWriting = rateLimit(updateAgentWriting);
+
+    /**
+     * Updates the agent writing thinking set.
+     * @param headers Array of header strings to 
+     * add to the thinking set.
+     */
+    const updateAgentWritingThinking = (headers: string[]) => {
+        if (!headers || headers.length === 0) return;
+
+        setAgentWritingThinking(prev => {
+            const currentSet = new Set(prev ?? []);
+            headers.forEach(header => currentSet.add(header));
+            return currentSet;
+        });
+    };
+
+    const limitedAgentWritingThinking = rateLimit(updateAgentWritingThinking);
+
+    /**
+     * Updates the agent writing phase.
+     * @param phase The current phase of the agent 
+     * writing process.
+     */
+    const updateAgentWritingPhase = (phase: string) => {
+        // End writing state
+        if (phase === "<complete>") {
+            setIsAgentWriting(false);
+            setAgentWritingThinking(null);
+            setAgentWritingPhase(null);
+            return;
+        }
+
+        setAgentWritingPhase(phase);
+
+        setMemory(prev =>
+            prev.map(message => {
+                return {
+                    ...message,
+                    illusion: false
+                }
+            })
+        )
+    };
+
+    const limitedAgentWritingPhase = rateLimit(updateAgentWritingPhase);
+
+    // --- Connection ---
 
     useEffect(() => {
         aliveRef.current = true;
@@ -115,15 +234,28 @@ export default function SocketProvider(
                         const dataRaw = JSON.parse(event.data);                        
                         // Handle message types
                         const response: SocketResponse<unknown> = dataRaw;
+                        if (response.type !== "ping") {
+                            console.log("New message:", response);
+                            setIsLoading(false);
+                            setError(null);
+                        }
                         switch (response.type) {
                             case "ping":
                                 break;
                             case "agent_memory":
-                                console.log("New message:", response);
                                 updateAgentResponse(response.data as string);
                                 break;
                             case "agent_thinking":
-                                console.error("WebSocket error:", response);
+                                limitedUpdateThinkingSet(response.data as string[]);
+                                break;
+                            case "agent_writing":
+                                limitedAgentWriting(response.data as AgentMemory);
+                                break;
+                            case "agent_writing_thinking":
+                                limitedAgentWritingThinking(response.data as string[]);
+                                break;
+                            case "agent_writing_phase":
+                                limitedAgentWritingPhase(response.data as string);
                                 break;
                             default:
                                 console.warn("Unknown WebSocket message type:", response);

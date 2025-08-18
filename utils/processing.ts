@@ -45,3 +45,34 @@ export function packageAgentResponse(
         agent_canvas: null
     }
 }
+
+/**
+ * Rate limit a function to only be called once every interval.
+ * @param func The function to rate limit.
+ * @param interval The interval in milliseconds.
+ * @returns A rate limited version of the function.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function rateLimit<F extends (...args: any[]) => void>(
+    func: F,
+    interval: number = 300
+): F {
+    const queue: Parameters<F>[] = [];
+    let isRunning = false;
+
+    function runNext() {
+        if (queue.length === 0) {
+            isRunning = false;
+            return;
+        }
+        isRunning = true;
+        const args = queue.shift()!;
+        func(...args);
+        setTimeout(runNext, interval);
+    }
+
+    return function (...args: Parameters<F>) {
+        queue.push(args);
+        if (!isRunning) runNext();
+    } as F;
+}

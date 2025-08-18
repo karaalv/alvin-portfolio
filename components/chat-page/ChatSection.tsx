@@ -1,3 +1,4 @@
+'use client'
 /**
  * @description This component is the main chat
  * interface for the website.
@@ -26,13 +27,34 @@ export default function ChatSection() {
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     // Scroll to Bottom
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const scrollToBottom = (smooth: boolean) => {
+        messagesEndRef.current?.scrollIntoView(
+            { behavior: smooth ? 'smooth' : 'auto' }
+        );
     };
 
+    const isNearBottom = (el: HTMLElement) => {
+        return el.scrollHeight - el.scrollTop - el.clientHeight < 50;
+    };
+
+    // --- Component State ---
+
+    // Scroll on new messages
     useEffect(() => {
-        scrollToBottom();
-    }, [memory]);
+        const container = messagesEndRef.current?.parentElement;
+        if (!container) return;
+
+        if (isNearBottom(container)) {
+            scrollToBottom(true);
+        }
+    }, [memory, error]);
+
+    // Scroll on load
+    useEffect(() => {
+        scrollToBottom(false);
+    }, []);
+
+    // --- Message Rendering ---
 
     const renderMessages = () => {
         return (

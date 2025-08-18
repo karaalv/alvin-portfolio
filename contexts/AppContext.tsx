@@ -36,6 +36,18 @@ interface AppContextProps {
     // Memory state
     memory: AgentMemory[];
     setMemory: Dispatch<SetStateAction<AgentMemory[]>>;
+
+    // Thinking state
+    thinkingSet: Set<string> | null;
+    setThinkingSet: Dispatch<SetStateAction<Set<string> | null>>;
+
+    // Writing state
+    isAgentWriting: boolean;
+    setIsAgentWriting: Dispatch<SetStateAction<boolean>>;
+    agentWritingPhase: string | null;
+    setAgentWritingPhase: Dispatch<SetStateAction<string | null>>;
+    agentWritingThinking: Set<string> | null;
+    setAgentWritingThinking: Dispatch<SetStateAction<Set<string> | null>>;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -55,6 +67,12 @@ export default function AppProvider (
     const [isCanvasOpen, setCanvasOpen] = useState<boolean>(false);
     // Memory state
     const [memory, setMemory] = useState<AgentMemory[]>([]);
+    // Agent thinking
+    const [thinkingSet, setThinkingSet] = useState<Set<string> | null>(null);
+    // Agent writing
+    const [isAgentWriting, setIsAgentWriting] = useState<boolean>(false);
+    const [agentWritingPhase, setAgentWritingPhase] = useState<string | null>(null);
+    const [agentWritingThinking, setAgentWritingThinking] = useState<Set<string> | null>(null);
 
     // Memoisation
     const value = useMemo(
@@ -72,6 +90,14 @@ export default function AppProvider (
             isMobile,
             memory,
             setMemory,
+            thinkingSet,
+            setThinkingSet,
+            isAgentWriting,
+            setIsAgentWriting,
+            agentWritingPhase,
+            setAgentWritingPhase,
+            agentWritingThinking,
+            setAgentWritingThinking
         }),
         [
             message,
@@ -81,6 +107,10 @@ export default function AppProvider (
             isCanvasOpen,
             isMobile,
             memory,
+            thinkingSet,
+            isAgentWriting,
+            agentWritingPhase,
+            agentWritingThinking
         ]
     );
 
