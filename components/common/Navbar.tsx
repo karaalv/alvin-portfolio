@@ -1,8 +1,8 @@
+'use client'
 /**
  * @description Navigation bar for the main 
  * page.
  */
-
 import { PanelLeft, PanelLeftDashed } from 'lucide-react'
 import styles from '@styles/common/Navbar.module.css'
 import React from 'react';
@@ -23,7 +23,7 @@ export default function Navbar(
         'Projects',
         'Contact'
     ]
-    
+        
     const scrollToSection = (section: string) => {
 
         // Fetch element ID and scroll.

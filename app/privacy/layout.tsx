@@ -1,3 +1,4 @@
+'use client'
 /**
  * @description Layout for the privacy page.
  * This is used to wrap the privacy page

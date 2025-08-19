@@ -9,7 +9,6 @@
     /* Arrangement */
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .content_container {
@@ -23,6 +22,7 @@
     
     /* Scrolling */
     overflow-y: auto;
+    overflow-x: hidden;
     scroll-behavior: smooth;
 }
 

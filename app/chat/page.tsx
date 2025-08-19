@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useState } from 'react'
-import { PanelLeft } from 'lucide-react'
+import { PanelLeft, PanelLeftDashed } from 'lucide-react'
 import { useAppContext } from '@/contexts/AppContext'
 
 // Components
@@ -21,7 +21,7 @@ import styles from '@styles/pages/ChatPage.module.css'
 import { getAgentMemory } from '@/services/interface'
 
 export default function ChatPage() {
-    const { setError, isCanvasOpen, setMemory } = useAppContext()
+    const { setError, isCanvasOpen, setMemory, isMobile } = useAppContext()
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
 
@@ -42,19 +42,26 @@ export default function ChatPage() {
     return (
         <div className={styles.chat_page}>
             {/* Navigation */}
-            <div>
-                <div 
-                    className={`
-                        ${styles.icon_container}
-                        ${styles.nav_icon_container}
-                    `}
-                    onClick={() => setIsNavOpen(!isNavOpen)}
-                >
+            <div 
+                className={`
+                    ${styles.icon_container}
+                    ${styles.nav_icon_container}
+                `}
+                onClick={() => setIsNavOpen(!isNavOpen)}
+            >
+                {isNavOpen ? (
+                    <PanelLeftDashed className={styles.icon} />
+                ) : (
                     <PanelLeft className={styles.icon} />
-                </div>
-                
+                )}
+            </div>
+            <div
+                className={`
+                    ${styles.nav_page}
+                    ${isNavOpen ? styles.open : styles.closed}
+                `}
+            >                
                 <ChatNav 
-                    isOpen={isNavOpen} 
                     setDeleteConfirm={setDeleteConfirm} 
                 />
             </div>
@@ -70,7 +77,8 @@ export default function ChatPage() {
             <div 
                 className={`
                     ${styles.chat_container}
-                    ${isCanvasOpen ? styles.open : styles.closed}
+                    ${isMobile && isNavOpen ? styles.hide : ''}
+                    ${isCanvasOpen ? styles.hide : styles.show}
                 `}
             >
                 <ChatSection />

@@ -3,7 +3,7 @@
  * @description Privacy policy page
  * for the website. 
  */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // Components
 import Navbar from '@/components/common/Navbar'
@@ -16,7 +16,13 @@ import { useAppContext } from '@/contexts/AppContext'
 
 export default function PrivacyPage() {
     const { isMobile } = useAppContext()
-    const [isNavOpen, setIsNavOpen] = useState<boolean>(!isMobile)
+    const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (!isMobile) {
+            setIsNavOpen(true)
+        }
+    }, [isMobile])
 
     return (
         <div className={styles.container}>
