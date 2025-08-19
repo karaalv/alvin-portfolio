@@ -18,8 +18,6 @@ export default function Contact(){
             id='Contact'
             className={styles.section_container}
         >
-            {/* Divider */}
-            <div className={styles.divider}/>
             {/* Content */}
             <div className={styles.content_container}>
                 {/* Title */}

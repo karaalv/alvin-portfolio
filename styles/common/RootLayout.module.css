@@ -2,15 +2,6 @@
 
 .html {
     font-size: 10px;
-    width: 100%;
-    height: 100%;
     background-color: var(--secondary);
-}
-
-.body {
-    width: 100%;
-    height: 100%;
     font-family: var(--primary-font);
-    background-color: var(--secondary);
-    scroll-behavior: smooth;
 }

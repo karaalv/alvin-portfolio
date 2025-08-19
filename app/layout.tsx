@@ -32,7 +32,7 @@ export default function RootLayout(
                 <link rel="icon" type="image/x-icon" href="/assets/favicon-16x16.png" />
                 <GoogleTagManager gtmId="GTM-W8CMJRHW"/>
             </head>
-            <body className={styles.body}>
+            <body>
                 <AppProvider>
                     {children}
                 </AppProvider>

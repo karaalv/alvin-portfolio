@@ -15,7 +15,7 @@ export default function About(){
             style={{
                 display: 'flex',
                 flexDirection: 'column',
-                width: '100%'
+                width: '100%',
             }}
         >
             <AboutHero/>

@@ -21,73 +21,31 @@ import Projects from '@components/main-page/projects/Projects'
 import Contact from '@components/main-page/contact/Contact'
 
 // Utilities.
-import { useState, useEffect } from 'react'
-import { PanelLeft } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { useAppContext } from '@/contexts/AppContext'
 
 // Main hander for section components.
 export default function MainPage(){
-    
-    /**
-     * @todo Update currentSection state
-     */
-    // const [currentSection, setCurrentSection] = useState<NavbarStates>('About')
 
-    // // Navbar scroll event listener.
-    // useEffect(() => {
-
-    //     const handleScroll = () => {
-    //         // Ensure scroll state is set.
-    //         setScrolled(previous => {
-    //             if(!previous){
-    //                 return true
-    //             }
-    //             return previous
-    //         })
-
-    //         // Remove listener.
-    //         if(hasScrolled){
-    //             window.removeEventListener('scroll', handleScroll)
-    //         }
-    //     }
-
-    //     window.addEventListener('scroll', handleScroll)
-
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll)
-    //     }
-    // }, [hasScrolled])
-
-
-    // // Section scroll listener.
-    // const handleSectionScroll = () => {
-    //     const sections = document.querySelectorAll('section')
-    //     console.log(`Current sections: ${sections}`)
-    //     let current = ''
-
-    //     sections.forEach((section) => {
-    //         const rect = section.getBoundingClientRect()
-
-    //         if((rect.top >= 0 && rect.top < window.innerHeight)){
-    //             current = section.id
-    //             setCurrentSection(current as NavbarStates)
-    //         }
-    //     })
-    // }
-
+    const { isMobile } = useAppContext()
     const [isClient, setIsClient] = useState(false)
-    const [navbarActive, setNavbarActive] = useState<boolean>(false)
-    const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
-    
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setNavbarActive(true)
-        }, 3000)
+    const [isNavOpen, setIsNavOpen] = useState<boolean>(!isMobile)
 
-        return () => {
-            clearTimeout(timeout)
+    const [show, setShow] = useState(true)
+    const [lastScrollY, setLastScrollY] = useState(0)
+    const mainPageRef = useRef<HTMLDivElement>(null)
+
+    const handleScroll = () => {
+        const current = mainPageRef.current?.scrollTop || 0
+
+        if (current > lastScrollY && current > 50) {
+            setShow(false) // scrolling down
+        } else {
+            setShow(true) // scrolling up
         }
-    }, [])
-
+        setLastScrollY(current)
+    }
+    
     useEffect(() => {
         setIsClient(true)
     }, [])
@@ -98,28 +56,41 @@ export default function MainPage(){
     }
 
     return(
-        <div className={styles.mainPage}>
+        <div
+            className={styles.container}
+        >
             {/* Navigation */}
-            <div>
-                <div 
-                    className={styles.nav_icon_container}
-                    onClick={() => setIsNavOpen(!isNavOpen)}
-                >
-                    <PanelLeft className={styles.nav_icon} />
-                </div>
-
-                <PageNav isOpen={isNavOpen} />
+            <Navbar
+                show={show || isNavOpen}
+                isNavOpen={isNavOpen}
+                setIsNavOpen={setIsNavOpen}
+            />
+            <div
+                className={`
+                    ${styles.nav_page}
+                    ${isNavOpen ? styles.open : styles.closed}
+                `}
+            >
+                <PageNav />
             </div>
-            <Navbar isActive={navbarActive}/>
-            <About/>
-            <Spacing size='large'/>
-            <AIEngage/>
-            <Spacing size='medium'/>
-            <Experience/>
-            <Spacing size='small'/>
-            <Projects/>
-            <Spacing size='small'/>
-            <Contact/>
+            <div 
+                ref={mainPageRef}
+                className={`
+                    ${styles.mainPage}
+                    ${isNavOpen ? styles.hide : styles.show}
+                `}
+                onScroll={handleScroll}
+            >
+                <About/>
+                <Spacing size='large'/>
+                <AIEngage/>
+                <Spacing size='medium'/>
+                <Experience/>
+                <Spacing size='small'/>
+                <Projects/>
+                <Spacing size='small'/>
+                <Contact/>
+            </div>
         </div>
     )
 }

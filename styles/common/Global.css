@@ -61,6 +61,7 @@ h3 {
 
     /* Glass */
     --glass-blur: 20px;
+    --glass-blur-xl: 50px;
 
     /* Hover Opacity */
     --hover-opacity: 0.6;
@@ -69,7 +70,7 @@ h3 {
 /* Z Indices */
 :root {
     --z-index-overlay: 10000;
-    --z-index-navbar: 1000;
+    --z-index-navbar: 10000;
     --z-index-behind-navbar: 999;
     --z-index-input: 998;
     --z-index-content: 1;

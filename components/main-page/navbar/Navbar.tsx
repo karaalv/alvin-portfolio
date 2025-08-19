@@ -1,34 +1,65 @@
 /**
- * @description Wraps together:
- * - Mobile navbar
- * - Desktop navbar
- * Uses responsive context to switch.
+ * @description Navigation bar for the main 
+ * page.
  */
-import { useAppContext } from "@/contexts/AppContext"
-import { NavBarProps } from "@/types/components.types"
-import NavbarDesktop from "@components/main-page/navbar/NavbarDesktop"
-import NavbarMobile from "@components/main-page/navbar/NavbarMobile"
 
-/**
- * @returns Navbar
- */
-export default function Navbar(
-    {isActive}: NavBarProps
-){
-    const {isMobile} = useAppContext()
+import { PanelLeft, PanelLeftDashed } from 'lucide-react'
+import styles from '@styles/main-page/navbar/Navbar.module.css'
+import React from 'react';
 
-    return(
-        <>
-            {
-                isMobile?
-                    <NavbarMobile 
-                        isActive={!isActive} 
-                    />
-                :
-                    <NavbarDesktop 
-                        isActive={!isActive} 
-                    />
-            }
-        </>
+interface NavbarProps {
+    show: boolean;
+    isNavOpen: boolean;
+    setIsNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Navbar2(
+    { show, isNavOpen, setIsNavOpen }: NavbarProps
+) {
+    const sections = [
+        'About',
+        'Experience',
+        'Projects',
+        'Contact'
+    ]
+    
+    const scrollToSection = (section: string) => {
+
+        // Fetch element ID and scroll.
+        const element = document.getElementById(section)
+        if(element){
+            element.scrollIntoView()
+        }
+    }
+
+    return (
+        <div 
+            className={`
+                ${styles.container}
+                ${show ? styles.show : styles.hide}
+            `}
+        >
+            <div 
+                className={styles.icon_container}
+                onClick={() => setIsNavOpen(!isNavOpen)}
+            >
+                {isNavOpen ? (
+                    <PanelLeftDashed className={styles.nav_icon} />
+                ) : (
+                    <PanelLeft className={styles.nav_icon} />
+                )}
+            </div>
+            <div className={styles.section_container}>
+                {sections.map(section => (
+                    <p 
+                        key={section} 
+                        onClick={() => scrollToSection(section)}
+                        className={styles.section_title}
+                    >
+                        {section}
+                    </p>
+                ))}
+            </div>
+        </div>
     )
 }

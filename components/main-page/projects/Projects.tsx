@@ -15,7 +15,7 @@ export default function Projects(){
     const agentProject: ProjectItemProps = {
         imageSrc: '/assets/agent.png',
         header: 'RAG based portfolio agent',
-        techStack: 'Python, AWS',
+        techStack: 'Python, AWS, Terraform',
         description: (
             'RAG-based chat agent that uses personal data to ' +
             'answer questions and generate tailored CVs using a ' +
