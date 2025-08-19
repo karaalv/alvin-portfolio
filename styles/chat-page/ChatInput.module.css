@@ -56,7 +56,6 @@
     width: 100%;
     min-height: 1.5rem;
     height: auto;
-    max-height: 20rem;
 
     /* Properties */
     padding-left: 1rem;
@@ -80,6 +79,8 @@
 /* Icons */
 
 .icon_container {
+    /* Properties */
+    margin-left: 1rem;
     /* Dimensions */
     min-width: 3rem;
     min-height: 3rem;
@@ -129,6 +130,10 @@
         width: 95%;
     }
 
+    .chat_input {
+        max-height: 10rem;
+    }
+
     .copyright {
         min-width: 35rem;
     }
@@ -145,6 +150,10 @@
     .sub_container.big {
         /* Dimensions */
         width: 70%;
+    }
+
+    .chat_input {
+        max-height: 20rem;
     }
 
     .copyright {

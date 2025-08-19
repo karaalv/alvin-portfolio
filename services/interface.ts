@@ -128,7 +128,6 @@ export async function getAgentMemory(
         'GET',
         true
     );
-    console.log("Agent memory data:", response.data);
     return response.data;
 }
 

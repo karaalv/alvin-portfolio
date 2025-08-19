@@ -10,7 +10,7 @@ import {
 
 // Context and Utils
 import { useAppContext } from '@contexts/AppContext';
-import { packageAgentResponse, rateLimit } from '@/utils/processing';
+import { packageResponse, rateLimit } from '@/utils/processing';
 
 // Server side requests
 import { getSocketURL } from '@/services/interface';
@@ -18,7 +18,6 @@ import { getSocketURL } from '@/services/interface';
 // Types
 import { AgentMemory } from '@/types/service.types';
 import { SocketMessage, SocketResponse } from '@/types/service.types';
-
 
 interface SocketContextProps {
     connected: boolean;
@@ -31,8 +30,6 @@ export default function SocketProvider(
     { children }: { children: ReactNode }
 ) {
     const { 
-        message, 
-        setMessage, 
         setError, 
         setMemory, 
         // Streaming state
@@ -49,28 +46,62 @@ export default function SocketProvider(
     } = useAppContext();
     const wsRef = useRef<WebSocket | null>(null);
     const [connected, setConnected] = useState<boolean>(false);
+    const timeoutRef = useRef<number | null>(null);
     const backoffRef = useRef(1000);
     const pingRef = useRef<number | null>(null);
     const aliveRef = useRef<boolean>(true);
+    const connectedRef = useRef<boolean>(false);
 
-    // Sending data
+    // --- Utils ---
+    const endIllusions = () => {
+        setMemory(prev =>
+            prev.map(message => {
+                return {
+                    ...message,
+                    illusion: false
+                }
+            })
+        )
+    }
+
+    // --- Error Handling ---
+
+    const startTimeout = useCallback(() => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        timeoutRef.current = window.setTimeout(() => {
+            setIsLoading(false);
+            setError("Timeout, unable to reach server.");
+        }, 30_000);
+    }, [setError, setIsLoading]);
+
+    const stopTimeout = useCallback(() => {
+    if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+    }
+    }, []);
+
+    // --- Sending data ---
+    
     const sendMessage = useCallback((message: SocketMessage) => {
         const ws = wsRef.current;
         if (!ws || ws.readyState !== WebSocket.OPEN) return false;
         ws.send(JSON.stringify(message));
+        startTimeout();
         return true;
-    }, [])
+    }, [startTimeout])
 
     // --- Managing State Updates ---
 
     /**
      * Updates the agent response in 
      * chat history.
+     * Socket type: 'agent_memory'
      * @param agentMessage The message from the agent.
      */
     const updateAgentResponse = (agentMessage: string) => {
         if (!agentMessage) return;
-        const packaged = packageAgentResponse(agentMessage);
+        const packaged = packageResponse(agentMessage, 'agent');
         // Clean up loading state
         setThinkingSet(null);
         // Send message to UI
@@ -79,6 +110,7 @@ export default function SocketProvider(
 
     /**
      * Updates the thinking set with new headers.
+     * Socket type: 'agent_thinking'
      * @param headers Array of header strings to 
      * add to the thinking set.
      */
@@ -96,6 +128,7 @@ export default function SocketProvider(
 
     /**
      * Updates the agent writing illusion.
+     * Socket type: 'agent_writing'
      * @param agentMemory The memory of the agent
      * to start writing.
      */
@@ -131,7 +164,8 @@ export default function SocketProvider(
 
     /**
      * Updates the agent writing thinking set.
-     * @param headers Array of header strings to 
+     * Socket type: 'agent_writing_thinking'
+     * @param headers Array of header strings to
      * add to the thinking set.
      */
     const updateAgentWritingThinking = (headers: string[]) => {
@@ -148,6 +182,7 @@ export default function SocketProvider(
 
     /**
      * Updates the agent writing phase.
+     * Socket type: 'agent_writing_phase'
      * @param phase The current phase of the agent 
      * writing process.
      */
@@ -161,15 +196,7 @@ export default function SocketProvider(
         }
 
         setAgentWritingPhase(phase);
-
-        setMemory(prev =>
-            prev.map(message => {
-                return {
-                    ...message,
-                    illusion: false
-                }
-            })
-        )
+        endIllusions();
     };
 
     const limitedAgentWritingPhase = rateLimit(updateAgentWritingPhase);
@@ -178,7 +205,8 @@ export default function SocketProvider(
 
     useEffect(() => {
         aliveRef.current = true;
-
+        if (wsRef.current || connectedRef.current) return;
+        
         async function connect() {
             try {
                 const url = await getSocketURL();
@@ -191,7 +219,9 @@ export default function SocketProvider(
                 // --- Connection management ---
 
                 ws.onopen = () => {
+                    console.log("SocketProvider Opened");
                     setConnected(true);
+                    connectedRef.current = true;
 
                     backoffRef.current = 1000; // Reset backoff on successful connection
                     if (pingRef.current) clearInterval(pingRef.current); // Clear any existing ping intervals
@@ -201,12 +231,6 @@ export default function SocketProvider(
                             ws.send(JSON.stringify({ type: "ping", data: "ping" }));
                         }
                     }, 10000); // Send a ping every 10 seconds
-
-                    // If persistent message exists send
-                    if (message && message.trim()) {
-                        sendMessage({ type: "message", data: message });
-                        setMessage('');
-                    }
                 }
 
                 ws.onerror = (error) => {
@@ -236,19 +260,22 @@ export default function SocketProvider(
                         const response: SocketResponse<unknown> = dataRaw;
                         if (response.type !== "ping") {
                             console.log("New message:", response);
-                            setIsLoading(false);
-                            setError(null);
+                            stopTimeout();
                         }
                         switch (response.type) {
                             case "ping":
                                 break;
                             case "agent_memory":
+                                setIsLoading(false);
+                                setError(null);
                                 updateAgentResponse(response.data as string);
                                 break;
                             case "agent_thinking":
                                 limitedUpdateThinkingSet(response.data as string[]);
                                 break;
                             case "agent_writing":
+                                setIsLoading(false);
+                                setError(null);
                                 limitedAgentWriting(response.data as AgentMemory);
                                 break;
                             case "agent_writing_thinking":
@@ -285,6 +312,7 @@ export default function SocketProvider(
             }
             wsRef.current?.close();
             wsRef.current = null;
+            connectedRef.current = false;
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

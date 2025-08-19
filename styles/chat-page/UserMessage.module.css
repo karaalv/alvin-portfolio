@@ -4,7 +4,7 @@
     /* Properties */
     height: fit-content;
     box-sizing: border-box;
-
+    padding-right: 2rem;
     /* Arrangement */
     display: flex;
     justify-content: flex-end;

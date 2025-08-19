@@ -28,17 +28,18 @@ export function generateNonce(): string {
 }
 
 /**
- * Packages the agent response into the desired format.
+ * Packages response into AgentMemory format.
  * @param response - The response string from the agent.
- * @returns The packaged agent memory object.
+ * @param source - The source of the response.
  */
-export function packageAgentResponse(
-    response: string
+export function packageResponse(
+    response: string,
+    source: 'agent' | 'user'
 ): AgentMemory {
     return {
         id: generateNonce(),
         user_id: generateNonce(),
-        source: 'agent',
+        source: source,
         content: response,
         created_at: getTimestamp(),
         illusion: true,

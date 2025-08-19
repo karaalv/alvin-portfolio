@@ -4,7 +4,7 @@
  * chat input interface for the website.
  */
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowUp } from 'lucide-react'
 import { useAppContext } from '@/contexts/AppContext'
 
@@ -31,17 +31,19 @@ export default function ChatInput() {
     } = useAppContext()
     const { sendMessage } = useSocketContext()
     const inputRef = useRef<HTMLTextAreaElement>(null)
+    const [messageLocal, setMessageLocal] = useState<string>('')
 
     // --- Send message function ---
+
     const handleSendMessage = () => {
-        if (!message.trim() || isLoading) return;
+        if (!messageLocal.trim() || isLoading) return;
         setIsLoading(true);
         setError(null);
 
-        const newMessage: AgentMemory = {
+        const newMemory: AgentMemory = {
             user_id: generateNonce(),
             id: generateNonce(),
-            content: message,
+            content: messageLocal,
             source: 'user',
             illusion: false,
             created_at: getTimestamp(),
@@ -49,12 +51,12 @@ export default function ChatInput() {
         }
 
         // Send message through WebSocket
-        sendMessage({type: 'message', data: message})
+        sendMessage({type: 'message', data: messageLocal})
 
         // Adjust local state and reset input
         // height
-        setMemory(prev => [...prev, newMessage])
-        setMessage('')
+        setMemory(prev => [...prev, newMemory])
+        setMessageLocal('')
 
         if(inputRef.current) {
             inputRef.current.style.height = 'auto'
@@ -76,7 +78,7 @@ export default function ChatInput() {
         const newHeight = Math.min(textArea.scrollHeight, maxHeight)
         textArea.style.height = `${newHeight}px`
 
-        setMessage(event.target.value)
+        setMessageLocal(event.target.value)
     }
 
     const handleKeyPress = (
@@ -87,6 +89,16 @@ export default function ChatInput() {
             handleSendMessage()
         }
     }
+
+    // --- Component Rendering ---
+
+    useEffect(() => {
+        if (message && message.trim()) {
+            setMessageLocal(message);
+            setMessage('');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className={`
@@ -105,7 +117,7 @@ export default function ChatInput() {
                         ${fonts.ai_chat}
                     `}
                     placeholder='Type your message here...'
-                    value={message}
+                    value={messageLocal}
                     onChange={chatInput}
                     onKeyDown={handleKeyPress}
                     disabled={isLoading}
@@ -116,8 +128,8 @@ export default function ChatInput() {
                     className={styles.icon_container}
                     onClick={handleSendMessage}
                     style={{ 
-                        cursor: message.trim() && !isLoading ? 'pointer' : 'default',
-                        opacity: message.trim() && !isLoading ? 1 : 0.5 
+                        cursor: messageLocal.trim() && !isLoading ? 'pointer' : 'default',
+                        opacity: messageLocal.trim() && !isLoading ? 1 : 0.5 
                     }}
                 >
                     {isLoading ? (

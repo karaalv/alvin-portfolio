@@ -19,7 +19,7 @@ const placeholderOptions = [
     "Tell me about Alvin's projects...",
     "Generate an ML Resume...",
     "Summarise Skills...",
-    "Project Highlights...",
+    "Write a Cover Letter...",
     "Ask about my experience..."
 ]
 
@@ -30,7 +30,7 @@ const placeholderOptions = [
  */
 export default function ChatBox() {
     const router = useRouter()
-    const { message, setMessage, setIsLoading, setError } = useAppContext()
+    const { message, setMessage } = useAppContext()
     const [currentPlaceholder, setCurrentPlaceholder] = useState<string>("")
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [isTyping, setIsTyping] = useState<boolean>(true)
@@ -42,15 +42,13 @@ export default function ChatBox() {
     }
 
     // Handle send button click
+    
     /**
-     * Message is stored in app state, on 
-     * navigation to chat page socket connection
-     * is established and message is sent.
+     * Message is stored in app state, but 
+     * sent from chat input bar.
      */ 
     const sendMessage = () => {
         if (message.trim()) {
-            setIsLoading(true)
-            setError(null)
             router.push('/chat')
         }
     }

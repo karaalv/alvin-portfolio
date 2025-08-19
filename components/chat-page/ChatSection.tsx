@@ -3,7 +3,7 @@
  * @description This component is the main chat
  * interface for the website.
  */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useLayoutEffect, useState } from 'react';
 import { useAppContext } from '@/contexts/AppContext'
 
 // Components
@@ -25,16 +25,19 @@ export default function ChatSection() {
         isCanvasOpen
     } = useAppContext()
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const [visibleFromScroll, setVisibleFromScroll] = useState<boolean>(false);
+    const initialScrollRef = useRef<boolean>(false);
 
     // Scroll to Bottom
     const scrollToBottom = (smooth: boolean) => {
         messagesEndRef.current?.scrollIntoView(
-            { behavior: smooth ? 'smooth' : 'auto' }
+            { behavior: smooth ? 'smooth' : 'instant' }
         );
     };
 
-    const isNearBottom = (el: HTMLElement) => {
-        return el.scrollHeight - el.scrollTop - el.clientHeight < 50;
+    const isNearBottom = (el: HTMLElement | null) => {
+        if (!el) return false;
+        return (el.scrollHeight - el.scrollTop - el.clientHeight) < 150;
     };
 
     // --- Component State ---
@@ -47,12 +50,20 @@ export default function ChatSection() {
         if (isNearBottom(container)) {
             scrollToBottom(true);
         }
-    }, [memory, error]);
+    }, [memory, error, isLoading]);
 
     // Scroll on load
-    useEffect(() => {
-        scrollToBottom(false);
-    }, []);
+    useLayoutEffect(() => {
+        if (memory.length > 0 && !initialScrollRef.current) {
+            const id = setTimeout(() => {
+                scrollToBottom(false);
+                initialScrollRef.current = true;
+                setVisibleFromScroll(true);
+            }, 60);
+            return () => clearTimeout(id);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [memory]);
 
     // --- Message Rendering ---
 
@@ -63,6 +74,7 @@ export default function ChatSection() {
                     ${styles.chat_messages} 
                     ${isCanvasOpen ? styles.chat_messages_small : styles.chat_messages_big}
                 `}
+                style={{ opacity: visibleFromScroll ? 1 : 0 }}
             >
                 {
                     memory.map((message) => {
@@ -97,7 +109,6 @@ export default function ChatSection() {
                 {/* Error Message */}
                 {error && <ErrorMessage message={error} />}
             </div>
-
             {/* Chat Input */}
             <ChatInput />
         </div>

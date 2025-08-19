@@ -16,11 +16,24 @@ import styles from '@styles/main-page/ai-engage/AIEngage.module.css'
 import fonts from '@styles/common/Typography.module.css'
 
 export default function AIEngage() {
-    const { setMessage, isMobile } = useAppContext()
+    const { setMessage, isMobile } = useAppContext();
 
-    const handlePromptClick = (prompt: string) => {
-        setMessage(prompt)
-    }
+    // Prompts
+    const mlPrompt = (
+        "Generate a resume for a machine learning engineer" +
+        " with a focus on statistical analysis and natural" +
+        " language processing."
+    );
+
+    const skillsPrompt = (
+        "Summarise your key skills, including both technical" +
+        " and soft skills."
+    );
+
+    const projectPrompt = (
+        "Highlight key projects you've worked on," +
+        " including your role and the technologies used."
+    );
 
     return (
         <div className={styles.container}>
@@ -40,7 +53,7 @@ export default function AIEngage() {
             <div className={styles.prompt_box_container}>
                 <div 
                     className={styles.prompt_box}
-                    onClick={() => handlePromptClick("Generate an ML Resume")}
+                    onClick={() => setMessage(mlPrompt)}
                 >
                     <p className={styles.prompt_text}>
                         📄 Generate an ML Resume
@@ -48,7 +61,7 @@ export default function AIEngage() {
                 </div>
                 <div 
                     className={styles.prompt_box}
-                    onClick={() => handlePromptClick("Summarise Skills")}
+                    onClick={() => setMessage(skillsPrompt)}
                 >
                     <p className={styles.prompt_text}>
                         🧠 Summarise Skills
@@ -56,7 +69,7 @@ export default function AIEngage() {
                 </div>
                 <div 
                     className={styles.prompt_box}
-                    onClick={() => handlePromptClick("Project Highlights")}
+                    onClick={() => setMessage(projectPrompt)}
                 >
                     <p className={styles.prompt_text}>
                         🛠️ Project Highlights
