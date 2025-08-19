@@ -219,7 +219,6 @@ export default function SocketProvider(
                 // --- Connection management ---
 
                 ws.onopen = () => {
-                    console.log("SocketProvider Opened");
                     setConnected(true);
                     connectedRef.current = true;
 

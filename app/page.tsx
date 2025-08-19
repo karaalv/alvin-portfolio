@@ -9,7 +9,7 @@
 import styles from '@styles/pages/MainPage.module.css'
 
 // Util Components.
-import Navbar from '@components/main-page/navbar/Navbar'
+import Navbar from '@components/common/Navbar'
 import Spacing from '@components/common/Spacing'
 import PageNav from '@/components/main-page/navbar/PageNav'
 
@@ -61,6 +61,7 @@ export default function MainPage(){
         >
             {/* Navigation */}
             <Navbar
+                isMain={true}
                 show={show || isNavOpen}
                 isNavOpen={isNavOpen}
                 setIsNavOpen={setIsNavOpen}
@@ -76,7 +77,7 @@ export default function MainPage(){
             <div 
                 ref={mainPageRef}
                 className={`
-                    ${styles.mainPage}
+                    ${styles.main_page}
                     ${isNavOpen ? styles.hide : styles.show}
                 `}
                 onScroll={handleScroll}

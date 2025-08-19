@@ -4,17 +4,18 @@
  */
 
 import { PanelLeft, PanelLeftDashed } from 'lucide-react'
-import styles from '@styles/main-page/navbar/Navbar.module.css'
+import styles from '@styles/common/Navbar.module.css'
 import React from 'react';
 
 interface NavbarProps {
+    isMain: boolean;
     show: boolean;
     isNavOpen: boolean;
     setIsNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Navbar2(
-    { show, isNavOpen, setIsNavOpen }: NavbarProps
+export default function Navbar(
+    { isMain, show, isNavOpen, setIsNavOpen }: NavbarProps
 ) {
     const sections = [
         'About',
@@ -49,7 +50,7 @@ export default function Navbar2(
                     <PanelLeft className={styles.nav_icon} />
                 )}
             </div>
-            <div className={styles.section_container}>
+            {isMain && <div className={styles.section_container}>
                 {sections.map(section => (
                     <p 
                         key={section} 
@@ -59,7 +60,7 @@ export default function Navbar2(
                         {section}
                     </p>
                 ))}
-            </div>
+            </div>}
         </div>
     )
 }

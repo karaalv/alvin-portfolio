@@ -1,40 +1,29 @@
 /* Privacy Page Styles */
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Main Containers */
 
 .privacy_page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    padding-top: 3rem;
     padding-bottom: 7.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: transform 0.3s ease-in-out;
 }
 
-.nav_icon_container {
-    /* Position */
-    position: fixed;
-
-    /* Properties */
-    z-index: var(--z-index-navbar);
-    border-radius: var(--radius);
-    width: 4rem;
-    height: 4rem;
-    cursor: pointer;
-
-    /* Arrangement */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.nav_page {
+    transition: transform 0.3s ease-in-out;
 }
 
-.nav_icon {
-    /* Properties */
-    color: var(--primary);
-    height: 2.5rem;
-    width: 2.5rem;
-}
-
-.nav_icon_container:hover {
-    background-color: var(--accent);
-}
+/* Page Styles */
 
 .privacy_header {
     display: flex;
@@ -75,12 +64,6 @@
 /* Mobile Styles */
 @media (max-width: 786px) {
 
-    .nav_icon_container {
-        opacity: 0.25;
-        top: 1rem;
-        left: 1rem;
-    }
-
     .updated_text {
         font-size: 1.6rem;
     }
@@ -102,16 +85,30 @@
     .spacing {
         margin-bottom: 3rem;
     }
-}
 
+    .privacy_page.show {
+        width: 100vw;
+    }
+
+    .privacy_page.hide {
+        width: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .nav_page.open {
+        width: 100vw;
+        transform: translateX(0);
+    }
+
+    .nav_page.closed {
+        width: 0;
+        transform: translateX(-100%);
+    }
+}
 
 /* Desktop & Tablet Styles */
 @media (min-width: 786px) {
-
-    .nav_icon_container {
-        top: 3rem;
-        left: 3rem;
-    }
 
     .updated_text {
         font-size: 3.2rem;
@@ -134,5 +131,15 @@
 
     .spacing {
         margin-bottom: 5rem;
+    }
+
+    .nav_page.open {
+        width: 20vw;
+        transform: translateX(0);
+    }
+
+    .nav_page.closed {
+        width: 0;
+        transform: translateX(-100%);
     }
 }

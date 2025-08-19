@@ -6,7 +6,7 @@
     transition: transform 0.3s ease-in-out;
 }
 
-.mainPage {
+.main_page {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -17,19 +17,17 @@
 }
 
 .nav_page {
-    /* padding-left: 2rem; */
-    box-sizing: border-box;
     transition: transform 0.3s ease-in-out;
 }
 
 /* Mobile */
 @media (max-width: 786px) {
 
-    .mainPage.show {
+    .main_page.show {
         width: 100vw;
     }
 
-    .mainPage.hide {
+    .main_page.hide {
         width: 0;
         overflow: hidden;
         padding: 0;
