@@ -5,7 +5,7 @@
 import { useEffect, useState, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { DraftingCompass } from 'lucide-react'
-import { useAppContext } from '@/contexts/AppContext'
+import { useChatContext } from '@contexts/ChatContext';
 
 // Styles
 import styles from '@styles/chat-page/AgentMessage.module.css'
@@ -23,7 +23,7 @@ export default function AgentMessage(
         agentWritingThinking,
         setCanvasContent,
         setCanvasOpen
-    } = useAppContext();
+    } = useChatContext();
     const [illusion] = useState<boolean>(agentMemory.illusion);
     const [displayContent, setDisplayContent] = useState<string>("");
     const streamingWindow = useRef<number>(0);

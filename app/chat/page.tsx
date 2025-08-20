@@ -6,7 +6,7 @@
 
 import { useEffect, useState } from 'react'
 import { PanelLeft, PanelLeftDashed } from 'lucide-react'
-import { useAppContext } from '@/contexts/AppContext'
+import { useChatContext } from '@contexts/ChatContext';
 
 // Components
 import ChatNav from '@/components/chat-page/ChatNav'
@@ -21,7 +21,7 @@ import styles from '@styles/pages/ChatPage.module.css'
 import { getAgentMemory } from '@/services/interface'
 
 export default function ChatPage() {
-    const { setError, isCanvasOpen, setMemory } = useAppContext()
+    const { setError, isCanvasOpen, setMemory } = useChatContext()
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
 

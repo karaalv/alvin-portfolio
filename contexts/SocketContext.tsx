@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 // Context and Utils
-import { useAppContext } from '@contexts/AppContext';
+import { useChatContext } from '@contexts/ChatContext';
 import { packageResponse, rateLimit } from '@/utils/processing';
 
 // Server side requests
@@ -43,7 +43,7 @@ export default function SocketProvider(
         setIsAgentWriting,
         setAgentWritingPhase,
         setAgentWritingThinking
-    } = useAppContext();
+    } = useChatContext();
     const wsRef = useRef<WebSocket | null>(null);
     const [connected, setConnected] = useState<boolean>(false);
     const timeoutRef = useRef<number | null>(null);

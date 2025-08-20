@@ -4,7 +4,7 @@
  * interface for the website.
  */
 import { useEffect, useRef, useLayoutEffect, useState } from 'react';
-import { useAppContext } from '@/contexts/AppContext'
+import { useChatContext } from '@contexts/ChatContext';
 
 // Components
 import ChatInput from '@/components/chat-page/ChatInput'
@@ -23,7 +23,7 @@ export default function ChatSection() {
         isLoading,
         memory,
         isCanvasOpen
-    } = useAppContext()
+    } = useChatContext()
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const [visibleFromScroll, setVisibleFromScroll] = useState<boolean>(false);
     const initialScrollRef = useRef<boolean>(false);

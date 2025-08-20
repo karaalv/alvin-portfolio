@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
-import { useAppContext } from '@/contexts/AppContext'
+import { useChatContext } from '@contexts/ChatContext';
 
 import { X } from 'lucide-react'
 import styles from '@styles/chat-page/Canvas.module.css'
@@ -18,7 +18,7 @@ export default function Canvas() {
         isAgentWriting,
         canvasContent, 
         setCanvasOpen 
-    } = useAppContext();
+    } = useChatContext();
     const [displayContent, setDisplayContent] = useState<string>('');
     const streamingWindow = useRef<number>(0);
     const endRef = useRef<HTMLDivElement | null>(null);

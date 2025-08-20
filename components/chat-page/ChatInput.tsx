@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUp } from 'lucide-react'
 import { useAppContext } from '@/contexts/AppContext'
+import { useChatContext } from '@contexts/ChatContext';
 
 // Styles
 import styles from '@styles/chat-page/ChatInput.module.css'
@@ -21,14 +22,13 @@ import { useSocketContext } from '@/contexts/SocketContext'
 
 export default function ChatInput() {
     const {
-        message,
-        setMessage,
         isLoading, 
         setIsLoading, 
         setError,
         setMemory,
         isCanvasOpen
-    } = useAppContext()
+    } = useChatContext()
+    const { message, setMessage } = useAppContext()
     const { sendMessage } = useSocketContext()
     const inputRef = useRef<HTMLTextAreaElement>(null)
     const [messageLocal, setMessageLocal] = useState<string>('')
