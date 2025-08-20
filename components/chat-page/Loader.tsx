@@ -3,11 +3,11 @@
  * loading icon for the chat page.
  */
 import { useState, useEffect } from 'react';
-import { useAppContext } from '@/contexts/AppContext';
+import { useChatContext } from '@/contexts/ChatContext';
 import styles from '@styles/chat-page/Loader.module.css'
 
 export default function Loader() {
-    const { thinkingSet } = useAppContext();
+    const { thinkingSet } = useChatContext();
     const [currentHeader, setCurrentHeader] = useState<string>("");
 
     useEffect(() => {
