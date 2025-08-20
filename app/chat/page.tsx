@@ -21,7 +21,7 @@ import styles from '@styles/pages/ChatPage.module.css'
 import { getAgentMemory } from '@/services/interface'
 
 export default function ChatPage() {
-    const { setError, isCanvasOpen, setMemory, isMobile } = useAppContext()
+    const { setError, isCanvasOpen, setMemory } = useAppContext()
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
 
@@ -77,7 +77,7 @@ export default function ChatPage() {
             <div 
                 className={`
                     ${styles.chat_container}
-                    ${isMobile && isNavOpen ? styles.hide : ''}
+                    ${isNavOpen ? styles.disappear : ''}
                     ${isCanvasOpen ? styles.hide : styles.show}
                 `}
             >
@@ -88,6 +88,7 @@ export default function ChatPage() {
             <div 
                 className={`
                     ${styles.canvas_container}
+                    ${isNavOpen ? styles.disappear : ''}
                     ${isCanvasOpen ? styles.open : styles.closed}
                 `}
             >

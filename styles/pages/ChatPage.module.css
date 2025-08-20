@@ -9,8 +9,16 @@
     transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
 }
 
+.chat_container.disappear {
+    display: none;
+}
+
 .canvas_container {
     transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.canvas_container.disappear {
+    display: none;
 }
 
 .nav_page {
