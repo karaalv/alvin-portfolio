@@ -26,3 +26,8 @@ Try it out ... 👀
 
 The backend and RAG agent service are maintained separately.  
 You can find the backend repository [here](https://github.com/karaalv/portfolio-agent).
+
+## 👨🏾‍⚖️ License
+
+This project is licensed under the [Apache License 2.0](./LICENSE).  
+See the [NOTICE](./NOTICE) file for attribution and additional details.
