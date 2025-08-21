@@ -53,6 +53,9 @@ export default function Projects(){
         <section
             id='Projects'
             className={styles.section}
+            style={{
+                paddingTop: '6rem'
+            }}
         >   
             <p className={fonts.heading}>Projects</p>
             <Spacing size='medium'/>

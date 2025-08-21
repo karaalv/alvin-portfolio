@@ -85,9 +85,8 @@ export default function MainPage(){
                 <About/>
                 <Spacing size='large'/>
                 <AIEngage/>
-                <Spacing size='medium'/>
-                <Experience/>
                 <Spacing size='small'/>
+                <Experience/>
                 <Projects/>
                 <Spacing size='small'/>
                 <Contact/>

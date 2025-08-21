@@ -42,19 +42,19 @@ export default function Experience(){
         role: 'Back-end Development Intern',
         description: [
             (
-            "Designed and implemented PostgreSQL query " +
-            "pipelines to extract insights from multi-" +
-            "regional banking systems, while architecting " +
-            "backend services and evaluating REST vs SOAP " +
-            "APIs; used Postman for testing and validation " +
-            "of API endpoints"
+                "Designed and implemented PostgreSQL query " +
+                "pipelines to extract insights from multi-" +
+                "regional banking systems while maintaining " +
+                "backend services and evaluating REST vs SOAP " +
+                "APIs; used Postman for testing and validation " +
+                "of API endpoints"
             ),
             
             (
-            "Built a custom Complex Number class in Java " +
-            "using Euler forms to support advanced " +
-            "mathematical tooling and analytical " +
-            "extensions"
+                "Built a custom Complex Number class in Java " +
+                "using Euler forms to support advanced " +
+                "mathematical tooling and analytical " +
+                "extensions"
             )
         ]
     }
@@ -65,10 +65,13 @@ export default function Experience(){
             style={{
                 display: 'flex',
                 flexDirection: 'column',
-                width: '100%'
+                width: '100%',
+                paddingTop: '6rem',
             }}
         >
-            <p className={fonts.heading}>
+            <p 
+                className={fonts.heading}
+            >
                 Experience
             </p>
             <Spacing size='medium'/>

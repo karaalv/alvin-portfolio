@@ -32,7 +32,7 @@ export default function ChatPage() {
             setError(null)
             try {
                 const data = await getAgentMemory()
-                setMemory(data)
+                setMemory(data || [])
             } catch (error) {
                 setError("There was an error loading messages")
             }
