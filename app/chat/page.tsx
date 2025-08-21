@@ -13,6 +13,7 @@ import ChatNav from '@/components/chat-page/ChatNav'
 import ChatSection from '@/components/chat-page/ChatSection'
 import DeleteConfirm from '@/components/chat-page/DeleteConfirm'
 import Canvas from '@/components/chat-page/Canvas'
+import InfoModal from '@/components/chat-page/InfoModal'
 
 // Styles
 import styles from '@styles/pages/ChatPage.module.css'
@@ -24,6 +25,7 @@ export default function ChatPage() {
     const { setError, isCanvasOpen, setMemory } = useChatContext()
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
+    const [infoModal, setInfoModal] = useState<boolean>(false)
 
     useEffect(() => {
         const loadMessages = async () => {
@@ -62,7 +64,8 @@ export default function ChatPage() {
                 `}
             >                
                 <ChatNav 
-                    setDeleteConfirm={setDeleteConfirm} 
+                    setDeleteConfirm={setDeleteConfirm}
+                    setInfoModal={setInfoModal}
                 />
             </div>
 
@@ -71,6 +74,11 @@ export default function ChatPage() {
                 <DeleteConfirm 
                     setDeleteConfirm={setDeleteConfirm} 
                 />
+            )}
+
+            {/* Info Modal */}
+            {infoModal && (
+                <InfoModal setInfoModal={setInfoModal} />
             )}
 
             {/* Chat Section */}

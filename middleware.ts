@@ -18,10 +18,15 @@ export default async function middleware(request: NextRequest) {
     // If no current session create session
     // and set cookies 
 
-    const session = await getUserSession()
-    const setCookie = session.headers.get('set-cookie')
-    res.headers.set('set-cookie', setCookie || "")
-    return res
+    try {
+        const session = await getUserSession()
+        const setCookie = session.headers.get('set-cookie')
+        res.headers.set('set-cookie', setCookie || "")
+    } catch (error) {
+        // Pass through errors
+    } finally {
+        return res
+    }
 }
 
 export const config = {

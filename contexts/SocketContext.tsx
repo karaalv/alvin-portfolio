@@ -30,9 +30,11 @@ export default function SocketProvider(
     { children }: { children: ReactNode }
 ) {
     const { 
+        // Info
+        setUserUsage,
+        // General agent state
         setError, 
         setMemory, 
-        // Streaming state
         setIsLoading,
         setThinkingSet,
         // Writing state
@@ -53,6 +55,7 @@ export default function SocketProvider(
     const connectedRef = useRef<boolean>(false);
 
     // --- Utils ---
+    
     const endIllusions = () => {
         setMemory(prev =>
             prev.map(message => {
@@ -282,6 +285,9 @@ export default function SocketProvider(
                                 break;
                             case "agent_writing_phase":
                                 limitedAgentWritingPhase(response.data as string);
+                                break;
+                            case "usage_info":
+                                setUserUsage(response.data as number);
                                 break;
                             default:
                                 console.warn("Unknown WebSocket message type:", response);

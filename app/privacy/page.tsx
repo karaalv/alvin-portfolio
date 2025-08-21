@@ -52,7 +52,7 @@ export default function PrivacyPage() {
                         Privacy Policy.
                     </p>
                     <p className={styles.updated_text}>
-                        Updated August 10, 2025
+                        Updated August 20, 2025
                     </p>
                 </div>
 
@@ -119,7 +119,7 @@ export default function PrivacyPage() {
                     <br/>
                     <p className={styles.body}>
                         I may manually review anonymised message data to 
-                        debug or improve the chatbots functionality. However, 
+                        debug or improve the chatbots functionality. As such, 
                         <span style={{ fontWeight: 'bold' }}> 
                         {' '} do not share any sensitive or confidential information
                         </span>
@@ -171,8 +171,8 @@ export default function PrivacyPage() {
                     </p>
                     <p className={styles.body}>
                         Temporary session data may be used to manage your 
-                        ongoing interaction with the chat agent. This data 
-                        is automatically deleted after <span style={{ fontWeight: 'bold' }}>5 days</span> and is not 
+                        ongoing interaction with the chat agent. Session data 
+                        is automatically deleted after <strong>7 days</strong> and is not 
                         retained beyond that period.
                     </p>
 
