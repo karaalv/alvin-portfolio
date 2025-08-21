@@ -95,6 +95,7 @@ export default function ChatSection() {
                         }
                     })
                 }
+                {isLoading && <Loader />}
                 <div ref={messagesEndRef} />
             </div>
         )
@@ -105,7 +106,7 @@ export default function ChatSection() {
             {/* Chat Messages */}
             <div className={styles.content_container}>
                 {memory?.length > 0 ? renderMessages() : <PlaceHolder />}
-                {isLoading && <Loader />}
+                
                 {/* Error Message */}
                 {error && <ErrorMessage message={error} />}
             </div>

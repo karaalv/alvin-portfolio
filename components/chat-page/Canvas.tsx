@@ -44,7 +44,7 @@ export default function Canvas() {
         
         if (isAgentWriting) {
             const chars = canvasContent.split("");
-            const step = 5;
+            const step = 8;
 
             const start = Math.min(streamingWindow.current, chars.length);
             const curr = chars.slice(0, start).join("");
