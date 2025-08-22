@@ -5,7 +5,7 @@ This repository contains the **frontend code** for my personal portfolio website
 One highlight is a custom-built **RAG (Retrieval-Augmented Generation) AI agent** that can:
 - Answer questions about my work and experience
 - Generate tailored CVs and cover letters
-- Email generated content directly to you
+- Provide insights into my projects and skills
 
 Try it out ... 👀
 
