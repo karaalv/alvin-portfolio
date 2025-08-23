@@ -261,7 +261,6 @@ export default function SocketProvider(
                         // Handle message types
                         const response: SocketResponse<unknown> = dataRaw;
                         if (response.type !== "ping") {
-                            console.log("New message:", response);
                             stopTimeout();
                         }
                         switch (response.type) {
@@ -290,7 +289,8 @@ export default function SocketProvider(
                                 setUserUsage(response.data as number);
                                 break;
                             default:
-                                console.warn("Unknown WebSocket message type:", response);
+                                // Pass through unknown message types
+                                // console.warn("Unknown WebSocket message type:", response);
                         }
 
                     } catch (error) {

@@ -12,8 +12,8 @@ import { AgentMemory } from '@/types/service.types';
 
 interface ChatContextProps {
     // Info
-    userUsage: number | null;
-    setUserUsage: Dispatch<SetStateAction<number | null>>;
+    userUsage: number;
+    setUserUsage: Dispatch<SetStateAction<number>>;
     // Loading and error state
     isLoading: boolean;
     setIsLoading: Dispatch<SetStateAction<boolean>>;
@@ -51,7 +51,7 @@ export default function ChatProvider (
     { children }: { children: ReactNode }
 ) {
     // Info
-    const [userUsage, setUserUsage] = useState<number | null>(null);
+    const [userUsage, setUserUsage] = useState<number>(5);
     // Loading and error state
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
