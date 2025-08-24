@@ -41,6 +41,6 @@
 /* Desktop & Tablet */
 @media (min-width: 769px) {
     .user_message {
-        max-width: 80%;
+        max-width: 60%;
     }
 }
