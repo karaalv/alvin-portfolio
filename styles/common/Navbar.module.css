@@ -61,7 +61,7 @@
 }
 
 /* Mobile */
-@media (max-width: 786px) {
+@media (max-width: 768px) {
     .section_container {
         width: 0;
         overflow: hidden;
@@ -74,7 +74,7 @@
 }
 
 /* Desktop & Tablet */
-@media (min-width: 786px) {
+@media (min-width: 769px) {
     .section_container {
         flex-grow: 1;
     }

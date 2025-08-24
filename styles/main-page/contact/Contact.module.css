@@ -57,7 +57,7 @@
 
 /* MOBILE */
 
-@media (max-width: 786px) {
+@media (max-width: 768px) {
 
     .content_container {
         display: flex;
@@ -80,7 +80,7 @@
 
 /* DESKTOP & TABLET */
 
-@media (min-width: 786px) {
+@media (min-width: 769px) {
 
     .content_container {
         display: flex;

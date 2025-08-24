@@ -40,6 +40,7 @@
     /* Properties */
     width: 90%;
     padding: 5rem 1rem 20rem 1rem;
+    box-sizing: border-box;
 
     /* Arrangement */
     align-self: center;
@@ -55,6 +56,7 @@
     .chat_messages_big {
         width: 90%;
         padding: 1rem 1rem 5rem 1rem;
+        box-sizing: border-box;
     }
 }
 
@@ -67,5 +69,6 @@
     .chat_messages_big {
         width: 70%;
         padding: 5rem 2rem 15rem 2rem;
+        box-sizing: border-box;
     }
 }

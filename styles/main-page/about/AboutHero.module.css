@@ -60,7 +60,7 @@
 
 /* MOBILE */
 
-@media (max-width: 786px) {
+@media (max-width: 768px) {
     .bio_text {
         font-size: 2rem;
         line-height: 5rem;
@@ -92,7 +92,7 @@
 
 /* DESKTOP & TABLET */
 
-@media (min-width: 786px) {
+@media (min-width: 769px) {
     .bio_text {
         font-size: 3rem;
         line-height: 7.5rem;

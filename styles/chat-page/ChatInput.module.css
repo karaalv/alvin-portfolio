@@ -115,7 +115,7 @@
 }
 
 /* Mobile */
-@media (max-width: 786px) {
+@media (max-width: 768px) {
 
     .sub_container {
         padding: 1rem 1.5rem;
@@ -142,7 +142,7 @@
 }
 
 /* Desktop & Tablet */
-@media (min-width: 786px) {
+@media (min-width: 769px) {
 
     .sub_container {
         padding: 1.5rem 2rem;

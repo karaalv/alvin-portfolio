@@ -62,7 +62,7 @@
 }
 
 /* Mobile Styles */
-@media (max-width: 786px) {
+@media (max-width: 768px) {
 
     .updated_text {
         font-size: 1.6rem;
@@ -108,7 +108,7 @@
 }
 
 /* Desktop & Tablet Styles */
-@media (min-width: 786px) {
+@media (min-width: 769px) {
 
     .updated_text {
         font-size: 3.2rem;

@@ -30,7 +30,7 @@
 
 /* MOBILE */
 
-@media (max-width: 786px) {
+@media (max-width: 768px) {
     .heading {
         font-size: 6rem;
     }
@@ -52,7 +52,7 @@
 
 /* DESKTOP & TABLET */
 
-@media (min-width: 786px) {
+@media (min-width: 769px) {
     .heading {
         font-size: 8rem;
     }

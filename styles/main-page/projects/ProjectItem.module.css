@@ -49,7 +49,7 @@
 }
 
 /* Mobile */
-@media (max-width: 786px) {
+@media (max-width: 768px) {
     .container {
         flex-direction: column;
         align-items: center;
@@ -63,7 +63,7 @@
 }
 
 /* Desktop & Tablet */
-@media (min-width: 786px) {
+@media (min-width: 769px) {
     .container {
         flex-direction: row;
         justify-content: space-around;

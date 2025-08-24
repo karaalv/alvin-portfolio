@@ -17,7 +17,7 @@
 
 /* Mobile */
 
-@media (max-width: 786px) {
+@media (max-width: 768px) {
     .container {
         gap: 5rem;
     }
@@ -25,7 +25,7 @@
 
 /* Desktop & Tablet */
 
-@media (min-width: 786px) {
+@media (min-width: 769px) {
     .container {
         gap: 10rem;
     }

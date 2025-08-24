@@ -6,6 +6,8 @@
 }
 
 .chat_container {
+    position: relative;
+    box-sizing: border-box;
     transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
 }
 
@@ -14,6 +16,8 @@
 }
 
 .canvas_container {
+    position: relative;
+    box-sizing: border-box;
     transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
 }
 
@@ -54,7 +58,7 @@
 }
 
 /* Mobile */
-@media (max-width: 786px) {
+@media (max-width: 768px) {
     .nav_icon_container {
         opacity: 0.25;
         top: 1rem;
@@ -97,7 +101,7 @@
 }
 
 /* Desktop & Tablet */
-@media (min-width: 786px) {
+@media (min-width: 769px) {
     .nav_icon_container {
         top: 2rem;
         left: 2rem;
@@ -116,14 +120,17 @@
 
     .chat_container.hide {
         width: 50vw;
+        flex-shrink: 0;
     }
 
     .chat_container.show {
         width: 100vw;
+        flex-shrink: 0;
     }
 
     .canvas_container.open {
         width: 50vw;
+        flex-shrink: 0;
         transform: translateX(0);
         opacity: 1;
     }
