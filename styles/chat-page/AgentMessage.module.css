@@ -131,7 +131,7 @@
 /* Desktop & Tablet */
 @media (min-width: 769px) {
     .agent_message {
-        max-width: 75%;
+        max-width: 90%;
     }
 
     .canvas_icon_container {
