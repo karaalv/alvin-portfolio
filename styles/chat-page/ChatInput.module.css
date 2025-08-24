@@ -32,15 +32,12 @@
     /* Dimensions */
     min-height: 3rem;
     height: auto;
-    border-radius: var(--radius);
-    padding: 1.5rem 2rem;
     box-sizing: border-box;
 
     /* Decoration */
     border: 1.5px solid var(--accent);
 
     /* Decoration */
-    border-radius: var(--radius);
     background-color: var(--secondary);
 
     /* Arrangement */
@@ -120,6 +117,11 @@
 /* Mobile */
 @media (max-width: 786px) {
 
+    .sub_container {
+        padding: 1rem 1.5rem;
+        border-radius: 3rem;
+    }
+
     .sub_container.small {
         /* Dimensions */
         width: 95%;
@@ -141,6 +143,11 @@
 
 /* Desktop & Tablet */
 @media (min-width: 786px) {
+
+    .sub_container {
+        padding: 1.5rem 2rem;
+        border-radius: var(--radius);
+    }
 
     .sub_container.small {
         /* Dimensions */

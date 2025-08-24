@@ -93,13 +93,7 @@ export default function Canvas() {
             <div className={styles.header}>
                 <X 
                     className={styles.icon}
-                    onClick={() => {
-                        if (isAgentWriting) return;
-                        setCanvasOpen(false);
-                    }} 
-                    style={{
-                        cursor: isAgentWriting ? 'not-allowed' : 'pointer'
-                    }}
+                    onClick={() => setCanvasOpen(false)} 
                 />
             </div>
             {canvasContent ? renderContent() : <></>}

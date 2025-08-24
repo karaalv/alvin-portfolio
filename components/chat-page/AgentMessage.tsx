@@ -88,7 +88,6 @@ export default function AgentMessage(
 
     const handleCanvasOpen = () => {
         if (!agentMemory.agent_canvas) return;
-        if (isAgentWriting) return;
         setCanvasContent(agentMemory.agent_canvas.content);
         setTimeout(() => {
             setCanvasOpen(true);
@@ -126,9 +125,9 @@ export default function AgentMessage(
             <button 
                 className={styles.canvas_icon_container}
                 onClick={handleCanvasOpen}
-                disabled={isAgentWriting}
+                disabled={isAgentWriting && !illusion}
                 style={{
-                    cursor: isAgentWriting ? 'not-allowed' : 'pointer'
+                    cursor: isAgentWriting && !illusion ? 'not-allowed' : 'pointer'
                 }}
             >
                 <DraftingCompass className={styles.icon} />

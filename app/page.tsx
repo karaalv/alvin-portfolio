@@ -23,6 +23,8 @@ import Contact from '@components/main-page/contact/Contact'
 // Utilities.
 import { useState, useEffect, useRef } from 'react'
 import { useAppContext } from '@/contexts/AppContext'
+import { Toaster, toast } from 'react-hot-toast'
+import CookieNotice from '@/components/main-page/utils/CookieNotice'
 
 // Main hander for section components.
 export default function MainPage(){
@@ -48,6 +50,13 @@ export default function MainPage(){
     
     useEffect(() => {
         setIsClient(true)
+        // Set toast message
+        toast.custom(
+            () => <CookieNotice />,
+            {
+                duration: 7_000,
+            }
+        )
     }, [])
 
     // DO NOT RENDER IF NOT CLIENT!!!
@@ -59,6 +68,7 @@ export default function MainPage(){
         <div
             className={styles.container}
         >
+            <Toaster position='bottom-center'/>
             {/* Navigation */}
             <Navbar
                 isMain={true}
