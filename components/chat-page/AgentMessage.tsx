@@ -142,21 +142,23 @@ export default function AgentMessage(
     }
 
     return (
-        <div 
-            className={`
-                ${styles.agent_message}
-                ${fonts.ai_chat}
-            `}
-        >
-            <div className={styles.message_content}>
-                <ReactMarkdown>
-                    {displayContent}
-                </ReactMarkdown>
-                <p style={{ color: 'var(--highlight)' }}>
-                    Alvin AI
-                </p>
+        <div className={styles.container}>
+            <div 
+                className={`
+                    ${styles.agent_message}
+                    ${fonts.ai_chat}
+                `}
+            >
+                <div className={styles.message_content}>
+                    <ReactMarkdown>
+                        {displayContent}
+                    </ReactMarkdown>
+                    <p style={{ color: 'var(--highlight)' }}>
+                        Alvin AI
+                    </p>
+                </div>
+                {!!agentMemory.agent_canvas && renderCanvasIcon()}
             </div>
-            {!!agentMemory.agent_canvas && renderCanvasIcon()}
         </div>
     )
 }

@@ -13,8 +13,10 @@
 
 .content_container {
     /* Properties */
-    flex: 1;
-    
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+
     /* Arrangement */
     display: flex;
     flex-direction: column;
@@ -49,7 +51,6 @@
 /* Mobile */
 @media (max-width: 768px) {
     .main_container {
-        /* padding-bottom: 10rem; */
         padding-bottom: 10vh;
     }
 
@@ -68,7 +69,7 @@
 
     .chat_messages_big {
         width: 70%;
-        padding: 5rem 2rem 15rem 2rem;
+        padding: 5rem 2rem 10rem 2rem;
         box-sizing: border-box;
     }
 }

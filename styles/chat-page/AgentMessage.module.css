@@ -1,5 +1,11 @@
 /* Agent Module Styles */
 
+.container {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 5%;
+}
+
 .agent_message {
     /* Properties */
     padding: 1rem;
@@ -108,7 +114,6 @@
 @media (max-width: 768px) {
     .agent_message {
         max-width: 100%;
-        min-width: 35rem;
     }
 
     .canvas_icon_container {
@@ -127,7 +132,6 @@
 @media (min-width: 769px) {
     .agent_message {
         max-width: 75%;
-        min-width: 70rem;
     }
 
     .canvas_icon_container {
