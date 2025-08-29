@@ -3,9 +3,8 @@
  * for styling components across the UI.
  */
 
-export type NavbarStates = (
-    'About' |
-    'Experience' |
-    'Projects' |
-    'Contact'
-)
+export type NavbarStates =
+    | 'About'
+    | 'Experience'
+    | 'Projects'
+    | 'Contact';

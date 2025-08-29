@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     /* background-color: red; */
     transition: width 0.5s ease-in-out;
 }
@@ -116,7 +116,6 @@
 
 /* Mobile */
 @media (max-width: 768px) {
-
     .sub_container {
         padding: 1rem 1.5rem;
         border-radius: 3rem;
@@ -143,7 +142,6 @@
 
 /* Desktop & Tablet */
 @media (min-width: 769px) {
-
     .sub_container {
         padding: 1.5rem 2rem;
         border-radius: var(--radius);

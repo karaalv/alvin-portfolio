@@ -77,7 +77,6 @@
     .content {
         width: 100%;
     }
-
 }
 
 /* Desktop & Tablet */
@@ -98,7 +97,7 @@
         width: 100%;
     }
 
-    .description{
+    .description {
         text-align: left;
     }
 }

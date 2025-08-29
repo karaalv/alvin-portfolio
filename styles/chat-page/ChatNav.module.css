@@ -59,7 +59,7 @@
 }
 
 .danger_text:hover {
-    opacity: var(--hover-opacity)
+    opacity: var(--hover-opacity);
 }
 
 .info_container {
@@ -83,10 +83,8 @@
 
 /* Mobile */
 @media (max-width: 768px) {
-
 }
 
 /* Desktop & Tablet */
 @media (min-width: 769px) {
-
 }

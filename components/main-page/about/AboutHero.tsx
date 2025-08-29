@@ -4,69 +4,75 @@
  * section that users will see when they visit
  * the site.
  */
-import { useEffect } from 'react'
-import { useAppContext } from '@/contexts/AppContext'
+import { useEffect } from 'react';
+import { useAppContext } from '@/contexts/AppContext';
 
 // Components.
-import VerticalTextCarousel from '@components/main-page/about/VerticalTextCarousel'
+import VerticalTextCarousel from '@components/main-page/about/VerticalTextCarousel';
 
 // Styles
-import styles from '@styles/main-page/about/AboutHero.module.css'
-import fonts from '@styles/common/Typography.module.css'
+import styles from '@styles/main-page/about/AboutHero.module.css';
+import fonts from '@styles/common/Typography.module.css';
 
 /**
  * @returns About hero section
  */
-export default function AboutHero(){
-
-    const {isMobile} = useAppContext()
+export default function AboutHero() {
+    const { isMobile } = useAppContext();
     const carouselItems = [
         'Software Engineer',
         'Machine Learning Engineer',
         'Data Scientist',
-    ]
-    const speed = 3000
+    ];
+    const speed = 3000;
 
     useEffect(() => {
         // Rerender when mobile state changes
-    }, [isMobile])
+    }, [isMobile]);
 
     const renderIntro = () => {
-        return(
+        return (
             <>
-                <p 
+                <p
                     className={fonts.heading}
                     style={{
-                        margin: '0%'
+                        margin: '0%',
                     }}
                 >
                     About
                 </p>
-                <p 
+                <p
                     className={fonts.sub_heading}
                     style={{
-                        marginTop: isMobile ? '5rem' : '10rem',
-                        marginBottom: isMobile? '3rem' : '7.5rem',
+                        marginTop: isMobile
+                            ? '5rem'
+                            : '10rem',
+                        marginBottom: isMobile
+                            ? '3rem'
+                            : '7.5rem',
                         width: '100%',
                     }}
                 >
                     Hey, I&apos;m Alvin 👋🏾.
                 </p>
             </>
-        )
-    }
+        );
+    };
 
     const renderBio = () => {
-        return(
+        return (
             <p className={styles.bio_text}>
                 I like building creative things with
-                <span style={{fontWeight: 'bold'}}> technology</span>
+                <span style={{ fontWeight: 'bold' }}>
+                    {' '}
+                    technology
+                </span>
             </p>
-        )
-    }
+        );
+    };
 
     const renderInstitutions = () => {
-        return(
+        return (
             <div className={styles.institution_container}>
                 <p className={styles.institution_text}>
                     MSc, Imperial College London
@@ -75,10 +81,10 @@ export default function AboutHero(){
                     BEng, University of Warwick
                 </p>
             </div>
-        )
-    }
+        );
+    };
 
-    return(
+    return (
         <div className={styles.section_container}>
             {/* Hero section */}
             <div className={styles.hero_container}>
@@ -97,5 +103,5 @@ export default function AboutHero(){
                 </div>
             </div>
         </div>
-    )
+    );
 }

@@ -1,74 +1,69 @@
-'use client'
+'use client';
 /**
- * @description Main page for the website. 
+ * @description Main page for the website.
  * This page contains the main sections of
  * my portfolio.
  */
 
 // Styles.
-import styles from '@styles/pages/MainPage.module.css'
+import styles from '@styles/pages/MainPage.module.css';
 
 // Util Components.
-import Navbar from '@components/common/Navbar'
-import Spacing from '@components/common/Spacing'
-import PageNav from '@/components/main-page/navbar/PageNav'
+import Navbar from '@components/common/Navbar';
+import Spacing from '@components/common/Spacing';
+import PageNav from '@/components/main-page/navbar/PageNav';
 
 // Sections.
-import About from "@components/main-page/about/About"
-import AIEngage from '@components/main-page/ai-engage/AIEngage'
-import Experience from '@components/main-page/experience/Experience'
-import Projects from '@components/main-page/projects/Projects'
-import Contact from '@components/main-page/contact/Contact'
+import About from '@components/main-page/about/About';
+import AIEngage from '@components/main-page/ai-engage/AIEngage';
+import Experience from '@components/main-page/experience/Experience';
+import Projects from '@components/main-page/projects/Projects';
+import Contact from '@components/main-page/contact/Contact';
 
 // Utilities.
-import { useState, useEffect, useRef } from 'react'
-import { useAppContext } from '@/contexts/AppContext'
-import { Toaster, toast } from 'react-hot-toast'
-import CookieNotice from '@/components/main-page/utils/CookieNotice'
+import { useState, useEffect, useRef } from 'react';
+import { useAppContext } from '@/contexts/AppContext';
+import { Toaster, toast } from 'react-hot-toast';
+import CookieNotice from '@/components/main-page/utils/CookieNotice';
 
 // Main hander for section components.
-export default function MainPage(){
+export default function MainPage() {
+    const { isMobile } = useAppContext();
+    const [isClient, setIsClient] = useState(false);
+    const [isNavOpen, setIsNavOpen] =
+        useState<boolean>(!isMobile);
 
-    const { isMobile } = useAppContext()
-    const [isClient, setIsClient] = useState(false)
-    const [isNavOpen, setIsNavOpen] = useState<boolean>(!isMobile)
-
-    const [show, setShow] = useState(true)
-    const [lastScrollY, setLastScrollY] = useState(0)
-    const mainPageRef = useRef<HTMLDivElement>(null)
+    const [show, setShow] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+    const mainPageRef = useRef<HTMLDivElement>(null);
 
     const handleScroll = () => {
-        const current = mainPageRef.current?.scrollTop || 0
+        const current = mainPageRef.current?.scrollTop || 0;
 
         if (current > lastScrollY && current > 50) {
-            setShow(false) // scrolling down
+            setShow(false); // scrolling down
         } else {
-            setShow(true) // scrolling up
+            setShow(true); // scrolling up
         }
-        setLastScrollY(current)
-    }
-    
+        setLastScrollY(current);
+    };
+
     useEffect(() => {
-        setIsClient(true)
+        setIsClient(true);
         // Set toast message
-        toast.custom(
-            () => <CookieNotice />,
-            {
-                duration: 7_000,
-            }
-        )
-    }, [])
+        toast.custom(() => <CookieNotice />, {
+            duration: 7_000,
+        });
+    }, []);
 
     // DO NOT RENDER IF NOT CLIENT!!!
-    if(!isClient){
-        return null
+    if (!isClient) {
+        return null;
     }
 
-    return(
-        <div
-            className={styles.container}
-        >
-            <Toaster position='bottom-center'/>
+    return (
+        <div className={styles.container}>
+            <Toaster position="bottom-center" />
             {/* Navigation */}
             <Navbar
                 isMain={true}
@@ -84,7 +79,7 @@ export default function MainPage(){
             >
                 <PageNav />
             </div>
-            <div 
+            <div
                 ref={mainPageRef}
                 className={`
                     ${styles.main_page}
@@ -92,15 +87,15 @@ export default function MainPage(){
                 `}
                 onScroll={handleScroll}
             >
-                <About/>
-                <Spacing size='large'/>
-                <AIEngage/>
-                <Spacing size='small'/>
-                <Experience/>
-                <Projects/>
-                <Spacing size='small'/>
-                <Contact/>
+                <About />
+                <Spacing size="large" />
+                <AIEngage />
+                <Spacing size="small" />
+                <Experience />
+                <Projects />
+                <Spacing size="small" />
+                <Contact />
             </div>
         </div>
-    )
+    );
 }

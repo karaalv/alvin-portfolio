@@ -3,10 +3,10 @@
  * item with an image and description.
  */
 
-import Image from "next/image"
-import { useAppContext } from "@/contexts/AppContext";
+import Image from 'next/image';
+import { useAppContext } from '@/contexts/AppContext';
 
-import styles from "@styles/main-page/projects/ProjectItem.module.css"
+import styles from '@styles/main-page/projects/ProjectItem.module.css';
 
 export interface ProjectItemProps {
     imageSrc: string;
@@ -21,17 +21,17 @@ export default function ProjectItem({
     header,
     techStack,
     description,
-    link
+    link,
 }: ProjectItemProps) {
     const { isMobile } = useAppContext();
     const imageSize = isMobile ? '250' : '300';
 
     return (
-        <a 
+        <a
             className={styles.container}
             href={link}
-            target='_blank'
-            rel='noopener noreferrer'
+            target="_blank"
+            rel="noopener noreferrer"
         >
             <Image
                 src={imageSrc}
@@ -43,11 +43,17 @@ export default function ProjectItem({
 
             <div className={styles.text_container}>
                 <div className={styles.header_container}>
-                    <p className={styles.header_text}>{header}</p>
-                    <p className={styles.tech_text}>{techStack}</p>
+                    <p className={styles.header_text}>
+                        {header}
+                    </p>
+                    <p className={styles.tech_text}>
+                        {techStack}
+                    </p>
                 </div>
-                <p className={styles.description_text}>{description}</p>
+                <p className={styles.description_text}>
+                    {description}
+                </p>
             </div>
         </a>
-    )
+    );
 }

@@ -1,37 +1,41 @@
-'use client'
+'use client';
 /**
- * @description This component is the main 
+ * @description This component is the main
  * chat input interface for the website.
  */
 
-import { useEffect, useRef, useState } from 'react'
-import { ArrowUp } from 'lucide-react'
-import { useAppContext } from '@/contexts/AppContext'
+import { useEffect, useRef, useState } from 'react';
+import { ArrowUp } from 'lucide-react';
+import { useAppContext } from '@/contexts/AppContext';
 import { useChatContext } from '@contexts/ChatContext';
 
 // Styles
-import styles from '@styles/chat-page/ChatInput.module.css'
-import fonts from '@styles/common/Typography.module.css'
+import styles from '@styles/chat-page/ChatInput.module.css';
+import fonts from '@styles/common/Typography.module.css';
 
 // Types
-import { AgentMemory } from '@/types/service.types'
+import { AgentMemory } from '@/types/service.types';
 
 // Services and utilities
-import { getTimestamp, generateNonce } from '@/utils/processing'
-import { useSocketContext } from '@/contexts/SocketContext'
+import {
+    getTimestamp,
+    generateNonce,
+} from '@/utils/processing';
+import { useSocketContext } from '@/contexts/SocketContext';
 
 export default function ChatInput() {
     const {
-        isLoading, 
-        setIsLoading, 
+        isLoading,
+        setIsLoading,
         setError,
         setMemory,
-        isCanvasOpen
-    } = useChatContext()
-    const { message, setMessage } = useAppContext()
-    const { sendMessage } = useSocketContext()
-    const inputRef = useRef<HTMLTextAreaElement>(null)
-    const [messageLocal, setMessageLocal] = useState<string>('')
+        isCanvasOpen,
+    } = useChatContext();
+    const { message, setMessage } = useAppContext();
+    const { sendMessage } = useSocketContext();
+    const inputRef = useRef<HTMLTextAreaElement>(null);
+    const [messageLocal, setMessageLocal] =
+        useState<string>('');
 
     // --- Send message function ---
 
@@ -47,48 +51,56 @@ export default function ChatInput() {
             source: 'user',
             illusion: false,
             created_at: getTimestamp(),
-            agent_canvas: null
-        }
+            agent_canvas: null,
+        };
 
         // Send message through WebSocket
-        sendMessage({type: 'message', data: messageLocal})
+        sendMessage({
+            type: 'message',
+            data: messageLocal,
+        });
 
         // Adjust local state and reset input
         // height
-        setMemory(prev => [...prev, newMemory])
-        setMessageLocal('')
+        setMemory((prev) => [...prev, newMemory]);
+        setMessageLocal('');
 
-        if(inputRef.current) {
-            inputRef.current.style.height = 'auto'
+        if (inputRef.current) {
+            inputRef.current.style.height = 'auto';
         }
-    }
+    };
 
     // --- Handle input and key press ---
-    
+
     const chatInput = (
-        event: React.ChangeEvent<HTMLTextAreaElement>
+        event: React.ChangeEvent<HTMLTextAreaElement>,
     ) => {
-        const textArea = event.currentTarget
-        
+        const textArea = event.currentTarget;
+
         // Reset height to auto to get the correct scrollHeight
-        textArea.style.height = 'auto'
+        textArea.style.height = 'auto';
 
         // Set height based on scroll height, but respect min and max heights
-        const maxHeight = parseInt(getComputedStyle(textArea).maxHeight)
-        const newHeight = Math.min(textArea.scrollHeight, maxHeight)
-        textArea.style.height = `${newHeight}px`
+        const maxHeight = parseInt(
+            getComputedStyle(textArea).maxHeight,
+        );
+        const newHeight = Math.min(
+            textArea.scrollHeight,
+            maxHeight,
+        );
+        textArea.style.height = `${newHeight}px`;
 
-        setMessageLocal(event.target.value)
-    }
+        setMessageLocal(event.target.value);
+    };
 
     const handleKeyPress = (
-        event: React.KeyboardEvent<HTMLTextAreaElement>
+        event: React.KeyboardEvent<HTMLTextAreaElement>,
     ) => {
         if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault()
-            handleSendMessage()
+            event.preventDefault();
+            handleSendMessage();
         }
-    }
+    };
 
     // --- Component Rendering ---
 
@@ -101,14 +113,18 @@ export default function ChatInput() {
     }, []);
 
     return (
-        <div className={`
+        <div
+            className={`
             ${styles.main_container}
             ${isCanvasOpen ? styles.small : styles.big}
-        `}>
-            <div className={`
+        `}
+        >
+            <div
+                className={`
                 ${styles.sub_container}
                 ${isCanvasOpen ? styles.small : styles.big}
-            `}>
+            `}
+            >
                 {/* Input */}
                 <textarea
                     ref={inputRef}
@@ -116,7 +132,7 @@ export default function ChatInput() {
                         ${styles.chat_input} 
                         ${fonts.ai_chat}
                     `}
-                    placeholder='Type your message here...'
+                    placeholder="Type your message here..."
                     value={messageLocal}
                     onChange={chatInput}
                     onKeyDown={handleKeyPress}
@@ -124,25 +140,39 @@ export default function ChatInput() {
                     rows={1}
                 />
                 {/* Icon */}
-                <div 
+                <div
                     className={styles.icon_container}
                     onClick={handleSendMessage}
-                    style={{ 
-                        cursor: messageLocal.trim() && !isLoading ? 'pointer' : 'default',
-                        opacity: messageLocal.trim() && !isLoading ? 1 : 0.5 
+                    style={{
+                        cursor:
+                            messageLocal.trim() &&
+                            !isLoading
+                                ? 'pointer'
+                                : 'default',
+                        opacity:
+                            messageLocal.trim() &&
+                            !isLoading
+                                ? 1
+                                : 0.5,
                     }}
                 >
                     {isLoading ? (
-                        <div className={styles.loading_square} />
+                        <div
+                            className={
+                                styles.loading_square
+                            }
+                        />
                     ) : (
-                        <ArrowUp className={styles.icon_con} />
+                        <ArrowUp
+                            className={styles.icon_con}
+                        />
                     )}
                 </div>
             </div>
             <p className={styles.copyright}>
-                © 2025 Alvin Karanja — Responses may not 
+                © 2025 Alvin Karanja — Responses may not
                 always be accurate.
             </p>
         </div>
-    )
+    );
 }

@@ -1,5 +1,5 @@
 /**
- * @description This file contains type 
+ * @description This file contains type
  * and interface definitions for the
  * service layer of the application.
  */

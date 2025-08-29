@@ -4,11 +4,12 @@
  */
 import { useState, useEffect } from 'react';
 import { useChatContext } from '@/contexts/ChatContext';
-import styles from '@styles/chat-page/Loader.module.css'
+import styles from '@styles/chat-page/Loader.module.css';
 
 export default function Loader() {
     const { thinkingSet } = useChatContext();
-    const [currentHeader, setCurrentHeader] = useState<string>("");
+    const [currentHeader, setCurrentHeader] =
+        useState<string>('');
 
     useEffect(() => {
         const headers = Array.from(thinkingSet ?? []);
@@ -20,26 +21,29 @@ export default function Loader() {
         }
 
         const interval = setInterval(() => {
-            setCurrentHeader(prev => {
+            setCurrentHeader((prev) => {
                 const currentIndex = headers.indexOf(prev);
-                const nextIndex = (currentIndex + 1) % headers.length;
+                const nextIndex =
+                    (currentIndex + 1) % headers.length;
                 return headers[nextIndex];
             });
         }, 2000);
 
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [thinkingSet])
+    }, [thinkingSet]);
 
     return (
         <div className={styles.loader_container}>
-            <div className={styles.loading_icon}/>
-            {thinkingSet && <div className={styles.loading_text}>
-                <p>Fetching...</p>
-                <p className={styles.shimmer_text}>
-                    {currentHeader}
-                </p>
-            </div>}
+            <div className={styles.loading_icon} />
+            {thinkingSet && (
+                <div className={styles.loading_text}>
+                    <p>Fetching...</p>
+                    <p className={styles.shimmer_text}>
+                        {currentHeader}
+                    </p>
+                </div>
+            )}
         </div>
-    )
+    );
 }

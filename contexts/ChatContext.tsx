@@ -3,10 +3,14 @@
  * state tied to chat/Websocket interactions.
  */
 
-import { 
-    createContext, useContext, ReactNode, 
-    useState, Dispatch, SetStateAction,
-    useMemo
+import {
+    createContext,
+    useContext,
+    ReactNode,
+    useState,
+    Dispatch,
+    SetStateAction,
+    useMemo,
 } from 'react';
 import { AgentMemory } from '@/types/service.types';
 
@@ -34,38 +38,55 @@ interface ChatContextProps {
 
     // Thinking state
     thinkingSet: Set<string> | null;
-    setThinkingSet: Dispatch<SetStateAction<Set<string> | null>>;
+    setThinkingSet: Dispatch<
+        SetStateAction<Set<string> | null>
+    >;
 
     // Writing state
     isAgentWriting: boolean;
     setIsAgentWriting: Dispatch<SetStateAction<boolean>>;
     agentWritingPhase: string | null;
-    setAgentWritingPhase: Dispatch<SetStateAction<string | null>>;
+    setAgentWritingPhase: Dispatch<
+        SetStateAction<string | null>
+    >;
     agentWritingThinking: Set<string> | null;
-    setAgentWritingThinking: Dispatch<SetStateAction<Set<string> | null>>;
+    setAgentWritingThinking: Dispatch<
+        SetStateAction<Set<string> | null>
+    >;
 }
 
-const ChatContext = createContext<ChatContextProps | undefined>(undefined);
+const ChatContext = createContext<
+    ChatContextProps | undefined
+>(undefined);
 
-export default function ChatProvider (
-    { children }: { children: ReactNode }
-) {
+export default function ChatProvider({
+    children,
+}: {
+    children: ReactNode;
+}) {
     // Info
     const [userUsage, setUserUsage] = useState<number>(5);
     // Loading and error state
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] =
+        useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     // Canvas state
-    const [canvasContent, setCanvasContent] = useState<string>('');
-    const [isCanvasOpen, setCanvasOpen] = useState<boolean>(false);
+    const [canvasContent, setCanvasContent] =
+        useState<string>('');
+    const [isCanvasOpen, setCanvasOpen] =
+        useState<boolean>(false);
     // Memory state
     const [memory, setMemory] = useState<AgentMemory[]>([]);
     // Agent thinking
-    const [thinkingSet, setThinkingSet] = useState<Set<string> | null>(null);
+    const [thinkingSet, setThinkingSet] =
+        useState<Set<string> | null>(null);
     // Agent writing
-    const [isAgentWriting, setIsAgentWriting] = useState<boolean>(false);
-    const [agentWritingPhase, setAgentWritingPhase] = useState<string | null>(null);
-    const [agentWritingThinking, setAgentWritingThinking] = useState<Set<string> | null>(null);
+    const [isAgentWriting, setIsAgentWriting] =
+        useState<boolean>(false);
+    const [agentWritingPhase, setAgentWritingPhase] =
+        useState<string | null>(null);
+    const [agentWritingThinking, setAgentWritingThinking] =
+        useState<Set<string> | null>(null);
 
     const value = useMemo(
         () => ({
@@ -88,7 +109,7 @@ export default function ChatProvider (
             agentWritingPhase,
             setAgentWritingPhase,
             agentWritingThinking,
-            setAgentWritingThinking
+            setAgentWritingThinking,
         }),
         [
             userUsage,
@@ -100,21 +121,23 @@ export default function ChatProvider (
             thinkingSet,
             isAgentWriting,
             agentWritingPhase,
-            agentWritingThinking
-        ]
+            agentWritingThinking,
+        ],
     );
 
     return (
         <ChatContext.Provider value={value}>
             {children}
         </ChatContext.Provider>
-    )
+    );
 }
 
 export const useChatContext = () => {
     const context = useContext(ChatContext);
     if (!context) {
-        throw new Error('useChatContext must be used within a ChatProvider');
+        throw new Error(
+            'useChatContext must be used within a ChatProvider',
+        );
     }
-    return context
-}
+    return context;
+};

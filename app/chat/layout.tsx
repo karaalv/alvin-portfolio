@@ -1,4 +1,4 @@
-'use client'
+'use client';
 /**
  * @description Layout for the chat page.
  * This is used to wrap the chat page
@@ -6,17 +6,17 @@
  */
 
 // Contexts.
-import ChatProvider from '@/contexts/ChatContext'
-import SocketProvider from '@/contexts/SocketContext'
+import ChatProvider from '@/contexts/ChatContext';
+import SocketProvider from '@/contexts/SocketContext';
 
-export default function ChatLayout(
-    { children }: { children: React.ReactNode }
-) {
+export default function ChatLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
         <ChatProvider>
-            <SocketProvider>
-                {children}
-            </SocketProvider>
+            <SocketProvider>{children}</SocketProvider>
         </ChatProvider>
-    )
+    );
 }

@@ -64,7 +64,6 @@
 
 /* Mobile */
 @media (max-width: 768px) {
-
     .contact_container {
         display: none;
     }
@@ -85,7 +84,6 @@
 
 /* Desktop and Tablet */
 @media (min-width: 769px) {
-
     .contact_container {
         position: absolute;
         bottom: 2.5rem;

@@ -4,18 +4,17 @@
  * contact information and links to
  * social media.
  */
-
-import Image from 'next/image'
-import styles from '@styles/main-page/contact/Contact.module.css'
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from '@styles/main-page/contact/Contact.module.css';
 
 /**
  * @returns Contact section
  */
-export default function Contact(){
-
-    return(
+export default function Contact() {
+    return (
         <section
-            id='Contact'
+            id="Contact"
             className={styles.section_container}
         >
             {/* Content */}
@@ -27,45 +26,44 @@ export default function Contact(){
                 {/* Icons */}
                 <div className={styles.icon_container}>
                     <a
-                        href='https://www.linkedin.com/in/alvin-n-karanja/'
-                        target='_blank'
-                        rel='noopener noreferrer'
+                        href="https://www.linkedin.com/in/alvin-n-karanja/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <Image 
-                            src='/assets/linkedin.png'
-                            alt='LinkedIn Icon'
+                        <Image
+                            src="/assets/linkedin.png"
+                            alt="LinkedIn Icon"
                             className={styles.icon}
                             width={40}
                             height={40}
                         />
                     </a>
                     <a
-                        href='https://github.com/karaalv'
-                        target='_blank'
-                        rel='noopener noreferrer'
+                        href="https://github.com/karaalv"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <Image 
-                            src='/assets/github.png'
-                            alt='GitHub Icon'
+                        <Image
+                            src="/assets/github.png"
+                            alt="GitHub Icon"
                             width={40}
                             height={40}
                             className={styles.icon}
                         />
                     </a>
                     <a
-                        href='mailto:alviinkaranjja@gmail.com'
-                        target='_blank'
-                        rel='noopener noreferrer'
+                        href="mailto:alviinkaranjja@gmail.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <Image 
-                            src='/assets/mail.png' 
-                            alt='Email Icon'
+                        <Image
+                            src="/assets/mail.png"
+                            alt="Email Icon"
                             width={40}
                             height={40}
                             className={styles.icon}
                         />
                     </a>
-
                 </div>
             </div>
             <div className={styles.footer_container}>
@@ -73,11 +71,11 @@ export default function Contact(){
                     Made with ❤️ Alvin Karanja © 2025
                 </p>
                 <p className={styles.privacy}>
-                    <a href='/privacy'>
+                    <Link href="/privacy">
                         Privacy Policy
-                    </a>
+                    </Link>
                 </p>
             </div>
         </section>
-    )
+    );
 }

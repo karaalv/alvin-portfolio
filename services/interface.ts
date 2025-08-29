@@ -1,16 +1,19 @@
-'use server'
+'use server';
 /**
- * @description This file acts as the 
+ * @description This file acts as the
  * interface to backend services.
  */
-import { cookies } from "next/headers";
-import { SignJWT } from "jose";
-import { APIResponse, AgentMemory } from "@/types/service.types"
+import { cookies } from 'next/headers';
+import { SignJWT } from 'jose';
+import {
+    APIResponse,
+    AgentMemory,
+} from '@/types/service.types';
 
 // --- Constants ---
 
-const TOKEN_EXPIRY = "1m"
-const te = new TextEncoder()
+const TOKEN_EXPIRY = '1m';
+const te = new TextEncoder();
 
 // --- Utility Functions ---
 
@@ -21,9 +24,9 @@ const te = new TextEncoder()
 export async function createFrontendToken(): Promise<string> {
     const timestamp = new Date().toISOString();
     const secret = te.encode(process.env.FRONTEND_SECRET);
-    
+
     return await new SignJWT({ timestamp })
-        .setProtectedHeader({ alg: "HS256" })
+        .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
         .setExpirationTime(TOKEN_EXPIRY)
         .sign(secret);
@@ -40,34 +43,34 @@ export async function getSocketURL(): Promise<string> {
 
 // --- Main Interface Function ---
 
-// Overloads 
+// Overloads
 async function fetchAPI<T>(
     endpoint: string,
     method: 'GET' | 'POST' | 'DELETE',
     parsed: true,
-    data?: unknown
+    data?: unknown,
 ): Promise<APIResponse<T>>;
 
 async function fetchAPI(
     endpoint: string,
     method: 'GET' | 'POST' | 'DELETE',
     parsed?: false,
-    data?: unknown
+    data?: unknown,
 ): Promise<Response>;
 
 /**
- * Main interface function for 
+ * Main interface function for
  * API calls.
- * @param endpoint 
- * @param method 
- * @param data 
+ * @param endpoint
+ * @param method
+ * @param data
  * @returns {Promise<APIResponse<T> | Response>}
  */
 async function fetchAPI<T>(
     endpoint: string,
     method: 'GET' | 'POST' | 'DELETE',
     parsed: boolean = true,
-    data?: unknown
+    data?: unknown,
 ): Promise<APIResponse<T> | Response> {
     const token = await createFrontendToken();
     const cookieStore = await cookies();
@@ -77,28 +80,29 @@ async function fetchAPI<T>(
         headers: {
             'Content-Type': 'application/json',
             'frontend-token': `${token}`,
-            'cookie': cookieStore.toString()
+            cookie: cookieStore.toString(),
         },
-        credentials: 'include'
-    }
+        credentials: 'include',
+    };
 
-    if (method!== 'GET' && data) {
+    if (method !== 'GET' && data) {
         options.body = JSON.stringify(data);
     }
 
     const response = await fetch(
         `${process.env.API_URL}${endpoint}`,
-        options
-    )
+        options,
+    );
 
-    // Errors handled in calling 
+    // Errors handled in calling
     // component
 
     if (!parsed) {
-        return response
+        return response;
     }
 
-    const responseParsed = await response.json() as APIResponse<T>;
+    const responseParsed =
+        (await response.json()) as APIResponse<T>;
     return responseParsed;
 }
 
@@ -108,11 +112,11 @@ async function fetchAPI<T>(
  * Fetches the user session information.
  * @returns The user session data.
  */
-export async function getUserSession(){
+export async function getUserSession() {
     const response = await fetchAPI(
-        '/users/session', 
+        '/users/session',
         'GET',
-        false
+        false,
     );
     return response;
 }
@@ -121,12 +125,13 @@ export async function getUserSession(){
  * Fetches the agent memory information.
  * @returns The agent memory data.
  */
-export async function getAgentMemory(
-): Promise<AgentMemory[]> {
+export async function getAgentMemory(): Promise<
+    AgentMemory[]
+> {
     const response = await fetchAPI<AgentMemory[]>(
-        '/agent/memory', 
+        '/agent/memory',
         'GET',
-        true
+        true,
     );
     return response.data;
 }
@@ -135,12 +140,11 @@ export async function getAgentMemory(
  * Deletes the agent memory information.
  * @returns A boolean indicating success or failure.
  */
-export async function deleteAgentMemory(
-): Promise<boolean> {
+export async function deleteAgentMemory(): Promise<boolean> {
     const response = await fetchAPI(
         '/agent/clear-memory',
         'DELETE',
-        true
+        true,
     );
     return response.metadata.success;
 }

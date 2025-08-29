@@ -1,47 +1,46 @@
-'use client'
+'use client';
 /**
- * @description This component renders the AI 
+ * @description This component renders the AI
  * engagement section, which prompts users to
  * interact with AI features.
  */
 
 // Context
-import { useAppContext } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext';
 
 // Components
-import ChatBox from '@components/main-page/ai-engage/ChatBox'
+import ChatBox from '@components/main-page/ai-engage/ChatBox';
 
 // Styles
-import styles from '@styles/main-page/ai-engage/AIEngage.module.css'
-import fonts from '@styles/common/Typography.module.css'
+import styles from '@styles/main-page/ai-engage/AIEngage.module.css';
+import fonts from '@styles/common/Typography.module.css';
 
 export default function AIEngage() {
     const { setMessage, isMobile } = useAppContext();
 
     // Prompts
-    const mlPrompt = (
-        "Generate a resume for a machine learning engineer" +
-        " with a focus on statistical analysis and natural" +
-        " language processing."
-    );
+    const mlPrompt =
+        'Generate a resume for a machine learning engineer' +
+        ' with a focus on statistical analysis and natural' +
+        ' language processing.';
 
-    const skillsPrompt = (
-        "Summarise your key skills, including both technical" +
-        " and soft skills."
-    );
+    const skillsPrompt =
+        'Summarise your key skills, including both technical' +
+        ' and soft skills.';
 
-    const projectPrompt = (
+    const projectPrompt =
         "Highlight key projects you've worked on," +
-        " including your role and the technologies used."
-    );
+        ' including your role and the technologies used.';
 
     return (
         <div className={styles.container}>
-            <p 
+            <p
                 className={fonts.sub_heading}
                 style={{
-                    textAlign: 'center', 
-                    marginBottom: isMobile? '5rem' : '15rem',
+                    textAlign: 'center',
+                    marginBottom: isMobile
+                        ? '5rem'
+                        : '15rem',
                 }}
             >
                 Why not chat with me instead?
@@ -51,7 +50,7 @@ export default function AIEngage() {
             </div>
             {/* Prompt Boxes */}
             <div className={styles.prompt_box_container}>
-                <div 
+                <div
                     className={styles.prompt_box}
                     onClick={() => setMessage(mlPrompt)}
                 >
@@ -59,7 +58,7 @@ export default function AIEngage() {
                         📄 Generate an ML Resume
                     </p>
                 </div>
-                <div 
+                <div
                     className={styles.prompt_box}
                     onClick={() => setMessage(skillsPrompt)}
                 >
@@ -67,9 +66,11 @@ export default function AIEngage() {
                         🧠 Summarise Skills
                     </p>
                 </div>
-                <div 
+                <div
                     className={styles.prompt_box}
-                    onClick={() => setMessage(projectPrompt)}
+                    onClick={() =>
+                        setMessage(projectPrompt)
+                    }
                 >
                     <p className={styles.prompt_text}>
                         🛠️ Project Highlights
@@ -77,5 +78,5 @@ export default function AIEngage() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

@@ -10,7 +10,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     overflow-x: hidden;
 }
@@ -39,20 +40,21 @@ h3 {
 /* Colours */
 :root {
     /* Main Colours */
-    --primary: #0b0b0A;
-    --secondary: #FFFFFF;
-    --highlight: #CCCCCC;
-    --accent: #E6E6E6;
+    --primary: #0b0b0a;
+    --secondary: #ffffff;
+    --highlight: #cccccc;
+    --accent: #e6e6e6;
     /* Effects */
     --glass-colour: #00000005;
     /* Functional */
-    --danger: #FF0000;
-    --danger-30: #FF000016;
+    --danger: #ff0000;
+    --danger-30: #ff000016;
 }
 
 /* Fonts */
 :root {
-    --primary-font: 'Inter', 'Helvetica', 'Arial', sans-serif;
+    --primary-font:
+        'Inter', 'Helvetica', 'Arial', sans-serif;
 }
 
 /* Properties */

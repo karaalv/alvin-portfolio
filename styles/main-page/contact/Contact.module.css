@@ -58,7 +58,6 @@
 /* MOBILE */
 
 @media (max-width: 768px) {
-
     .content_container {
         display: flex;
         margin-top: 2rem;
@@ -81,7 +80,6 @@
 /* DESKTOP & TABLET */
 
 @media (min-width: 769px) {
-
     .content_container {
         display: flex;
         margin-top: 2rem;

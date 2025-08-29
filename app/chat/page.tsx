@@ -1,50 +1,56 @@
-'use client'
+'use client';
 /**
  * @description This page is the main chat
  * interface for the website.
  */
 
-import { useEffect, useState } from 'react'
-import { PanelLeft, PanelLeftDashed } from 'lucide-react'
+import { useEffect, useState } from 'react';
+import { PanelLeft, PanelLeftDashed } from 'lucide-react';
 import { useChatContext } from '@contexts/ChatContext';
 
 // Components
-import ChatNav from '@/components/chat-page/ChatNav'
-import ChatSection from '@/components/chat-page/ChatSection'
-import DeleteConfirm from '@/components/chat-page/DeleteConfirm'
-import Canvas from '@/components/chat-page/Canvas'
-import InfoModal from '@/components/chat-page/InfoModal'
+import ChatNav from '@/components/chat-page/ChatNav';
+import ChatSection from '@/components/chat-page/ChatSection';
+import DeleteConfirm from '@/components/chat-page/DeleteConfirm';
+import Canvas from '@/components/chat-page/Canvas';
+import InfoModal from '@/components/chat-page/InfoModal';
 
 // Styles
-import styles from '@styles/pages/ChatPage.module.css'
+import styles from '@styles/pages/ChatPage.module.css';
 
 // Services
-import { getAgentMemory } from '@/services/interface'
+import { getAgentMemory } from '@/services/interface';
 
 export default function ChatPage() {
-    const { setError, isCanvasOpen, setMemory } = useChatContext()
-    const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
-    const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
-    const [infoModal, setInfoModal] = useState<boolean>(false)
+    const { setError, isCanvasOpen, setMemory } =
+        useChatContext();
+    const [isNavOpen, setIsNavOpen] =
+        useState<boolean>(false);
+    const [deleteConfirm, setDeleteConfirm] =
+        useState<boolean>(false);
+    const [infoModal, setInfoModal] =
+        useState<boolean>(false);
 
     useEffect(() => {
         const loadMessages = async () => {
-            setError(null)
+            setError(null);
             try {
-                const data = await getAgentMemory()
-                setMemory(data || [])
-            } catch (error) {
-                setError("There was an error loading messages")
+                const data = await getAgentMemory();
+                setMemory(data || []);
+            } catch {
+                setError(
+                    'There was an error loading messages',
+                );
             }
-        }
-        loadMessages()
+        };
+        loadMessages();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
 
     return (
         <div className={styles.chat_page}>
             {/* Navigation */}
-            <div 
+            <div
                 className={`
                     ${styles.icon_container}
                     ${styles.nav_icon_container}
@@ -52,7 +58,9 @@ export default function ChatPage() {
                 onClick={() => setIsNavOpen(!isNavOpen)}
             >
                 {isNavOpen ? (
-                    <PanelLeftDashed className={styles.icon} />
+                    <PanelLeftDashed
+                        className={styles.icon}
+                    />
                 ) : (
                     <PanelLeft className={styles.icon} />
                 )}
@@ -62,8 +70,8 @@ export default function ChatPage() {
                     ${styles.nav_page}
                     ${isNavOpen ? styles.open : styles.closed}
                 `}
-            >                
-                <ChatNav 
+            >
+                <ChatNav
                     setDeleteConfirm={setDeleteConfirm}
                     setInfoModal={setInfoModal}
                 />
@@ -71,8 +79,8 @@ export default function ChatPage() {
 
             {/* Delete Confirmation */}
             {deleteConfirm && (
-                <DeleteConfirm 
-                    setDeleteConfirm={setDeleteConfirm} 
+                <DeleteConfirm
+                    setDeleteConfirm={setDeleteConfirm}
                 />
             )}
 
@@ -82,7 +90,7 @@ export default function ChatPage() {
             )}
 
             {/* Chat Section */}
-            <div 
+            <div
                 className={`
                     ${styles.chat_container}
                     ${isNavOpen ? styles.disappear : ''}
@@ -93,7 +101,7 @@ export default function ChatPage() {
             </div>
 
             {/* Canvas */}
-            <div 
+            <div
                 className={`
                     ${styles.canvas_container}
                     ${isNavOpen ? styles.disappear : ''}
@@ -103,5 +111,5 @@ export default function ChatPage() {
                 <Canvas />
             </div>
         </div>
-    )
+    );
 }
