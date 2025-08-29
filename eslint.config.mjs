@@ -30,7 +30,6 @@ export default defineConfig([
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:prettier/recommended',
-        'plugin:@next/next/recommended',
         'next/core-web-vitals',
         'next/typescript'
       )
