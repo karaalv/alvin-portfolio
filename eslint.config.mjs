@@ -6,7 +6,6 @@ import js from '@eslint/js';
 import { FlatCompat } from '@eslint/eslintrc';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import pluginNext from '@next/eslint-plugin-next';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,6 +30,7 @@ export default defineConfig([
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:prettier/recommended',
+        'plugin:@next/next/recommended',
         'next/core-web-vitals',
         'next/typescript'
       )
@@ -38,7 +38,6 @@ export default defineConfig([
     plugins: {
       '@typescript-eslint': typescriptEslint,
       prettier,
-      '@next/eslint-plugin-next': pluginNext,
     },
     languageOptions: {
       parser: tsParser,
