@@ -235,8 +235,8 @@ export default function PrivacyPage() {
                         free to contact me at:
                     </p>
                     <p className={styles.body}>
-                        <a href="mailto:alviinkaranjja@gmail.com">
-                            alviinkaranjja@gmail.com
+                        <a href="mailto:alvinnjiiri@gmail.com">
+                            alvinnjiiri@gmail.com
                         </a>
                     </p>
                 </div>

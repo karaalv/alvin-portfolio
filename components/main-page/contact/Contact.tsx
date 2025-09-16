@@ -52,7 +52,7 @@ export default function Contact() {
                         />
                     </a>
                     <a
-                        href="mailto:alviinkaranjja@gmail.com"
+                        href="mailto:alvinnjiiri@gmail.com"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
