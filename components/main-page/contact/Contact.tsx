@@ -39,6 +39,19 @@ export default function Contact() {
                         />
                     </a>
                     <a
+                        href="https://x.com/karaalvv"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Image
+                            src="/assets/x.png"
+                            alt="X Icon"
+                            className={styles.icon}
+                            width={40}
+                            height={40}
+                        />
+                    </a>
+                    <a
                         href="https://github.com/karaalv"
                         target="_blank"
                         rel="noopener noreferrer"
