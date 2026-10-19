@@ -31,8 +31,15 @@ export default function RootLayout({
                 <title>Alvin Karanja | Portfolio</title>
                 <link
                     rel="icon"
-                    type="image/x-icon"
-                    href="/assets/favicon-16x16.png"
+                    type="image/svg+xml"
+                    sizes="any"
+                    href="/assets/favicons/favicon-35x35.svg"
+                />
+                <link
+                    rel="apple-touch-icon"
+                    type="image/png"
+                    sizes="180x180"
+                    href="/assets/favicons/apple-icon.png"
                 />
             </head>
             <body className={styles.body}>
