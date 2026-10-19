@@ -1,7 +1,6 @@
 /* Homepage content within the shared site layout. */
 .container {
     width: 100%;
-    max-width: var(--max-width-desktop);
     margin-inline: auto;
-    padding: 2.5rem;
+    padding-inline: var(--padding-medium);
 }

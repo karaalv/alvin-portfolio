@@ -1,0 +1,91 @@
+/* Name and quote stack on mobile above the shared chat controls. */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-structural-48);
+    width: 100%;
+    max-width: var(--max-width-mobile);
+    margin-inline: auto;
+    padding-block: var(--spacing-structural-72);
+}
+
+.introduction {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-standard-20);
+    width: 100%;
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    color: var(--text-primary);
+    font-family: var(--brand-font);
+    font-size: 36px;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.quote {
+    width: 100%;
+    max-width: 350px;
+    margin: 0;
+    padding: var(--spacing-compact-4);
+    color: var(--text-secondary);
+    font-family: var(--standout-font);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    font-variation-settings: 'opsz' 14;
+}
+
+.chat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-standard-24);
+    width: 100%;
+}
+
+.chat_heading {
+    margin: 0;
+    text-align: center;
+}
+
+.prompts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-standard-16);
+    width: 100%;
+}
+
+@media (min-width: 769px) {
+    .container {
+        max-width: var(--max-width-desktop);
+        gap: var(--spacing-structural-64);
+    }
+
+    .introduction {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--spacing-structural-48);
+        padding-inline: 72px;
+    }
+
+    .name {
+        font-size: 48px;
+    }
+
+    .quote {
+        flex-shrink: 0;
+    }
+
+    .prompts {
+        gap: var(--spacing-standard-20);
+    }
+}
