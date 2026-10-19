@@ -8,7 +8,11 @@ import NameLogo from '@components/branding/NameLogo';
 import typography from '@styles/shared/typography.module.css';
 import styles from '@styles/components/shared/navbar.module.css';
 
-const SECTIONS = ['Featured', 'Work', 'Links'];
+const SECTIONS = [
+    { label: 'Featured', href: '/#featured' },
+    { label: 'Work', href: '/#work' },
+    { label: 'Links', href: '/links' },
+];
 
 /** Render homepage links and the chat entry point. */
 export default function Navbar() {
@@ -22,12 +26,12 @@ export default function Navbar() {
     function renderSections() {
         return SECTIONS.map((section) => (
             <Link
-                key={section}
-                href={`/#${section.toLowerCase()}`}
+                key={section.href}
+                href={section.href}
                 className={`${typography.body} ${typography.medium} ${styles.section_link}`}
                 onClick={closeMenu}
             >
-                {section}
+                {section.label}
             </Link>
         ));
     }
@@ -36,7 +40,7 @@ export default function Navbar() {
         return (
             <Link
                 href="/chat"
-                className={`${typography.label} ${typography.large} ${styles.chat_link}`}
+                className={`${typography.body} ${typography.large} ${styles.chat_link}`}
                 onClick={closeMenu}
             >
                 Try chat
