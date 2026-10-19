@@ -3,52 +3,21 @@
  * @description Privacy policy page
  * for the website.
  */
-import { useEffect, useState } from 'react';
 
 // Components
-import Navbar from '@/components/common/Navbar';
-import PrivacyNav from '@/components/privacy-page/PrivacyNav';
+import Navbar from '@/components/shared/Navbar';
 
 // Styles
 import styles from '@styles/pages/PrivacyPage.module.css';
 import fonts from '@styles/shared/typography.module.css';
-import { useAppContext } from '@/contexts/AppContext';
 
 export default function PrivacyPage() {
-    const { isMobile } = useAppContext();
-    const [isNavOpen, setIsNavOpen] =
-        useState<boolean>(false);
-
-    useEffect(() => {
-        if (!isMobile) {
-            setIsNavOpen(true);
-        }
-    }, [isMobile]);
-
     return (
         <div className={styles.container}>
             {/* Navigation */}
-            <Navbar
-                isMain={false}
-                show={true}
-                isNavOpen={isNavOpen}
-                setIsNavOpen={setIsNavOpen}
-            />
-            <div
-                className={`
-                ${styles.nav_page}
-                ${isNavOpen ? styles.open : styles.closed}
-            `}
-            >
-                <PrivacyNav />
-            </div>
+            <Navbar />
             {/* Main Content */}
-            <div
-                className={`
-                    ${styles.privacy_page}
-                    ${isNavOpen ? styles.hide : styles.show}
-                `}
-            >
+            <div className={styles.privacy_page}>
                 {/* Header */}
                 <div className={styles.privacy_header}>
                     <p className={fonts.sub_heading}>

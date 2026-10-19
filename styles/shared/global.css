@@ -1,5 +1,6 @@
-/* Load every standard Inter weight. */
+/* Load every standard weight for the web fonts. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Preserve browser spacing for rendered Markdown. */
 *,
@@ -16,10 +17,19 @@ body {
     min-height: 100dvh;
 }
 
-/* Font family */
+/* Font families */
 :root {
     --primary-font:
         'Inter', 'Helvetica', 'Arial', sans-serif;
+    --brand-font:
+        'Helvetica', 'Helvetica Neue', 'Arial', sans-serif;
+    --standout-font:
+        'DM Sans', 'Inter', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Stacking order */
+:root {
+    --z-index-navbar: 100;
 }
 
 /* Figma collection: dimension-primitive */
