@@ -2,7 +2,7 @@
  * @description 404 Not Found Page.
  */
 import Link from 'next/link';
-import Contact from '@components/main-page/contact/Contact';
+import Contact from '@components/shared/Contact';
 
 import styles from '@styles/pages/NotFoundPage.module.css';
 import fonts from '@styles/shared/typography.module.css';

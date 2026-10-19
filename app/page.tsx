@@ -17,7 +17,7 @@ import About from '@components/main-page/about/About';
 import AIEngage from '@components/main-page/ai-engage/AIEngage';
 import Experience from '@components/main-page/experience/Experience';
 import Projects from '@components/main-page/projects/Projects';
-import Contact from '@components/main-page/contact/Contact';
+import Contact from '@components/shared/Contact';
 
 // Utilities.
 import { useState, useEffect } from 'react';
