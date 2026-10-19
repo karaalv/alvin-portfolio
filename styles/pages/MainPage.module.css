@@ -5,9 +5,3 @@
     margin-inline: auto;
     padding: 2.5rem;
 }
-
-.main_page {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}

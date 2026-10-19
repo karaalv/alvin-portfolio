@@ -6,8 +6,6 @@
 
 // React & next utilities.
 import React from 'react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { GoogleTagManager } from '@next/third-parties/google';
 
 // Styles.
 import '@styles/shared/global.css';
@@ -36,11 +34,9 @@ export default function RootLayout({
                     type="image/x-icon"
                     href="/assets/favicon-16x16.png"
                 />
-                <GoogleTagManager gtmId="GTM-W8CMJRHW" />
             </head>
             <body className={styles.body}>
                 <AppProvider>{children}</AppProvider>
-                <SpeedInsights />
             </body>
         </html>
     );

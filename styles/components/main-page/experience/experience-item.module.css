@@ -1,0 +1,135 @@
+/* The full header acts as the disclosure control. */
+.container {
+    width: 100%;
+    padding-bottom: var(--spacing-standard-12);
+    border-bottom: 2px solid var(--border-default);
+}
+
+.header_heading {
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+}
+
+.header:focus-visible {
+    outline: 2px solid var(--border-strong);
+    outline-offset: 4px;
+}
+
+.title_date {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-standard-16);
+    min-width: 0;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-standard-12);
+    width: 100%;
+    min-width: 0;
+}
+
+.company {
+    font-size: 26px;
+    line-height: 34px;
+    overflow-wrap: anywhere;
+}
+
+.role,
+.date,
+.description_text {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.date {
+    order: -1;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.chevron {
+    transition: transform 220ms ease;
+}
+
+.container[data-open='true'] .chevron {
+    transform: rotate(180deg);
+}
+
+/* Animate intrinsic content height without an arbitrary maximum. */
+.description {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+        grid-template-rows 220ms ease,
+        opacity 220ms ease;
+}
+
+.container[data-open='true'] .description {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.description_inner {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.description_body {
+    padding-top: var(--spacing-compact-8);
+}
+
+.description_text {
+    margin: 0;
+    padding-block: var(--spacing-compact-8);
+}
+
+@media (min-width: 769px) {
+    .title_date {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .title {
+        flex: 1;
+    }
+
+    .date {
+        order: 0;
+    }
+
+    .icon {
+        padding-inline: var(--padding-large);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .description,
+    .chevron {
+        transition: none;
+    }
+}
