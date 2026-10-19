@@ -9,7 +9,7 @@ import ProjectItem, {
 import Spacing from '@components/common/Spacing';
 
 import styles from '@styles/main-page/projects/Projects.module.css';
-import fonts from '@/styles/common/Typography.module.css';
+import fonts from '@/styles/shared/typography.module.css';
 
 export default function Projects() {
     const agentProject: ProjectItemProps = {

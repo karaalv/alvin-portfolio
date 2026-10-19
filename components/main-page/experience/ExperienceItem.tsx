@@ -4,7 +4,7 @@
  */
 
 import styles from '@styles/main-page/experience/ExperienceItem.module.css';
-import fonts from '@styles/common/Typography.module.css';
+import fonts from '@styles/shared/typography.module.css';
 
 interface ExperienceItemProps {
     company: string;

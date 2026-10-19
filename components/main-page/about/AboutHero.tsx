@@ -12,7 +12,7 @@ import VerticalTextCarousel from '@components/main-page/about/VerticalTextCarous
 
 // Styles
 import styles from '@styles/main-page/about/AboutHero.module.css';
-import fonts from '@styles/common/Typography.module.css';
+import fonts from '@styles/shared/typography.module.css';
 
 /**
  * @returns About hero section

@@ -1,0 +1,109 @@
+/* Combine a style and size, for example .heading.large. */
+.heading,
+.body,
+.label {
+    font-family: var(--primary-font);
+    color: var(--text-primary);
+    font-style: normal;
+    letter-spacing: 0;
+    text-transform: none;
+    text-decoration: none;
+}
+
+.heading {
+    font-weight: 600;
+}
+
+.body {
+    font-weight: 400;
+}
+
+.label {
+    font-weight: 500;
+}
+
+/* Mobile text styles */
+.heading.large {
+    font-size: 26px;
+    line-height: 34px;
+    letter-spacing: -0.5px;
+}
+
+.heading.medium {
+    font-size: 22px;
+    line-height: 28px;
+}
+
+.body.large {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.body.medium {
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.body.small {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.label.large {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.label.medium {
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.label.small {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+/* Figma desktop-breakpoint, CSS variables cannot set media queries. */
+@media (min-width: 769px) {
+    .heading.large {
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: 0;
+    }
+
+    .heading.medium {
+        font-size: 26px;
+        line-height: 34px;
+    }
+
+    .body.large {
+        font-size: 18px;
+        line-height: 28px;
+    }
+
+    .body.medium {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .body.small {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .label.large {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .label.medium {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .label.small {
+        font-size: 14px;
+        line-height: 20px;
+    }
+}

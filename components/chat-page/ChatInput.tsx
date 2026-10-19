@@ -11,7 +11,7 @@ import { useChatContext } from '@contexts/ChatContext';
 
 // Styles
 import styles from '@styles/chat-page/ChatInput.module.css';
-import fonts from '@styles/common/Typography.module.css';
+import fonts from '@styles/shared/typography.module.css';
 
 // Types
 import { AgentMemory } from '@/types/service.types';

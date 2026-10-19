@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Contact from '@components/main-page/contact/Contact';
 
 import styles from '@styles/pages/NotFoundPage.module.css';
-import fonts from '@styles/common/Typography.module.css';
+import fonts from '@styles/shared/typography.module.css';
 
 export default function NotFoundPage() {
     return (

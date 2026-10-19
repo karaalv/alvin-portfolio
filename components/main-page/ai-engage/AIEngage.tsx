@@ -13,7 +13,7 @@ import ChatBox from '@components/main-page/ai-engage/ChatBox';
 
 // Styles
 import styles from '@styles/main-page/ai-engage/AIEngage.module.css';
-import fonts from '@styles/common/Typography.module.css';
+import fonts from '@styles/shared/typography.module.css';
 
 export default function AIEngage() {
     const { setMessage, isMobile } = useAppContext();

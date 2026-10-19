@@ -4,7 +4,7 @@
  */
 
 import styles from '@styles/chat-page/UserMessage.module.css';
-import fonts from '@styles/common/Typography.module.css';
+import fonts from '@styles/shared/typography.module.css';
 
 export default function UserMessage({
     message,

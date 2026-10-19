@@ -6,7 +6,7 @@ import ExperienceItem from '@components/main-page/experience/ExperienceItem';
 import Spacing from '@components/common/Spacing';
 
 // Styles.
-import fonts from '@styles/common/Typography.module.css';
+import fonts from '@styles/shared/typography.module.css';
 
 /**
  * Wraps together:

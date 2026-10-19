@@ -2,6 +2,6 @@
 
 .html {
     font-size: 10px;
-    background-color: var(--secondary);
+    background-color: var(--background-default);
     font-family: var(--primary-font);
 }

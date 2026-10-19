@@ -11,7 +11,7 @@ import PrivacyNav from '@/components/privacy-page/PrivacyNav';
 
 // Styles
 import styles from '@styles/pages/PrivacyPage.module.css';
-import fonts from '@styles/common/Typography.module.css';
+import fonts from '@styles/shared/typography.module.css';
 import { useAppContext } from '@/contexts/AppContext';
 
 export default function PrivacyPage() {
