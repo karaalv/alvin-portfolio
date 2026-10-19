@@ -1,27 +1,12 @@
-/* Privacy Page Styles */
-.container {
-    padding-top: 52px;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease-in-out;
-}
-
 /* Main Containers */
 
 .privacy_page {
-    flex: 1;
-    min-height: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 3rem;
     padding-bottom: 7.5rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: transform 0.3s ease-in-out;
 }
 
 /* Page Styles */

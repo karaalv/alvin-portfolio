@@ -9,7 +9,6 @@
 import styles from '@styles/pages/MainPage.module.css';
 
 // Util Components.
-import Navbar from '@components/shared/Navbar';
 import Spacing from '@components/common/Spacing';
 
 // Sections.
@@ -17,7 +16,6 @@ import About from '@components/main-page/about/About';
 import AIEngage from '@components/main-page/ai-engage/AIEngage';
 import Experience from '@components/main-page/experience/Experience';
 import Projects from '@components/main-page/projects/Projects';
-import Contact from '@components/shared/Contact';
 
 // Utilities.
 import { useState, useEffect } from 'react';
@@ -44,8 +42,6 @@ export default function MainPage() {
     return (
         <div className={styles.container}>
             <Toaster position="bottom-center" />
-            {/* Navigation */}
-            <Navbar />
             <div className={styles.main_page}>
                 <About />
                 <Spacing size="large" />
@@ -54,7 +50,6 @@ export default function MainPage() {
                 <Experience />
                 <Projects />
                 <Spacing size="small" />
-                <Contact />
             </div>
         </div>
     );

@@ -1,0 +1,17 @@
+/* Position the heading below the shared fixed navbar. */
+.container {
+    width: 100%;
+    padding: 44px var(--padding-medium)
+        var(--spacing-structural-48);
+    text-align: center;
+}
+
+.title {
+    margin: 0;
+}
+
+@media (min-width: 769px) {
+    .container {
+        padding-top: 54px;
+    }
+}

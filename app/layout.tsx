@@ -11,7 +11,7 @@ import { GoogleTagManager } from '@next/third-parties/google';
 
 // Styles.
 import '@styles/shared/global.css';
-import styles from '@styles/common/RootLayout.module.css';
+import styles from '@styles/layouts/root-layout.module.css';
 
 // Contexts.
 import AppProvider from '@/contexts/AppContext';
@@ -38,7 +38,7 @@ export default function RootLayout({
                 />
                 <GoogleTagManager gtmId="GTM-W8CMJRHW" />
             </head>
-            <body>
+            <body className={styles.body}>
                 <AppProvider>{children}</AppProvider>
                 <SpeedInsights />
             </body>

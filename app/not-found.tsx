@@ -1,49 +1,19 @@
-/**
- * @description 404 Not Found Page.
- */
-import Link from 'next/link';
-import Contact from '@components/shared/Contact';
+/** Root 404 content with the shared site navigation and contact. */
+import SiteLayout from '@components/shared/SiteLayout';
+import styles from '@styles/pages/not-found-page.module.css';
+import typography from '@styles/shared/typography.module.css';
 
-import styles from '@styles/pages/NotFoundPage.module.css';
-import fonts from '@styles/shared/typography.module.css';
-
+/** Render the Figma not-found heading for unmatched routes. */
 export default function NotFoundPage() {
     return (
-        <div className={styles.page_container}>
-            <div className={styles.content_container}>
-                {/* Header */}
-                <div className={styles.header_container}>
-                    <p className={fonts.sub_heading}>404</p>
-                    <div className={styles.divider}></div>
-                    <p className={fonts.sub_heading}>
-                        Page not found.
-                    </p>
-                </div>
-                {/* Text */}
-                <p className={fonts.body}>
-                    Looks like the page you are looking for
-                    doesn&apos;t exist, you can explore my
-                    portfolio at these pages:
-                </p>
-                {/* Links */}
-                <div className={styles.link_container}>
-                    <Link
-                        href="/"
-                        className={styles.link_text}
-                    >
-                        Portfolio
-                    </Link>
-                    <Link
-                        href="/chat"
-                        className={styles.link_text}
-                    >
-                        Chat
-                    </Link>
-                </div>
-            </div>
-            <div className={styles.contact_container}>
-                <Contact />
-            </div>
-        </div>
+        <SiteLayout>
+            <section className={styles.container}>
+                <h1
+                    className={`${typography.heading} ${typography.large} ${styles.title}`}
+                >
+                    Page not found.
+                </h1>
+            </section>
+        </SiteLayout>
     );
 }
