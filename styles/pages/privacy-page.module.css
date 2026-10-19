@@ -1,0 +1,79 @@
+/* Readable policy width, using the Figma desktop and mobile layout. */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    width: calc(100% - 32px);
+    max-width: var(--max-width-mobile);
+    margin-inline: auto;
+    padding-top: 44px;
+    padding-bottom: var(--spacing-structural-64);
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-standard-12);
+    text-align: center;
+}
+
+.title,
+.updated,
+.section_heading {
+    margin: 0;
+}
+
+.updated {
+    color: var(--text-secondary);
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-standard-16);
+    scroll-margin-top: 76px;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-standard-16);
+    overflow-wrap: anywhere;
+}
+
+.body p,
+.body ul,
+.body ol {
+    margin: 0;
+}
+
+.body ul,
+.body ol {
+    padding-left: var(--spacing-standard-24);
+}
+
+.body li + li {
+    margin-top: var(--spacing-compact-8);
+}
+
+.body a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.body a:hover {
+    color: var(--text-secondary);
+}
+
+.body a:focus-visible {
+    outline: 2px solid var(--border-strong);
+    outline-offset: 4px;
+}
+
+@media (min-width: 769px) {
+    .container {
+        max-width: 800px;
+    }
+}
