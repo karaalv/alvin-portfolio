@@ -1,0 +1,29 @@
+/* Visitor messages stay on the right and wrap long input. */
+.container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+.message {
+    max-width: min(100%, var(--message-max-width-mobile));
+    margin: 0;
+    padding: var(--padding-small) var(--padding-medium);
+    border-radius: var(--shape-card-medium);
+    background-color: var(
+        --chat-message-background-default
+    );
+    color: var(--text-primary);
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 24px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+@media (min-width: 769px) {
+    .message {
+        max-width: min(
+            100%,
+            var(--message-max-width-desktop)
+        );
+    }
+}

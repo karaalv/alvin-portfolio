@@ -1,15 +1,8 @@
 /** Portfolio introduction and the presentational hero chat controls. */
 import ChatInput from '@components/chat/input/ChatInput';
-import ChatPrompt from '@components/chat/input/ChatPrompt';
+import PromptGroup from '@components/chat/input/PromptGroup';
 import typography from '@styles/shared/typography.module.css';
 import styles from '@styles/components/main-page/hero/hero.module.css';
-
-const PROMPTS = [
-    'Projects',
-    'Experience',
-    'Current work',
-    'Mindset',
-];
 
 /** Compose the name, quote, input and suggested prompt labels. */
 export default function Hero() {
@@ -29,8 +22,7 @@ export default function Hero() {
                 <p className={styles.quote}>
                     “A nation grows great when old men plant
                     trees in whose shade they will never
-                    sit.” So I plan to plant a lot of
-                    trees.
+                    sit.” So I plan to plant a lot of trees.
                 </p>
             </div>
             <div className={styles.chat}>
@@ -40,18 +32,7 @@ export default function Hero() {
                     Ask about my work
                 </h2>
                 <ChatInput variant="hero" />
-                <div
-                    className={styles.prompts}
-                    role="group"
-                    aria-label="Suggested questions"
-                >
-                    {PROMPTS.map((label) => (
-                        <ChatPrompt
-                            key={label}
-                            label={label}
-                        />
-                    ))}
-                </div>
+                <PromptGroup variant="hero" />
             </div>
         </section>
     );

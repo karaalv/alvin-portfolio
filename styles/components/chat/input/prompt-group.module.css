@@ -1,0 +1,47 @@
+/* Both entry points share the same prompt labels and responsive spacing. */
+.container {
+    display: grid;
+    grid-template-rows: 1fr;
+    width: 100%;
+    transition:
+        grid-template-rows 450ms ease,
+        opacity 250ms ease;
+}
+
+.clip {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.prompts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-standard-16);
+    width: 100%;
+    max-width: var(--max-width-mobile);
+    margin-inline: auto;
+}
+
+.container[data-variant='chat'] .prompts {
+    padding-top: var(--spacing-standard-24);
+}
+
+.container[data-visible='false'] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+}
+
+@media (min-width: 769px) {
+    .prompts {
+        max-width: none;
+        gap: var(--spacing-standard-20);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .container {
+        transition: none;
+    }
+}

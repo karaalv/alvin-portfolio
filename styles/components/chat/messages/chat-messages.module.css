@@ -1,0 +1,9 @@
+/* Preserve the supplied order with a clear gap between speakers. */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-standard-24);
+    width: 100%;
+    min-width: 0;
+}

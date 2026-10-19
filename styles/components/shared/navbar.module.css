@@ -162,7 +162,7 @@
         display: block;
     }
 
-    .chat_link {
+    .desktop_chat .chat_link {
         padding: var(--spacing-compact-4)
             var(--padding-small);
         border-radius: var(--shape-pill);
@@ -170,7 +170,7 @@
         color: var(--text-inverse);
     }
 
-    .chat_link:hover {
+    .desktop_chat .chat_link:hover {
         background-color: var(--text-secondary);
     }
 

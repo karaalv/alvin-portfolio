@@ -1,115 +1,129 @@
 'use client';
-/**
- * @description This page is the main chat
- * interface for the website.
- */
 
-import { useEffect, useState } from 'react';
-import { PanelLeft, PanelLeftDashed } from 'lucide-react';
-import { useChatContext } from '@contexts/ChatContext';
+/** Presentational chat page, independent of the previous API contract. */
+import { useState } from 'react';
+import { PanelLeft } from 'lucide-react';
+import Sidebar from '@components/chat/sidebar/Sidebar';
+import ChatInput from '@components/chat/input/ChatInput';
+import PromptGroup from '@components/chat/input/PromptGroup';
+import PlaceholderHeading from '@components/chat/placeholder/PlaceholderHeading';
+import ChatMessages from '@components/chat/messages/ChatMessages';
+import InfoModal from '@components/chat/modals/InfoModal';
+import DeleteChatModal from '@components/chat/modals/DeleteChatModal';
+import ErrorBanner from '@components/chat/feedback/ErrorBanner';
+import { PLACEHOLDER_MESSAGES } from './placeholder-messages';
+import styles from '@styles/pages/chat-page.module.css';
 
-// Components
-import ChatNav from '@/components/chat-page/ChatNav';
-import ChatSection from '@/components/chat-page/ChatSection';
-import DeleteConfirm from '@/components/chat-page/DeleteConfirm';
-import Canvas from '@/components/chat-page/Canvas';
-import InfoModal from '@/components/chat-page/InfoModal';
-
-// Styles
-import styles from '@styles/pages/ChatPage.module.css';
-
-// Services
-import { getAgentMemory } from '@/services/interface';
-
+/** Compose the empty and conversation layouts without chat operations. */
 export default function ChatPage() {
-    const { setError, isCanvasOpen, setMemory } =
-        useChatContext();
-    const [isNavOpen, setIsNavOpen] =
-        useState<boolean>(false);
-    const [deleteConfirm, setDeleteConfirm] =
-        useState<boolean>(false);
-    const [infoModal, setInfoModal] =
-        useState<boolean>(false);
-
-    useEffect(() => {
-        const loadMessages = async () => {
-            setError(null);
-            try {
-                const data = await getAgentMemory();
-                setMemory(data || []);
-            } catch {
-                setError(
-                    'There was an error loading messages',
-                );
-            }
-        };
-        loadMessages();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [infoOpen, setInfoOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
+    // TODO: Supply messages and errors from the new chat controller.
+    const messages = PLACEHOLDER_MESSAGES;
+    const [error, setError] = useState<string | null>(null);
+    const hasMessages = messages.length > 0;
 
     return (
-        <div className={styles.chat_page}>
-            {/* Navigation */}
-            <div
-                className={`
-                    ${styles.icon_container}
-                    ${styles.nav_icon_container}
-                `}
-                onClick={() => setIsNavOpen(!isNavOpen)}
-            >
-                {isNavOpen ? (
-                    <PanelLeftDashed
-                        className={styles.icon}
+        <main
+            className={styles.container}
+            onKeyDown={(event) => {
+                if (event.key === 'Escape')
+                    setSidebarOpen(false);
+            }}
+        >
+            <button
+                type="button"
+                className={styles.backdrop}
+                hidden={!sidebarOpen}
+                aria-label="Close sidebar"
+                onClick={() => setSidebarOpen(false)}
+            />
+            <Sidebar
+                open={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+                onInfo={() => {
+                    setSidebarOpen(false);
+                    setInfoOpen(true);
+                }}
+                onDelete={() => {
+                    setSidebarOpen(false);
+                    setDeleteOpen(true);
+                }}
+            />
+            <div className={styles.chat_side}>
+                <header className={styles.mobile_header}>
+                    <button
+                        type="button"
+                        className={styles.toggle}
+                        aria-label="Open sidebar"
+                        aria-controls="chat-sidebar"
+                        aria-expanded={sidebarOpen}
+                        onClick={() => setSidebarOpen(true)}
+                    >
+                        <PanelLeft
+                            size={24}
+                            aria-hidden="true"
+                        />
+                    </button>
+                </header>
+                <div
+                    className={styles.content}
+                    data-state={
+                        hasMessages
+                            ? 'conversation'
+                            : 'empty'
+                    }
+                >
+                    <div
+                        className={styles.messages}
+                        hidden={!hasMessages}
+                    >
+                        <div
+                            className={
+                                styles.message_content
+                            }
+                        >
+                            <ChatMessages
+                                messages={messages}
+                                thinking
+                                thinkingCaption="Looking through project details"
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.composer}>
+                        <PlaceholderHeading
+                            visible={!hasMessages}
+                        />
+                        <div className={styles.input_area}>
+                            {error !== null && (
+                                <ErrorBanner
+                                    message={error}
+                                    onDismiss={() =>
+                                        setError(null)
+                                    }
+                                />
+                            )}
+                            <ChatInput />
+                        </div>
+                        <PromptGroup
+                            visible={!hasMessages}
+                        />
+                    </div>
+                    <div
+                        className={styles.spacer}
+                        aria-hidden="true"
                     />
-                ) : (
-                    <PanelLeft className={styles.icon} />
-                )}
+                </div>
             </div>
-            <div
-                className={`
-                    ${styles.nav_page}
-                    ${isNavOpen ? styles.open : styles.closed}
-                `}
-            >
-                <ChatNav
-                    setDeleteConfirm={setDeleteConfirm}
-                    setInfoModal={setInfoModal}
-                />
-            </div>
-
-            {/* Delete Confirmation */}
-            {deleteConfirm && (
-                <DeleteConfirm
-                    setDeleteConfirm={setDeleteConfirm}
-                />
-            )}
-
-            {/* Info Modal */}
-            {infoModal && (
-                <InfoModal setInfoModal={setInfoModal} />
-            )}
-
-            {/* Chat Section */}
-            <div
-                className={`
-                    ${styles.chat_container}
-                    ${isNavOpen ? styles.disappear : ''}
-                    ${isCanvasOpen ? styles.hide : styles.show}
-                `}
-            >
-                <ChatSection />
-            </div>
-
-            {/* Canvas */}
-            <div
-                className={`
-                    ${styles.canvas_container}
-                    ${isNavOpen ? styles.disappear : ''}
-                    ${isCanvasOpen ? styles.open : styles.closed}
-                `}
-            >
-                <Canvas />
-            </div>
-        </div>
+            <InfoModal
+                open={infoOpen}
+                onClose={() => setInfoOpen(false)}
+            />
+            <DeleteChatModal
+                open={deleteOpen}
+                onClose={() => setDeleteOpen(false)}
+            />
+        </main>
     );
 }

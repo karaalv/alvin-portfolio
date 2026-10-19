@@ -1,0 +1,99 @@
+/* Native dialogs provide the top layer and keyboard focus boundary. */
+.dialog {
+    width: min(750px, calc(100% - 48px));
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    padding: var(--padding-medium);
+    border: 0;
+    border-radius: var(--shape-card-medium);
+    background: var(--background-default);
+    color: var(--text-primary);
+    overflow-y: auto;
+}
+.dialog::backdrop {
+    background: rgb(25 21 29 / 12%);
+    backdrop-filter: blur(6px);
+}
+.header {
+    display: flex;
+    justify-content: flex-end;
+}
+.close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+.close:focus-visible {
+    outline: 2px solid var(--border-strong);
+    outline-offset: 4px;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-standard-20);
+    padding: 10px;
+}
+.title {
+    margin: 0;
+    font-family: var(--primary-font);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 34px;
+}
+.body {
+    margin: 0;
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 28px;
+}
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--spacing-standard-12);
+    padding-top: var(--spacing-standard-12);
+}
+.button {
+    padding: var(--spacing-compact-8) var(--padding-large);
+    border: 1px solid var(--border-default);
+    border-radius: var(--shape-pill);
+    background: var(--background-default);
+    color: var(--text-primary);
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 24px;
+    cursor: pointer;
+}
+.button:hover:not(:disabled) {
+    background: var(--hover-default);
+}
+.button:focus-visible {
+    outline: 2px solid var(--border-strong);
+    outline-offset: 4px;
+}
+.destructive {
+    border-color: var(--action-destructive);
+    background: var(--action-destructive);
+    color: var(--text-inverse);
+}
+.button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+@media (min-width: 769px) {
+    .title {
+        font-size: 32px;
+        line-height: 40px;
+    }
+    .body {
+        font-size: 18px;
+        line-height: 32px;
+    }
+}

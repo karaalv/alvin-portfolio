@@ -1,0 +1,115 @@
+/* The mobile drawer covers 60% of the viewport. */
+.container {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: var(--z-index-chat-sidebar);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 60vw;
+    padding: var(--padding-small);
+    background: var(--background-default);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition:
+        transform 250ms ease,
+        visibility 250ms;
+    overflow-y: auto;
+}
+.container[data-open='true'] {
+    transform: translateX(0);
+    visibility: visible;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 51px;
+    padding-block: var(--spacing-compact-4);
+}
+.logo {
+    padding: var(--spacing-compact-8);
+    text-decoration: none;
+}
+.close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-compact-4);
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+.navigation {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing-structural-48);
+    padding: var(--spacing-structural-48)
+        var(--padding-small);
+}
+.group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-standard-24);
+}
+.action {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-compact-8);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--primary-font);
+    font-size: 18px;
+    line-height: 28px;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+.action svg {
+    flex-shrink: 0;
+}
+.action:hover {
+    color: var(--text-secondary);
+}
+.action:focus-visible,
+.logo:focus-visible,
+.close:focus-visible {
+    outline: 2px solid var(--border-strong);
+    outline-offset: 4px;
+}
+.destructive,
+.destructive:hover {
+    color: var(--action-destructive);
+}
+.action:disabled {
+    cursor: default;
+}
+.secondary {
+    color: var(--text-passive);
+}
+@media (min-width: 769px) {
+    .container {
+        position: static;
+        z-index: auto;
+        width: 100%;
+        min-height: 0;
+        transform: none;
+        visibility: visible;
+        transition: none;
+    }
+    .close {
+        display: none;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .container {
+        transition: none;
+    }
+}

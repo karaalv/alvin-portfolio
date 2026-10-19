@@ -30,6 +30,8 @@ body {
 /* Stacking order */
 :root {
     --z-index-navbar: 100;
+    --z-index-chat-backdrop: 110;
+    --z-index-chat-sidebar: 120;
 }
 
 /* Figma collection: dimension-primitive */

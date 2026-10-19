@@ -1,0 +1,32 @@
+/* Keep heading spacing and visibility inside the empty-state component. */
+.container {
+    display: grid;
+    grid-template-rows: 1fr;
+    width: 100%;
+    transition:
+        grid-template-rows 450ms ease,
+        opacity 250ms ease;
+}
+
+.clip {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.title {
+    margin: 0;
+    padding-bottom: var(--spacing-structural-48);
+    text-align: center;
+}
+
+.container[data-visible='false'] {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .container {
+        transition: none;
+    }
+}

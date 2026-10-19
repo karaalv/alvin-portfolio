@@ -8,3 +8,9 @@ export interface ChatInputProps {
 export interface ChatPromptProps {
     label: string;
 }
+
+/** Shared suggestions with optional animated visibility in chat. */
+export interface PromptGroupProps {
+    visible?: boolean;
+    variant?: 'hero' | 'chat';
+}
