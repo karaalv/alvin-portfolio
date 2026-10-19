@@ -8,22 +8,26 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"**/*.{ts,tsx,css}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,mjs,cjs,css}\"",
     "prepare": "husky",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,mjs,cjs,css}\""
   },
   "lint-staged": {
-    "*.{ts,tsx,css}": [
-      "npm run lint:fix",
-      "npm run format"
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.css": [
+      "prettier --write"
     ]
   },
   "dependencies": {
-    "@next/third-parties": "^15.5.2",
+    "@next/third-parties": "^16.3.5",
     "@vercel/speed-insights": "^1.2.0",
     "jose": "^6.1.0",
     "lucide-react": "^0.542.0",
-    "next": "^15.5.2",
+    "next": "^16.3.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.6.0",
@@ -33,15 +37,11 @@
     "rehype-sanitize": "^6.0.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.34.0",
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@typescript-eslint/eslint-plugin": "^8.41.0",
-    "@typescript-eslint/parser": "^8.41.0",
     "eslint": "^9",
-    "eslint-config-next": "15.5.2",
+    "eslint-config-next": "16.3.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "husky": "^9.1.7",

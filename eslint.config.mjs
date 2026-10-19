@@ -1,66 +1,41 @@
-import { defineConfig } from 'eslint/config';
-import tsParser from '@typescript-eslint/parser';
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import prettier from 'eslint-plugin-prettier';
-import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-});
+import { defineConfig, globalIgnores } from 'eslint/config';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTypeScript from 'eslint-config-next/typescript';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig([
-  {
-    files: ['**/*.{ts,tsx}'],
-    ignores: [
-      'build/**', 
-      'node_modules/**', 
-      '.next/**',
-      'next-env.d.ts',
-      'public/**',
-    ],
-    extends: [
-      ...compat.extends(
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:prettier/recommended',
-        'next/core-web-vitals',
-        'next/typescript'
-      )
-    ],
-    plugins: {
-      '@typescript-eslint': typescriptEslint,
-      prettier,
+    globalIgnores([
+        '.next/**',
+        'out/**',
+        'build/**',
+        'coverage/**',
+        'public/**',
+        'next-env.d.ts',
+    ]),
+    ...nextVitals,
+    ...nextTypeScript,
+    {
+        ...prettierRecommended,
+        files: ['**/*.{ts,tsx}'],
     },
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: ['./tsconfig.json'],
-      },
-    },
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          args: 'all',
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_',
-          destructuredArrayIgnorePattern: '^_',
-          ignoreRestSiblings: true,
+    {
+        files: ['**/*.{ts,tsx}'],
+        rules: {
+            // Keep legacy effect findings visible during the UI refactor.
+            'react-hooks/set-state-in-effect': 'warn',
+            '@typescript-eslint/no-explicit-any': 'off',
+            'no-unused-vars': 'off',
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    args: 'all',
+                    argsIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                    caughtErrorsIgnorePattern: '^_',
+                    destructuredArrayIgnorePattern: '^_',
+                    ignoreRestSiblings: true,
+                },
+            ],
         },
-      ],
-      'prettier/prettier': 'error',
     },
-  },
 ]);
