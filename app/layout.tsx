@@ -13,6 +13,7 @@ import styles from '@styles/layouts/root-layout.module.css';
 
 // Contexts.
 import AppProvider from '@/contexts/AppContext';
+import ChatProvider from '@/contexts/ChatContext';
 
 /**
  * Root layout.
@@ -43,7 +44,9 @@ export default function RootLayout({
                 />
             </head>
             <body className={styles.body}>
-                <AppProvider>{children}</AppProvider>
+                <AppProvider>
+                    <ChatProvider>{children}</ChatProvider>
+                </AppProvider>
             </body>
         </html>
     );

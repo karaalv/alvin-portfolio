@@ -1,9 +1,5 @@
-/** Presentational messages, independent of transport and storage. */
-export interface ChatMessage {
-    id: string;
-    role: 'user' | 'assistant';
-    content: string;
-}
+/** Message presentation uses the agent's visible-history contract. */
+import type { AgentChatMemory } from '@/types/services/agent/memory';
 
 /** Plain text for one visible message. */
 export interface MessageProps {
@@ -17,7 +13,7 @@ export interface AgentThinkingProps {
 
 /** Ordered messages and optional agent activity. */
 export interface ChatMessagesProps {
-    messages: readonly ChatMessage[];
+    memories: readonly AgentChatMemory[];
     thinking?: boolean;
     thinkingCaption?: string;
 }

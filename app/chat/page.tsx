@@ -11,7 +11,8 @@ import ChatMessages from '@components/chat/messages/ChatMessages';
 import InfoModal from '@components/chat/modals/InfoModal';
 import DeleteChatModal from '@components/chat/modals/DeleteChatModal';
 import ErrorBanner from '@components/chat/feedback/ErrorBanner';
-import { PLACEHOLDER_MESSAGES } from './placeholder-messages';
+import { useAppContext } from '@/contexts/AppContext';
+import { useChatContext } from '@/contexts/ChatContext';
 import styles from '@styles/pages/chat-page.module.css';
 
 /** Compose the empty and conversation layouts without chat operations. */
@@ -19,10 +20,10 @@ export default function ChatPage() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [infoOpen, setInfoOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
-    // TODO: Supply messages and errors from the new chat controller.
-    const messages = PLACEHOLDER_MESSAGES;
-    const [error, setError] = useState<string | null>(null);
-    const hasMessages = messages.length > 0;
+    const { error, setError } = useAppContext();
+    const { memories, isThinking, thinkingCaptions } =
+        useChatContext();
+    const hasMessages = memories.length > 0;
 
     return (
         <main
@@ -85,9 +86,11 @@ export default function ChatPage() {
                             }
                         >
                             <ChatMessages
-                                messages={messages}
-                                thinking
-                                thinkingCaption="Looking through project details"
+                                memories={memories}
+                                thinking={isThinking}
+                                thinkingCaption={
+                                    thinkingCaptions[0]
+                                }
                             />
                         </div>
                     </div>
@@ -98,7 +101,8 @@ export default function ChatPage() {
                         <div className={styles.input_area}>
                             {error !== null && (
                                 <ErrorBanner
-                                    message={error}
+                                    title={error.title}
+                                    message={error.message}
                                     onDismiss={() =>
                                         setError(null)
                                     }

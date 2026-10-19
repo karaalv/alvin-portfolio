@@ -7,7 +7,7 @@ import styles from '@styles/components/chat/messages/chat-messages.module.css';
 
 /** Group messages and optional activity without fetching history. */
 export default function ChatMessages({
-    messages,
+    memories,
     thinking = false,
     thinkingCaption,
 }: ChatMessagesProps) {
@@ -18,16 +18,16 @@ export default function ChatMessages({
             aria-label="Conversation"
             aria-live="polite"
         >
-            {messages.map((message) =>
-                message.role === 'user' ? (
+            {memories.map((memory) =>
+                memory.memory_source === 'user' ? (
                     <UserMessage
-                        key={message.id}
-                        content={message.content}
+                        key={memory.memory_id}
+                        content={memory.content}
                     />
                 ) : (
                     <AgentMessage
-                        key={message.id}
-                        content={message.content}
+                        key={memory.memory_id}
+                        content={memory.content}
                     />
                 ),
             )}
