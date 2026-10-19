@@ -6,7 +6,6 @@
     width: 100%;
     max-width: var(--max-width-mobile);
     margin-inline: auto;
-    padding-block: var(--spacing-structural-64);
     scroll-margin-top: 52px;
 }
 
