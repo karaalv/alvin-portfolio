@@ -65,8 +65,11 @@ they do not authenticate the visitor.
 Explicit link, project and contact events include destination, acquisition
 source and click placement. Automatic pageviews carry source and page
 classification. See the [frontend analytics contract](../portfolio-documentation/analytics/frontend.md)
-for fields, source attribution and tagged profile URLs. Source-aware
-redirect routes remain optional and unimplemented.
+for fields and source attribution. Profile URLs `/tt/links`, `/ig/links`,
+`/x/links` and `/in/links` redirect to `/links` with TikTok, Instagram,
+X and LinkedIn UTM tags respectively. These temporary redirects are
+configured in `next.config.mjs` and also set `utm_medium=social` and
+`utm_campaign=profile`.
 
 ### Product events and logs
 
