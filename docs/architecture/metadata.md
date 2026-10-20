@@ -86,25 +86,28 @@ variables before the build and rebuild if the target changes. Ensure
 Vercel exposes its system environment variables; if they are absent, a
 production-mode build cannot infer that it is a staging deployment.
 
-## Preview image hand-off
+## Shared social preview image
 
-The branded preview image is pending design. No placeholder image URL or
-non-existent asset has been added to metadata. The X card type is already
-`summary_large_image`; its image will be supplied with the asset.
+All pages use `public/assets/media/preview-image.png` for Open Graph
+and X cards. It is a 1200 × 630 px PNG featuring Alvin Karanja's name,
+the website address and colourful painted brushstrokes.
 
-Prepare a 1200 × 630 px PNG or JPG in Figma. Keep essential content away
-from the edges to accommodate cropping and aim for an export below
-500 KB. One shared branded image is sufficient initially.
+`createPageMetadata` supplies the image URL, dimensions and accessible
+image description alongside each page's approved copy. The root metadata
+base resolves its public path to
+`https://alvinkaranja.dev/assets/media/preview-image.png`.
+X cards use `summary_large_image`.
 
-When the image is available, add it as a public asset and configure both
-Open Graph and X image metadata in the shared helper, including an
-accessible description. Verify the image and tags on deployed URLs;
-platform preview caches may retain earlier results.
+Update the shared image definition if its filename or dimensions change.
+The same artwork is deliberately reused across pages; no duplicate
+image files are needed. Verify previews after deployment because social
+platforms may cache earlier metadata or images.
 
 ## Verification
 
 Production HTML was checked for the exact approved copy, canonical URLs
-and 404 noindex tags. The generated sitemap and robots response were
+and 404 noindex tags, plus Open Graph/X image URLs and descriptions.
+The generated sitemap and robots response were
 checked against the approved entries. The indexing policy is also checked
 across production, development, preview and staging configurations.
 
