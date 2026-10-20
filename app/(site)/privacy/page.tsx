@@ -24,9 +24,9 @@ export default function PrivacyPage() {
                 <p
                     className={`${typography.label} ${typography.large} ${styles.updated}`}
                 >
-                    Draft · Last reviewed{' '}
-                    <time dateTime="2026-10-19">
-                        19 October 2026
+                    Last updated{' '}
+                    <time dateTime="2026-10-20">
+                        20 October 2026
                     </time>
                 </p>
             </header>

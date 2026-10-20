@@ -1,7 +1,8 @@
 # Frontend documentation
 
-Implementation documentation for the portfolio frontend. Source code
-remains the authority for current behaviour; the separate portfolio
+Implementation documentation for portfolio **version 3**. The
+[root README notice](../README.md) distinguishes implementation from
+deployment finalisation. Source code remains the authority for current behaviour; the separate portfolio
 documentation repository covers product content and cross-service plans.
 
 ## Development

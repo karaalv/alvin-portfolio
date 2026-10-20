@@ -100,7 +100,7 @@ export default function LinksPage() {
                     id="links-heading"
                     className={styles.heading}
                 >
-                    The link in the bio.
+                    The link in bio.
                 </h1>
                 <nav
                     aria-label="Social profiles and agent"

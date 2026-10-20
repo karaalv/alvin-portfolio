@@ -3,7 +3,9 @@ import type { ChatModalProps } from '@/types/components/chat/modals';
 import ChatModal from './ChatModal';
 import styles from '@styles/components/chat/modals/chat-modal.module.css';
 
-/** Show the assistant introduction without requesting usage data. */
+/**
+ * Show the assistant introduction without requesting usage data.
+ */
 export default function InfoModal(props: ChatModalProps) {
     return (
         <ChatModal {...props} titleId="chat-info-heading">
@@ -20,6 +22,17 @@ export default function InfoModal(props: ChatModalProps) {
                 experience and technical background so you
                 can ask questions, follow your curiosity and
                 go beyond what’s on my portfolio.
+            </p>
+            <p className={styles.body}>
+                Your messages and relevant context are
+                processed by OpenAI. Conversation history is
+                stored, and model inputs and outputs are
+                captured in PostHog for AI diagnostics.
+                Website analytics and session replay can
+                also associate browsing activity and visible
+                chat content with your anonymous visitor ID.
+                Deleting chat history does not automatically
+                delete those separate diagnostic records.
             </p>
         </ChatModal>
     );

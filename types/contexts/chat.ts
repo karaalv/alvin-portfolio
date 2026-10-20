@@ -1,4 +1,4 @@
-/** Chat state exposed to the page and future stream handlers. */
+/** Visible history, streaming state and chat operations. */
 import type { Dispatch, SetStateAction } from 'react';
 import type { StreamManagerItem } from '@/types/services/agent/streaming';
 import type { AgentChatMemory } from '@/types/services/agent/memory';

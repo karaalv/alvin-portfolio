@@ -1,8 +1,7 @@
 'use client';
 
 /**
- * Presentational chat page, independent of the previous API
- * contract.
+ * Version 3 chat page with streamed responses and history.
  */
 import { useRef, useState } from 'react';
 import { PanelLeft } from 'lucide-react';
@@ -19,8 +18,7 @@ import { useChatContext } from '@/contexts/ChatContext';
 import styles from '@styles/pages/chat-page.module.css';
 
 /**
- * Compose the empty and conversation layouts without chat
- * operations.
+ * Compose chat navigation, messages, input and feedback.
  */
 export default function ChatPage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);

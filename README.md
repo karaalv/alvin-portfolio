@@ -1,6 +1,8 @@
 # Alvin Karanja Portfolio
 
-The frontend for [alvinkaranja.dev](https://alvinkaranja.dev), built
+> **Notice:** Portfolio version 3 is implemented. Finalisation is pending deployment of the frontend, backend and infrastructure. This documentation has been updated optimistically to describe the completed v3 implementation; it does not confirm public deployment or live verification.
+
+Version 3 of the frontend for [alvinkaranja.dev](https://alvinkaranja.dev), built
 with Next.js, React, TypeScript and CSS Modules.
 
 This repository contains:

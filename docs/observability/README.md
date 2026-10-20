@@ -2,7 +2,7 @@
 
 ## Responsibilities
 
-The frontend reports browser activity, UI failures and failures in its
+Portfolio version 3 reports browser activity, UI failures and failures in its
 own Server Actions. The agent service separately reports backend
 exceptions, logs and AI traces.
 
@@ -66,6 +66,17 @@ receive identity and session context directly from the SDK.
 
 The source platform used in navigation events is acquisition metadata,
 not user identity. See [attribution](attribution.md).
+
+## Privacy and collection scope
+
+The [current policy](../../../portfolio-documentation/compliance/privacy-policy.md)
+is reflected in the website and chat information dialog. Analytics and
+replay start through the configured SDK; there is no in-site consent or
+analytics-preference control. Visible chat text is not blanket-masked by
+application code, and model input/output capture is a separate backend
+path. The policy discloses both rather than promising content-free
+telemetry. Deleting chat memory does not delete all provider records.
+Privacy access from the links page is not a current requirement.
 
 ## Verification and limits
 

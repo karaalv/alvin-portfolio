@@ -56,6 +56,6 @@ unavailable in an in-app browser. The source encoded in these
 URLs is a marketing label, not proof of the referring platform.
 
 These routes supersede the older bare `/ig`, `/tt` and `/x`
-proposal. `/go/*` outbound redirects remain unimplemented;
-explicit link activation events cover the current reporting need.
+proposal. `/go/*` outbound redirects are outside the current scope;
+explicit link activation events cover the reporting contract.
 

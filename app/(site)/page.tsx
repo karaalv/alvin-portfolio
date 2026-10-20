@@ -11,7 +11,7 @@ export const metadata = createPageMetadata(
     '/',
 );
 
-/** Render the portfolio sections currently being rebuilt. */
+/** Render the version 3 portfolio sections. */
 export default function MainPage() {
     return (
         <div className={styles.container}>

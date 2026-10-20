@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import type { MessageProps } from '@/types/components/chat/messages';
 import styles from '@styles/components/chat/messages/agent-message.module.css';
 
-/** Render assistant Markdown, ready for later streaming integration. */
+/** Render accumulated assistant text as Markdown. */
 export default function AgentMessage({
     content,
 }: MessageProps) {
