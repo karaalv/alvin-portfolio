@@ -1,16 +1,84 @@
-/** Render chat presentation in the supplied message order. */
+'use client';
+
+/** Render chronological history and request older pages near the top. */
+import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useChatContext } from '@/contexts/ChatContext';
 import type { ChatMessagesProps } from '@/types/components/chat/messages';
 import AgentMessage from './AgentMessage';
 import UserMessage from './UserMessage';
 import AgentThinking from './AgentThinking';
 import styles from '@styles/components/chat/messages/chat-messages.module.css';
 
-/** Group messages and optional activity without fetching history. */
+/** Observe the scroll viewport and preserve position when history is prepended. */
 export default function ChatMessages({
+    scrollContainerRef,
     memories,
     thinking = false,
     thinkingCaption,
 }: ChatMessagesProps) {
+    const anchorRef = useRef<HTMLDivElement>(null);
+    const previousFirstId = useRef<string | undefined>(
+        undefined,
+    );
+    const heightBeforePage = useRef<number | null>(null);
+    const {
+        chatHistoryOffset,
+        hasMoreHistory,
+        fetchNextChatPage,
+    } = useChatContext();
+
+    useLayoutEffect(() => {
+        const container = scrollContainerRef.current;
+        const firstId = memories[0]?.memory_id;
+        if (!container || !firstId) {
+            previousFirstId.current = undefined;
+            return;
+        }
+        if (!previousFirstId.current) {
+            container.scrollTop = container.scrollHeight;
+        } else if (
+            firstId !== previousFirstId.current &&
+            heightBeforePage.current !== null
+        ) {
+            container.scrollTop +=
+                container.scrollHeight -
+                heightBeforePage.current;
+        }
+        previousFirstId.current = firstId;
+        heightBeforePage.current = null;
+    }, [memories, scrollContainerRef]);
+
+    useEffect(() => {
+        const anchor = anchorRef.current;
+        const container = scrollContainerRef.current;
+        if (
+            !anchor ||
+            !container ||
+            !hasMoreHistory ||
+            chatHistoryOffset === 0
+        )
+            return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) return;
+                heightBeforePage.current =
+                    container.scrollHeight;
+                void fetchNextChatPage();
+            },
+            {
+                root: container,
+                rootMargin: '200px 0px 0px 0px',
+            },
+        );
+        observer.observe(anchor);
+        return () => observer.disconnect();
+    }, [
+        chatHistoryOffset,
+        hasMoreHistory,
+        fetchNextChatPage,
+        scrollContainerRef,
+    ]);
+
     return (
         <div
             className={styles.container}
@@ -18,6 +86,11 @@ export default function ChatMessages({
             aria-label="Conversation"
             aria-live="polite"
         >
+            <div
+                ref={anchorRef}
+                className={styles.history_anchor}
+                aria-hidden="true"
+            />
             {memories.map((memory) =>
                 memory.memory_source === 'user' ? (
                     <UserMessage

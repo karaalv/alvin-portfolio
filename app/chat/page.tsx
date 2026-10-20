@@ -1,7 +1,7 @@
 'use client';
 
 /** Presentational chat page, independent of the previous API contract. */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { PanelLeft } from 'lucide-react';
 import Sidebar from '@components/chat/sidebar/Sidebar';
 import ChatInput from '@components/chat/input/ChatInput';
@@ -17,6 +17,7 @@ import styles from '@styles/pages/chat-page.module.css';
 
 /** Compose the empty and conversation layouts without chat operations. */
 export default function ChatPage() {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [infoOpen, setInfoOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
@@ -77,6 +78,7 @@ export default function ChatPage() {
                     }
                 >
                     <div
+                        ref={scrollContainerRef}
                         className={styles.messages}
                         hidden={!hasMessages}
                     >
@@ -86,6 +88,9 @@ export default function ChatPage() {
                             }
                         >
                             <ChatMessages
+                                scrollContainerRef={
+                                    scrollContainerRef
+                                }
                                 memories={memories}
                                 thinking={isThinking}
                                 thinkingCaption={

@@ -7,6 +7,10 @@ export interface ChatContextValue {
     setMemories: Dispatch<
         SetStateAction<AgentChatMemory[]>
     >;
+    chatHistoryOffset: number;
+    hasMoreHistory: boolean;
+    isHistoryLoading: boolean;
+    fetchNextChatPage: () => Promise<void>;
     isThinking: boolean;
     setIsThinking: Dispatch<SetStateAction<boolean>>;
     thinkingCaptions: string[];
