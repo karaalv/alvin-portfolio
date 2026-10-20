@@ -1,10 +1,7 @@
-/** Portfolio introduction and the presentational hero chat controls. */
-import ChatInput from '@components/chat/input/ChatInput';
-import PromptGroup from '@components/chat/input/PromptGroup';
-import typography from '@styles/shared/typography.module.css';
+/** Portfolio introduction with Alvin's name and quote. */
 import styles from '@styles/components/main-page/hero/hero.module.css';
 
-/** Compose the name, quote, input and suggested prompt labels. */
+/** Display the name and quote without chat controls. */
 export default function Hero() {
     return (
         <section
@@ -24,15 +21,6 @@ export default function Hero() {
                     trees in whose shade they will never
                     sit.” So I plan to plant a lot of trees.
                 </p>
-            </div>
-            <div className={styles.chat}>
-                <h2
-                    className={`${typography.heading} ${typography.medium} ${styles.chat_heading}`}
-                >
-                    Ask about my work
-                </h2>
-                <ChatInput variant="hero" />
-                <PromptGroup variant="hero" />
             </div>
         </section>
     );

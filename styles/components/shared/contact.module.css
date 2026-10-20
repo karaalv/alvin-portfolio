@@ -27,7 +27,7 @@
     gap: var(--spacing-compact-8);
 }
 
-.group_heading {
+.group .group_heading {
     margin: 0;
     font-size: 14px;
     line-height: 20px;

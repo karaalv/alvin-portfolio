@@ -27,7 +27,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={styles.html}>
+        <html
+            lang="en"
+            className={styles.html}
+            data-scroll-behavior="smooth"
+        >
             <head>
                 <title>Alvin Karanja | Portfolio</title>
                 <link

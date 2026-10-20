@@ -17,6 +17,17 @@ body {
     min-height: 100dvh;
 }
 
+/* Animate section links while respecting reduced-motion preferences. */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
 /* Font families */
 :root {
     --primary-font:

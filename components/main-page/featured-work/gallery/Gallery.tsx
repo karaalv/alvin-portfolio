@@ -11,7 +11,7 @@ const ITEMS: GalleryItemProps[] = [
             '5,489 eCitizen services, structured for research',
         tag: 'Data',
         date: 'Feb 2026',
-        href: 'https://github.com/karaalv/kenya-ecitizen-services-dataset',
+        href: 'https://www.kaggle.com/datasets/alvinkaranja/kenya-ecitizen-services-dataset-february-2026',
         backgroundImage:
             '/assets/featured-work/gallery/dataset-painted.png',
     },
