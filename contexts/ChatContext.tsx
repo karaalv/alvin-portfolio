@@ -15,6 +15,11 @@ import {
     type ReactNode,
 } from 'react';
 import type { ChatContextValue } from '@/types/contexts/chat';
+import {
+    AgentDeltaBuffer,
+    appendAgentMemoryChunks,
+} from '@/lib/chat/deltas';
+import type { StreamManagerItem } from '@/types/services/agent/streaming';
 import type { AgentChatMemory } from '@/types/services/agent/memory';
 import { useAppContext } from '@/contexts/AppContext';
 import { retrieveAgentChatPage } from '@/services/agent/memory/retrieval';
@@ -40,6 +45,9 @@ export default function ChatProvider({
         useState(false);
     const [isHistoryLoading, setIsHistoryLoading] =
         useState(false);
+    const deltaBuffers = useRef(
+        new Map<string, AgentDeltaBuffer>(),
+    );
     const historySession = useRef({
         offset: 0,
         loading: false,
@@ -100,6 +108,7 @@ export default function ChatProvider({
             hasMore: !!accessToken,
         };
         historySession.current = session;
+        deltaBuffers.current.clear();
         setMemories([]);
         setChatHistoryOffset(0);
         setHasMoreHistory(session.hasMore);
@@ -120,10 +129,57 @@ export default function ChatProvider({
     const [thinkingCaptions, setThinkingCaptions] =
         useState<string[]>([]);
     const [isResponding, setIsResponding] = useState(false);
+    /**
+     * Order chunks by memory and transition from thinking to text.
+     */
+    const appendAgentDelta = useCallback(
+        (item: StreamManagerItem) => {
+            let buffer = deltaBuffers.current.get(
+                item.memory_id,
+            );
+            if (!buffer) {
+                buffer = new AgentDeltaBuffer();
+                deltaBuffers.current.set(
+                    item.memory_id,
+                    buffer,
+                );
+            }
+            const chunks = buffer.push(item);
+            if (chunks === null) return;
+            setIsThinking(false);
+            setIsResponding(true);
+            // Reserve the message even when its first chunk is still missing.
+            const ready =
+                chunks.length > 0
+                    ? chunks
+                    : [{ ...item, payload: '' }];
+            setMemories((current) =>
+                appendAgentMemoryChunks(current, ready),
+            );
+        },
+        [],
+    );
+
+    /**
+     * Flush pending text before ending a turn, including short
+     * gaps.
+     */
+    const finishAgentDeltas = useCallback(() => {
+        const chunks = [
+            ...deltaBuffers.current.values(),
+        ].flatMap((buffer) => buffer.finish());
+        if (chunks.length > 0)
+            setMemories((current) =>
+                appendAgentMemoryChunks(current, chunks),
+            );
+    }, []);
+
     const value = useMemo(
         () => ({
             memories,
             setMemories,
+            appendAgentDelta,
+            finishAgentDeltas,
             userMessage,
             setUserMessage,
             chatHistoryOffset,
@@ -139,6 +195,8 @@ export default function ChatProvider({
         }),
         [
             memories,
+            appendAgentDelta,
+            finishAgentDeltas,
             userMessage,
             chatHistoryOffset,
             hasMoreHistory,

@@ -46,7 +46,7 @@ function isStreamItem(
         typeof value.user_id === 'string' &&
         typeof value.memory_id === 'string' &&
         typeof value.sequence_number === 'number' &&
-        Number.isInteger(value.sequence_number) &&
+        Number.isSafeInteger(value.sequence_number) &&
         value.sequence_number >= 0 &&
         typeof value.payload === 'string'
     );

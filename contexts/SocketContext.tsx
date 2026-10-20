@@ -54,6 +54,8 @@ export default function SocketProvider({
         userMessage,
         setUserMessage,
         setMemories,
+        appendAgentDelta,
+        finishAgentDeltas,
         isThinking,
         isResponding,
         setIsThinking,
@@ -186,6 +188,7 @@ export default function SocketProvider({
         }
 
         function endAgentTurn() {
+            finishAgentDeltas();
             turnActiveRef.current = false;
             setIsThinking(false);
             setIsResponding(false);
@@ -297,7 +300,9 @@ export default function SocketProvider({
                                 endAgentTurn();
                                 break;
                             case WebSocketResponseType.AGENT_DELTA:
-                                // TODO: Merge the text delta into visible history.
+                                appendAgentDelta(
+                                    response.payload,
+                                );
                                 break;
                             case WebSocketResponseType.TOOL_MESSAGE:
                                 // Tool notifications have no presentation state.
@@ -374,6 +379,8 @@ export default function SocketProvider({
         };
     }, [
         setError,
+        appendAgentDelta,
+        finishAgentDeltas,
         setIsThinking,
         setIsResponding,
         setThinkingCaptions,

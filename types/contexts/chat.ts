@@ -1,5 +1,6 @@
 /** Chat state exposed to the page and future stream handlers. */
 import type { Dispatch, SetStateAction } from 'react';
+import type { StreamManagerItem } from '@/types/services/agent/streaming';
 import type { AgentChatMemory } from '@/types/services/agent/memory';
 
 export interface ChatContextValue {
@@ -7,6 +8,8 @@ export interface ChatContextValue {
     setMemories: Dispatch<
         SetStateAction<AgentChatMemory[]>
     >;
+    appendAgentDelta: (item: StreamManagerItem) => void;
+    finishAgentDeltas: () => void;
     userMessage: string;
     setUserMessage: Dispatch<SetStateAction<string>>;
     chatHistoryOffset: number;
