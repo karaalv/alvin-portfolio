@@ -22,6 +22,7 @@ import {
 import type { StreamManagerItem } from '@/types/services/agent/streaming';
 import type { AgentChatMemory } from '@/types/services/agent/memory';
 import { useAppContext } from '@/contexts/AppContext';
+import { getPostHogSessionId } from '@/lib/posthog/session';
 import { deleteAgentMemory } from '@/services/agent/memory/deletion';
 import { retrieveAgentChatPage } from '@/services/agent/memory/retrieval';
 import { createApplicationError } from '@/lib/errors/application';
@@ -70,6 +71,7 @@ export default function ChatProvider({
         try {
             const { data } = await retrieveAgentChatPage(
                 session.offset,
+                getPostHogSessionId(),
             );
             if (historySession.current !== session) return;
             session.offset += data.length;
@@ -201,7 +203,9 @@ export default function ChatProvider({
             historySession.current = deletingSession;
             setIsHistoryLoading(false);
             try {
-                await deleteAgentMemory();
+                await deleteAgentMemory(
+                    getPostHogSessionId(),
+                );
                 if (
                     historySession.current !==
                     deletingSession

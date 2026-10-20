@@ -8,4 +8,5 @@ export interface AppContextValue {
         SetStateAction<ApplicationError | null>
     >;
     accessToken: string | null;
+    isSessionLoaded: boolean;
 }

@@ -1,6 +1,9 @@
 'use client';
 
-/** Application-wide error state and visitor authentication snapshot. */
+/**
+ * Application-wide error state and visitor authentication
+ * snapshot.
+ */
 import {
     createContext,
     useContext,
@@ -9,6 +12,11 @@ import {
     useState,
     type ReactNode,
 } from 'react';
+import { decodeJwt } from 'jose';
+import {
+    identifyPostHogUser,
+    resetPostHogUser,
+} from '@/lib/posthog/identity';
 import type { ApplicationError } from '@/types/application/error';
 import type { AppContextValue } from '@/types/contexts/app';
 import { createApplicationError } from '@/lib/errors/application';
@@ -18,7 +26,10 @@ const AppContext = createContext<
     AppContextValue | undefined
 >(undefined);
 
-/** Load the cookie through the server without making every page dynamic. */
+/**
+ * Load the cookie through the server without making every page
+ * dynamic.
+ */
 export default function AppProvider({
     children,
 }: {
@@ -30,12 +41,22 @@ export default function AppProvider({
         string | null
     >(null);
 
+    const [isSessionLoaded, setIsSessionLoaded] =
+        useState(false);
+
     useEffect(() => {
         let cancelled = false;
         async function loadAccessToken() {
             try {
                 const token = await getAccessToken();
-                if (!cancelled) setAccessToken(token);
+                if (cancelled) return;
+                setAccessToken(token);
+                if (token) {
+                    const userId = decodeJwt(token).sub;
+                    if (userId) identifyPostHogUser(userId);
+                } else {
+                    resetPostHogUser();
+                }
             } catch {
                 if (!cancelled)
                     setError(
@@ -44,6 +65,8 @@ export default function AppProvider({
                             'Your saved chat session could not be loaded. Please reload the page and try again.',
                         ),
                     );
+            } finally {
+                if (!cancelled) setIsSessionLoaded(true);
             }
         }
         void loadAccessToken();
@@ -53,8 +76,13 @@ export default function AppProvider({
     }, []);
 
     const value = useMemo(
-        () => ({ error, setError, accessToken }),
-        [error, accessToken],
+        () => ({
+            error,
+            setError,
+            accessToken,
+            isSessionLoaded,
+        }),
+        [error, accessToken, isSessionLoaded],
     );
     return (
         <AppContext.Provider value={value}>

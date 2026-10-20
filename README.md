@@ -37,6 +37,29 @@ The token in AppContext is an initial, in-memory cookie snapshot. The cookie mus
 
 History uses the visible `AgentChatMemory` schema. Canonical model artefacts have a separate `AgentMemory` type with an `unknown` payload. WebSocket frames are validated before dispatch, but event handlers, token claiming, history loading and message submission remain TODOs.
 
+## Browser analytics
+
+PostHog starts in `instrumentation-client.ts`. Configure
+`NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` and
+`NEXT_PUBLIC_POSTHOG_HOST` before building the frontend.
+Development and staging env files contain the development project
+configuration. Production is left unconfigured until its own
+values are supplied. Next.js does not load `.env.staging`
+automatically, so staging deployments must inject those values.
+
+The SDK captures page views, navigation, interaction events and
+heatmaps, and enables session recording subject to the project's
+recording settings. Automatic exception capture is disabled for
+now. Returning visitors are identified from their token's user
+ID; a missing cookie resets the previous association. Successful
+cookie claiming identifies newly created visitors.
+
+HTTP service calls carry the current browser replay ID in
+`X-POSTHOG-SESSION-ID`. WebSocket handshakes carry it as the
+`session_id` query parameter, since browser WebSockets cannot
+supply custom headers. These values provide replay context;
+they do not authenticate the visitor.
+
 ## 👨🏾‍⚖️ License
 
 This project is licensed under the [Apache License 2.0](./LICENSE).  

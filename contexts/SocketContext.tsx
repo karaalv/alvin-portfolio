@@ -14,6 +14,8 @@ import {
     useState,
     type ReactNode,
 } from 'react';
+import { getPostHogSessionId } from '@/lib/posthog/session';
+import { identifyPostHogUser } from '@/lib/posthog/identity';
 import { decodeJwt } from 'jose';
 import { useChatContext } from '@/contexts/ChatContext';
 import { sanitiseInput } from '@/lib/chat/sanitisation';
@@ -49,7 +51,7 @@ export default function SocketProvider({
 }: {
     children: ReactNode;
 }) {
-    const { setError } = useAppContext();
+    const { setError, isSessionLoaded } = useAppContext();
     const {
         userMessage,
         setUserMessage,
@@ -176,6 +178,7 @@ export default function SocketProvider({
     ]);
 
     useEffect(() => {
+        if (!isSessionLoaded) return;
         let disposed = false;
         let socket: WebSocket | null = null;
         let failed = false;
@@ -210,7 +213,11 @@ export default function SocketProvider({
                         'Missing visitor identity.',
                     );
                 userIdRef.current = userId;
-                await claimAccessCookie(token);
+                await claimAccessCookie(
+                    token,
+                    getPostHogSessionId(),
+                );
+                if (!disposed) identifyPostHogUser(userId);
             } catch {
                 if (!disposed)
                     setError(
@@ -224,7 +231,9 @@ export default function SocketProvider({
 
         async function connect() {
             try {
-                const url = await getPortfolioAgentWsUrl();
+                const url = await getPortfolioAgentWsUrl(
+                    getPostHogSessionId(),
+                );
                 // The provider may unmount while the server resolves the URL.
                 if (disposed) return;
                 const accessToken = new URL(
@@ -382,6 +391,7 @@ export default function SocketProvider({
         };
     }, [
         setError,
+        isSessionLoaded,
         appendAgentDelta,
         finishAgentDeltas,
         setIsThinking,

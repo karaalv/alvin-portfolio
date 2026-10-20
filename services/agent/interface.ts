@@ -1,4 +1,6 @@
-/** Server-only HTTP transport for the Portfolio Agent service. */
+/**
+ * Server-only HTTP transport for the Portfolio Agent service.
+ */
 import 'server-only';
 import { cookies } from 'next/headers';
 import { generateUuid } from '@/lib/ids/generate';
@@ -10,7 +12,10 @@ import { applyResponseCookies } from '@/server/http/cookies';
 import type { HttpResponse } from '@/types/api/http/responses';
 import type { HttpAgentOptions } from '@/types/services/agent/http';
 
-/** Return a validated envelope; endpoint helpers must validate its data. */
+/**
+ * Return a validated envelope; endpoint helpers must validate
+ * its data.
+ */
 export async function httpAgent<T = unknown>(
     endpoint: string,
     options: HttpAgentOptions = {},
@@ -39,6 +44,11 @@ export async function httpAgent<T = unknown>(
     const requestHeaders = new Headers(options.headers);
     requestHeaders.set('Accept', 'application/json');
     requestHeaders.set('Origin', await getRequestOrigin());
+    if (options.posthogSessionId)
+        requestHeaders.set(
+            'X-POSTHOG-SESSION-ID',
+            options.posthogSessionId,
+        );
     requestHeaders.set(
         'X-Request-ID',
         requestHeaders.get('X-Request-ID') ||
