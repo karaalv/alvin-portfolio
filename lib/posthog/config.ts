@@ -2,6 +2,7 @@
  * Configure the browser SDK and optional analytics activation.
  */
 import posthog from 'posthog-js';
+import { getNavigationContext } from '@/lib/posthog/navigation-context';
 export function isPostHogConfigured(): boolean {
     return !!(
         process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN &&
@@ -29,6 +30,17 @@ export function initialisePostHog(): void {
             disable_session_recording: false,
             capture_exceptions: true,
             logs: { serviceName: 'portfolio-web' },
+            before_send: (event) => {
+                if (event?.event === '$pageview')
+                    return {
+                        ...event,
+                        properties: {
+                            ...event.properties,
+                            ...getNavigationContext(),
+                        },
+                    };
+                return event;
+            },
         });
     }
 }

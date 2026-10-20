@@ -1,6 +1,6 @@
 /** Social profiles and portfolio entry points on one links card. */
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/components/shared/TrackedLink';
 import { ArrowUpRight } from 'lucide-react';
 import type { LinksPageItem } from '@/types/pages/links';
 import styles from '@styles/pages/links-page.module.css';
@@ -41,6 +41,17 @@ function renderLink(item: LinksPageItem, index: number) {
         <li key={item.href} className={styles.item}>
             <Link
                 href={item.href}
+                analytics={{
+                    destination:
+                        item.title === 'Talk to my agent'
+                            ? 'agent_chat'
+                            : item.title.toLowerCase(),
+                    position: index + 1,
+                    source_section: 'links_list',
+                    link_category: item.external
+                        ? 'social'
+                        : 'navigation',
+                }}
                 target={
                     item.external ? '_blank' : undefined
                 }
@@ -100,7 +111,16 @@ export default function LinksPage() {
                     </ul>
                 </nav>
             </div>
-            <Link href="/" className={styles.portfolio}>
+            <Link
+                href="/"
+                className={styles.portfolio}
+                analytics={{
+                    destination: 'portfolio',
+                    position: LINKS.length + 1,
+                    source_section: 'links_portfolio',
+                    link_category: 'navigation',
+                }}
+            >
                 View Portfolio
                 <ArrowUpRight
                     size={32}

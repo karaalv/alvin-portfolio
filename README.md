@@ -60,6 +60,14 @@ HTTP service calls carry the current browser replay ID in
 supply custom headers. These values provide replay context;
 they do not authenticate the visitor.
 
+### Navigation analytics
+
+Explicit link, project and contact events include destination, acquisition
+source and click placement. Automatic pageviews carry source and page
+classification. See the [frontend analytics contract](../portfolio-documentation/analytics/frontend.md)
+for fields, source attribution and tagged profile URLs. Source-aware
+redirect routes remain optional and unimplemented.
+
 ### Product events and logs
 
 `lib/posthog/events.ts` captures typed events and writes their
@@ -78,8 +86,8 @@ to these events or their console logs.
 
 Browser errors and chat events are also sent as structured logs
 through `lib/posthog/logging.ts`. In PostHog Logs, filter by service
-`portfolio-web`; use `logger_name` (`chat` for events or the error
-source), `runtime` and `request_id` to narrow results. Browser
+`portfolio-web`; use `logger_name` (`chat` for chat events, `navigation`
+for navigation events or the error source), `runtime` and `request_id` to narrow results. Browser
 identity and session correlation are attached by the SDK. Broad
 console forwarding is not enabled by the code. Server console
 logs still require a separate OpenTelemetry exporter to reach

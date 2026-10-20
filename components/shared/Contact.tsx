@@ -1,6 +1,6 @@
 /** Shared contact links, social profiles and portfolio footer. */
 import { ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
+import Link from '@/components/shared/TrackedLink';
 import Image from 'next/image';
 import typography from '@styles/shared/typography.module.css';
 import styles from '@styles/components/shared/contact.module.css';
@@ -52,8 +52,17 @@ export default function Contact() {
                             Get in touch
                         </h2>
                         <div className={styles.links}>
-                            <a
+                            <Link
                                 href="mailto:alvinnjiiri@gmail.com"
+                                analytics={{
+                                    destination: 'email',
+                                    method: 'email',
+                                    position: 1,
+                                    source_section:
+                                        'footer_contact',
+                                    link_category:
+                                        'contact',
+                                }}
                                 className={actionClass}
                             >
                                 Email me
@@ -61,9 +70,17 @@ export default function Contact() {
                                     size={18}
                                     aria-hidden="true"
                                 />
-                            </a>
+                            </Link>
                             <Link
                                 href="/links"
+                                analytics={{
+                                    destination: 'links',
+                                    position: 2,
+                                    source_section:
+                                        'footer_contact',
+                                    link_category:
+                                        'navigation',
+                                }}
                                 className={actionClass}
                             >
                                 All links
@@ -82,17 +99,45 @@ export default function Contact() {
                             Explore
                         </h2>
                         <div className={styles.links}>
-                            {EXPLORE_LINKS.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={linkClass}
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
+                            {EXPLORE_LINKS.map(
+                                (link, index) => (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        analytics={{
+                                            destination:
+                                                link.label
+                                                    .toLowerCase()
+                                                    .replaceAll(
+                                                        ' ',
+                                                        '_',
+                                                    ),
+                                            position:
+                                                index + 1,
+                                            source_section:
+                                                'footer_explore',
+                                            link_category:
+                                                'navigation',
+                                        }}
+                                        className={
+                                            linkClass
+                                        }
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ),
+                            )}
                             <Link
                                 href="/chat"
+                                analytics={{
+                                    destination:
+                                        'agent_chat',
+                                    position: 4,
+                                    source_section:
+                                        'footer_explore',
+                                    link_category:
+                                        'navigation',
+                                }}
                                 className={actionClass}
                             >
                                 Try chat
@@ -113,6 +158,14 @@ export default function Contact() {
                         <div className={styles.links}>
                             <Link
                                 href="/privacy"
+                                analytics={{
+                                    destination: 'privacy',
+                                    position: 1,
+                                    source_section:
+                                        'footer_policies',
+                                    link_category:
+                                        'navigation',
+                                }}
                                 className={linkClass}
                             >
                                 Privacy Policy
@@ -125,10 +178,18 @@ export default function Contact() {
                         aria-label="Social profiles"
                         className={styles.social_links}
                     >
-                        {SOCIAL_LINKS.map((link) => (
-                            <a
+                        {SOCIAL_LINKS.map((link, index) => (
+                            <Link
                                 key={link.label}
                                 href={link.href}
+                                analytics={{
+                                    destination:
+                                        link.label.toLowerCase(),
+                                    position: index + 1,
+                                    source_section:
+                                        'footer_social',
+                                    link_category: 'social',
+                                }}
                                 aria-label={link.label}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -146,7 +207,7 @@ export default function Contact() {
                                         styles.social_icon
                                     }
                                 />
-                            </a>
+                            </Link>
                         ))}
                     </nav>
                     <p

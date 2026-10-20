@@ -65,8 +65,12 @@ export default function Gallery() {
             aria-label="Selected work"
             className={styles.container}
         >
-            {ITEMS.map((item) => (
-                <GalleryItem key={item.work} {...item} />
+            {ITEMS.map((item, index) => (
+                <GalleryItem
+                    key={item.work}
+                    {...item}
+                    position={index + 1}
+                />
             ))}
         </ul>
     );

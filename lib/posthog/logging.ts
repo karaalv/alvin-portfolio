@@ -29,7 +29,7 @@ export function logPostHogException(
     }
 }
 
-/** Send structured chat logs with the same event request ID. */
+/** Send structured product logs with their correlation fields. */
 export function logPostHogEvent<
     Event extends keyof ApplicationEventProperties,
 >(
@@ -40,7 +40,9 @@ export function logPostHogEvent<
     try {
         posthog.logger.info(event, {
             ...properties,
-            logger_name: 'chat',
+            logger_name: event.startsWith('chat_')
+                ? 'chat'
+                : 'navigation',
             runtime: 'client',
         });
     } catch {

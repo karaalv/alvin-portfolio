@@ -1,5 +1,5 @@
 /** Persistent desktop navigation and mobile chat drawer. */
-import Link from 'next/link';
+import Link from '@/components/shared/TrackedLink';
 import { ArrowUpRight, PanelLeftClose } from 'lucide-react';
 import NameLogo from '@components/branding/NameLogo';
 import type { SidebarProps } from '@/types/components/chat/sidebar';
@@ -22,6 +22,12 @@ export default function Sidebar({
             <header className={styles.header}>
                 <Link
                     href="/"
+                    analytics={{
+                        destination: 'portfolio',
+                        position: 1,
+                        source_section: 'chat_sidebar_logo',
+                        link_category: 'navigation',
+                    }}
                     aria-label="Alvin, homepage"
                     className={styles.logo}
                 >
@@ -46,6 +52,12 @@ export default function Sidebar({
                 <div className={styles.group}>
                     <Link
                         href="/"
+                        analytics={{
+                            destination: 'portfolio',
+                            position: 1,
+                            source_section: 'chat_sidebar',
+                            link_category: 'navigation',
+                        }}
                         className={styles.action}
                     >
                         Visit portfolio
@@ -72,6 +84,12 @@ export default function Sidebar({
                     </button>
                     <Link
                         href="/privacy"
+                        analytics={{
+                            destination: 'privacy',
+                            position: 2,
+                            source_section: 'chat_sidebar',
+                            link_category: 'navigation',
+                        }}
                         className={`${styles.action} ${styles.secondary}`}
                     >
                         Privacy

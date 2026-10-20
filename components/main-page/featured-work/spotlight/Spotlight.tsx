@@ -1,6 +1,7 @@
 'use client';
 
 /** Featured project with responsive video and still-image fallback. */
+import Link from '@/components/shared/TrackedLink';
 import { useEffect, useRef } from 'react';
 import Image, { getImageProps } from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
@@ -104,8 +105,16 @@ export default function Spotlight({
                         </p>
                     </div>
                 </div>
-                <a
+                <Link
                     href={href}
+                    analytics={{
+                        destination: 'mwalika',
+                        project: 'mwalika',
+                        position: 1,
+                        source_section:
+                            'featured_spotlight',
+                        link_category: 'project',
+                    }}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.cta}
@@ -115,7 +124,7 @@ export default function Spotlight({
                         size={20}
                         aria-hidden="true"
                     />
-                </a>
+                </Link>
             </div>
             <div ref={mediaRef} className={styles.media}>
                 <picture>

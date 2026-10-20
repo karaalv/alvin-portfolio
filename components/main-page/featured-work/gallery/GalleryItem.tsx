@@ -1,4 +1,5 @@
 /** Selected-work card with live text over decorative artwork. */
+import Link from '@/components/shared/TrackedLink';
 import { getImageProps } from 'next/image';
 import type { GalleryItemProps } from '@/types/components/main-page/featured-work/gallery-item';
 import styles from '@styles/components/main-page/featured-work/gallery/gallery-item.module.css';
@@ -6,6 +7,7 @@ import styles from '@styles/components/main-page/featured-work/gallery/gallery-i
 /** Render a single link with distinct artwork and website titles. */
 export default function GalleryItem({
     work,
+    position,
     cardTitle,
     cardLabel,
     tag,
@@ -22,8 +24,19 @@ export default function GalleryItem({
 
     return (
         <li>
-            <a
+            <Link
                 href={href}
+                analytics={{
+                    destination: work
+                        .toLowerCase()
+                        .replaceAll(' ', '_'),
+                    project: work
+                        .toLowerCase()
+                        .replaceAll(' ', '_'),
+                    position: position ?? 1,
+                    source_section: 'featured_gallery',
+                    link_category: 'project',
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${work}: ${cardLabel}`}
@@ -53,7 +66,7 @@ export default function GalleryItem({
                         </span>
                     </div>
                 </div>
-            </a>
+            </Link>
         </li>
     );
 }
