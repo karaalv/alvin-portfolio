@@ -12,6 +12,10 @@ export interface ChatContextValue {
     finishAgentDeltas: () => void;
     deleteChatHistory: () => Promise<boolean>;
     isDeletingHistory: boolean;
+    selectedPromptLabel: string | null;
+    setSelectedPromptLabel: Dispatch<
+        SetStateAction<string | null>
+    >;
     userMessage: string;
     setUserMessage: Dispatch<SetStateAction<string>>;
     chatHistoryOffset: number;

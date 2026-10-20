@@ -12,7 +12,7 @@ import {
  */
 export function createWsAgentMessageRequest(
     message: string,
-): WebSocketRequest {
+): WebSocketRequest & { request_id: string } {
     return {
         type: WebSocketRequestType.AGENT_MESSAGE,
         payload: message,
@@ -21,7 +21,9 @@ export function createWsAgentMessageRequest(
 }
 
 /** Keep the connection active without invoking the agent. */
-export function createWsHeartbeatRequest(): WebSocketRequest {
+export function createWsHeartbeatRequest(): WebSocketRequest & {
+    request_id: string;
+} {
     return {
         type: WebSocketRequestType.HEARTBEAT,
         payload: 'ping',

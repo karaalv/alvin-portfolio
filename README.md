@@ -60,6 +60,36 @@ HTTP service calls carry the current browser replay ID in
 supply custom headers. These values provide replay context;
 they do not authenticate the visitor.
 
+### Product events and logs
+
+`lib/posthog/events.ts` captures typed events and writes their
+properties through `lib/logging/console.ts`. Analytics failures
+never interrupt chat. No message text or credentials are added
+to these events or their console logs.
+
+- `chat_message_sent`: after the socket accepts the send call,
+  with `request_id`, sanitised `message_length` in Unicode code
+  points, `message_source` (`typed` or `prompt`), and optional
+  `prompt_label`. Editing a suggestion changes its source to
+  `typed`. Sending does not confirm backend processing.
+- `chat_history_deleted`: after backend success, with its
+  `request_id` and `loaded_message_count`, the number of visible
+  messages cached before deletion, not MongoDB's deletion count.
+
+Browser errors and chat events are also sent as structured logs
+through `lib/posthog/logging.ts`. In PostHog Logs, filter by service
+`portfolio-web`; use `logger_name` (`chat` for events or the error
+source), `runtime` and `request_id` to narrow results. Browser
+identity and session correlation are attached by the SDK. Broad
+console forwarding is not enabled by the code. Server console
+logs still require a separate OpenTelemetry exporter to reach
+PostHog Logs; server exception capture remains active.
+
+Exception helpers also log unexpected failures to the browser or
+server console, including the original exception, runtime and
+correlation metadata. Console logging works without PostHog.
+Expected HTTP 4xx rejections remain UI feedback only.
+
 ### Exception capture
 
 `lib/posthog/error-capture.ts` exposes

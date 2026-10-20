@@ -1,7 +1,9 @@
 /**
  * Report handled browser failures and return safe UI feedback.
  */
+import { logApplicationException } from '@/lib/logging/console';
 import posthog from 'posthog-js';
+import { logPostHogException } from '@/lib/posthog/logging';
 import { createApplicationError } from '@/lib/errors/application';
 import { isPostHogConfigured } from '@/lib/posthog/config';
 import {
@@ -25,6 +27,10 @@ export function captureApplicationException(
     context: ApplicationExceptionContext,
 ): ApplicationError {
     const error = normaliseException(exception, title);
+    if (!isExpectedRejection(error)) {
+        logApplicationException(error, context, 'client');
+        logPostHogException(error, context);
+    }
     if (
         isPostHogConfigured() &&
         !isExpectedRejection(error) &&

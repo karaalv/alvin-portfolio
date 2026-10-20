@@ -14,6 +14,7 @@ import {
     useState,
     type ReactNode,
 } from 'react';
+import { captureApplicationEvent } from '@/lib/posthog/events';
 import { getPostHogSessionId } from '@/lib/posthog/session';
 import { identifyPostHogUser } from '@/lib/posthog/identity';
 import { decodeJwt } from 'jose';
@@ -56,6 +57,8 @@ export default function SocketProvider({
 }) {
     const { setError, isSessionLoaded } = useAppContext();
     const {
+        selectedPromptLabel,
+        setSelectedPromptLabel,
         userMessage,
         setUserMessage,
         setMemories,
@@ -164,11 +167,9 @@ export default function SocketProvider({
         // This local ID identifies the optimistic item, not a database write.
         setMemories((current) => [...current, memory]);
         turnActiveRef.current = true;
-        if (
-            !sendMessage(
-                createWsAgentMessageRequest(content),
-            )
-        ) {
+        const request =
+            createWsAgentMessageRequest(content);
+        if (!sendMessage(request)) {
             setMemories((current) =>
                 current.filter(
                     (item) =>
@@ -178,10 +179,23 @@ export default function SocketProvider({
             turnActiveRef.current = false;
             return;
         }
+        captureApplicationEvent('chat_message_sent', {
+            request_id: request.request_id,
+            message_length: Array.from(content).length,
+            message_source: selectedPromptLabel
+                ? 'prompt'
+                : 'typed',
+            ...(selectedPromptLabel
+                ? { prompt_label: selectedPromptLabel }
+                : {}),
+        });
+        setSelectedPromptLabel(null);
         setUserMessage('');
         setThinkingCaptions([]);
         setIsThinking(true);
     }, [
+        selectedPromptLabel,
+        setSelectedPromptLabel,
         userMessage,
         isThinking,
         isResponding,

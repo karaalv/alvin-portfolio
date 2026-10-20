@@ -22,6 +22,7 @@ import {
 import type { StreamManagerItem } from '@/types/services/agent/streaming';
 import type { AgentChatMemory } from '@/types/services/agent/memory';
 import { useAppContext } from '@/contexts/AppContext';
+import { captureApplicationEvent } from '@/lib/posthog/events';
 import { getPostHogSessionId } from '@/lib/posthog/session';
 import { deleteAgentMemory } from '@/services/agent/memory/deletion';
 import { retrieveAgentChatPage } from '@/services/agent/memory/retrieval';
@@ -45,7 +46,9 @@ export default function ChatProvider({
     const [chatHistoryOffset, setChatHistoryOffset] =
         useState(0);
     const [hasMoreHistory, setHasMoreHistory] =
-        useState(false);
+        useState(!!accessToken);
+    const [historyAccessToken, setHistoryAccessToken] =
+        useState(accessToken);
     const [isHistoryLoading, setIsHistoryLoading] =
         useState(false);
     const [isDeletingHistory, setIsDeletingHistory] =
@@ -59,6 +62,15 @@ export default function ChatProvider({
         loading: false,
         hasMore: false,
     });
+
+    // Reset visitor state before rendering a different session.
+    if (historyAccessToken !== accessToken) {
+        setHistoryAccessToken(accessToken);
+        setMemories([]);
+        setChatHistoryOffset(0);
+        setHasMoreHistory(!!accessToken);
+        setIsHistoryLoading(false);
+    }
 
     /**
      * Serialise page requests and ignore results from an obsolete
@@ -124,10 +136,6 @@ export default function ChatProvider({
         };
         historySession.current = session;
         deltaBuffers.current.clear();
-        setMemories([]);
-        setChatHistoryOffset(0);
-        setHasMoreHistory(session.hasMore);
-        setIsHistoryLoading(false);
         if (accessToken) void fetchNextChatPage();
         return () => {
             // Invalidate in-flight requests on token changes and unmount.
@@ -140,6 +148,8 @@ export default function ChatProvider({
     }, [accessToken, fetchNextChatPage]);
 
     const [userMessage, setUserMessage] = useState('');
+    const [selectedPromptLabel, setSelectedPromptLabel] =
+        useState<string | null>(null);
     const [isThinking, setIsThinking] = useState(false);
     const [thinkingCaptions, setThinkingCaptions] =
         useState<string[]>([]);
@@ -212,7 +222,8 @@ export default function ChatProvider({
             historySession.current = deletingSession;
             setIsHistoryLoading(false);
             try {
-                unwrapServerAction(
+                const loadedMessageCount = memories.length;
+                const response = unwrapServerAction(
                     await deleteAgentMemory(
                         getPostHogSessionId(),
                     ),
@@ -222,6 +233,15 @@ export default function ChatProvider({
                     deletingSession
                 )
                     return false;
+                captureApplicationEvent(
+                    'chat_history_deleted',
+                    {
+                        request_id:
+                            response.meta.request_id,
+                        loaded_message_count:
+                            loadedMessageCount,
+                    },
+                );
                 deltaBuffers.current.clear();
                 setMemories([]);
                 setChatHistoryOffset(0);
@@ -256,7 +276,12 @@ export default function ChatProvider({
                 deletingHistoryRef.current = false;
                 setIsDeletingHistory(false);
             }
-        }, [isThinking, isResponding, setError]);
+        }, [
+            isThinking,
+            isResponding,
+            setError,
+            memories.length,
+        ]);
 
     const value = useMemo(
         () => ({
@@ -266,6 +291,8 @@ export default function ChatProvider({
             finishAgentDeltas,
             deleteChatHistory,
             isDeletingHistory,
+            selectedPromptLabel,
+            setSelectedPromptLabel,
             userMessage,
             setUserMessage,
             chatHistoryOffset,
@@ -285,6 +312,8 @@ export default function ChatProvider({
             finishAgentDeltas,
             deleteChatHistory,
             isDeletingHistory,
+            selectedPromptLabel,
+            setSelectedPromptLabel,
             userMessage,
             chatHistoryOffset,
             hasMoreHistory,

@@ -2,6 +2,7 @@
  * Capture original server failures with request and replay
  * context.
  */
+import { logApplicationException } from '@/lib/logging/console';
 import 'server-only';
 import { cookies } from 'next/headers';
 import { decodeJwt } from 'jose';
@@ -27,6 +28,7 @@ export async function captureApplicationServerException(
         'Application server request failed.',
     );
     if (isExpectedRejection(error)) return false;
+    logApplicationException(error, context, 'server');
     if (reported.has(error)) return true;
     try {
         const client = getPostHogServerClient();

@@ -38,6 +38,7 @@ export default function ChatInput({
     const {
         userMessage,
         setUserMessage,
+        setSelectedPromptLabel,
         isThinking,
         isResponding,
         isDeletingHistory,
@@ -108,11 +109,12 @@ export default function ChatInput({
                 }}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
-                onChange={(event) =>
+                onChange={(event) => {
+                    setSelectedPromptLabel(null);
                     setUserMessage(
                         event.currentTarget.value,
-                    )
-                }
+                    );
+                }}
                 className={styles.input}
                 onInput={(event) =>
                     resizeTextarea(event.currentTarget)

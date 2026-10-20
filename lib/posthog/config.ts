@@ -28,6 +28,7 @@ export function initialisePostHog(): void {
             enable_heatmaps: true,
             disable_session_recording: false,
             capture_exceptions: true,
+            logs: { serviceName: 'portfolio-web' },
         });
     }
 }

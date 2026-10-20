@@ -12,6 +12,7 @@ export default function ChatPrompt({
 }: ChatPromptProps) {
     const {
         setUserMessage,
+        setSelectedPromptLabel,
         isThinking,
         isResponding,
         isDeletingHistory,
@@ -25,7 +26,10 @@ export default function ChatPrompt({
                 isResponding ||
                 isDeletingHistory
             }
-            onClick={() => setUserMessage(message)}
+            onClick={() => {
+                setUserMessage(message);
+                setSelectedPromptLabel(label);
+            }}
         >
             {label}
         </button>
