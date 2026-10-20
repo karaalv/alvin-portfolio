@@ -1,4 +1,7 @@
-/** Connection lifecycle and transport operations exposed by the socket. */
+/**
+ * Connection lifecycle and transport operations exposed by the
+ * socket.
+ */
 import type { WebSocketRequest } from '@/types/api/ws/request';
 
 export type SocketStatus =
@@ -9,5 +12,6 @@ export type SocketStatus =
 
 export interface SocketContextValue {
     socketStatus: SocketStatus;
+    sendAgentMessage: () => void;
     sendMessage: (request: WebSocketRequest) => boolean;
 }

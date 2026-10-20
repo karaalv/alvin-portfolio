@@ -5,6 +5,7 @@
  * placeholder copy.
  */
 import { useEffect, useRef, useState } from 'react';
+import { useSocketContext } from '@/contexts/SocketContext';
 import { useChatContext } from '@/contexts/ChatContext';
 import { useTypewriterPlaceholder } from '@/hooks/chat/useTypewriterPlaceholder';
 import { ArrowUp } from 'lucide-react';
@@ -28,8 +29,7 @@ function resizeTextarea(textarea: HTMLTextAreaElement) {
 }
 
 /**
- * Render an editable input with submission intentionally
- * unwired.
+ * Send the shared draft on Enter or click; Shift+Enter adds a line.
  */
 export default function ChatInput({
     variant = 'chat',
@@ -41,6 +41,7 @@ export default function ChatInput({
         isThinking,
         isResponding,
     } = useChatContext();
+    const { sendAgentMessage } = useSocketContext();
     const [focused, setFocused] = useState(false);
     const busy = isThinking || isResponding;
     const animatedPlaceholder = useTypewriterPlaceholder(
@@ -93,6 +94,16 @@ export default function ChatInput({
                 placeholder={
                     placeholder ?? animatedPlaceholder
                 }
+                onKeyDown={(event) => {
+                    if (
+                        event.key === 'Enter' &&
+                        !event.shiftKey &&
+                        !event.nativeEvent.isComposing
+                    ) {
+                        event.preventDefault();
+                        if (!busy) sendAgentMessage();
+                    }
+                }}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 onChange={(event) =>
@@ -109,6 +120,7 @@ export default function ChatInput({
                 type="button"
                 aria-label="Send message"
                 className={styles.send}
+                onClick={sendAgentMessage}
                 disabled={busy || !userMessage.trim()}
             >
                 <ArrowUp size={24} aria-hidden="true" />

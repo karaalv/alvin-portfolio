@@ -1,6 +1,9 @@
 'use client';
 
-/** Own one chat socket and release it when its provider unmounts. */
+/**
+ * Own one chat socket and release it when its provider
+ * unmounts.
+ */
 import {
     createContext,
     useCallback,
@@ -11,6 +14,15 @@ import {
     useState,
     type ReactNode,
 } from 'react';
+import { decodeJwt } from 'jose';
+import { useChatContext } from '@/contexts/ChatContext';
+import { sanitiseInput } from '@/lib/chat/sanitisation';
+import { generateUuid } from '@/lib/ids/generate';
+import {
+    createWsAgentMessageRequest,
+    createWsHeartbeatRequest,
+} from '@/lib/websocket/requests';
+import { claimAccessCookie } from '@/services/agent/users/auth';
 import { useAppContext } from '@/contexts/AppContext';
 import { createApplicationError } from '@/lib/errors/application';
 import { parseWebSocketResponse } from '@/lib/websocket/parsing';
@@ -22,17 +34,34 @@ import type {
 } from '@/types/contexts/socket';
 import type { WebSocketRequest } from '@/types/api/ws/request';
 
+const HEARTBEAT_INTERVAL_MS = 30_000;
+
 const SocketContext = createContext<
     SocketContextValue | undefined
 >(undefined);
 
-/** Connect only while the chat route is mounted; response handlers follow later. */
+/**
+ * Own chat submission, socket feedback and connection
+ * lifecycles.
+ */
 export default function SocketProvider({
     children,
 }: {
     children: ReactNode;
 }) {
     const { setError } = useAppContext();
+    const {
+        userMessage,
+        setUserMessage,
+        setMemories,
+        isThinking,
+        isResponding,
+        setIsThinking,
+        setIsResponding,
+        setThinkingCaptions,
+    } = useChatContext();
+    const userIdRef = useRef<string | null>(null);
+    const turnActiveRef = useRef(false);
     const wsRef = useRef<WebSocket | null>(null);
     const [socketStatus, setSocketStatus] =
         useState<SocketStatus>('connecting');
@@ -68,26 +97,158 @@ export default function SocketProvider({
         [setError],
     );
 
+    /**
+     * Display the cleaned draft optimistically, then send its wire
+     * request.
+     */
+    const sendAgentMessage = useCallback(() => {
+        if (
+            turnActiveRef.current ||
+            isThinking ||
+            isResponding
+        )
+            return;
+        const content = sanitiseInput(userMessage);
+        if (!content) {
+            setError(
+                createApplicationError(
+                    'Message is empty',
+                    'Please enter a readable text message.',
+                ),
+            );
+            return;
+        }
+        const userId = userIdRef.current;
+        if (
+            !userId ||
+            wsRef.current?.readyState !== WebSocket.OPEN
+        ) {
+            setError(
+                createApplicationError(
+                    'Chat is not ready',
+                    'Please wait for the chat connection before sending a message.',
+                ),
+            );
+            return;
+        }
+        const memory = {
+            memory_id: generateUuid(),
+            user_id: userId,
+            memory_source: 'user' as const,
+            created_at: new Date().toISOString(),
+            content,
+        };
+        // This local ID identifies the optimistic item, not a database write.
+        setMemories((current) => [...current, memory]);
+        turnActiveRef.current = true;
+        if (
+            !sendMessage(
+                createWsAgentMessageRequest(content),
+            )
+        ) {
+            setMemories((current) =>
+                current.filter(
+                    (item) =>
+                        item.memory_id !== memory.memory_id,
+                ),
+            );
+            turnActiveRef.current = false;
+            return;
+        }
+        setUserMessage('');
+        setThinkingCaptions([]);
+        setIsThinking(true);
+    }, [
+        userMessage,
+        isThinking,
+        isResponding,
+        setError,
+        setMemories,
+        setUserMessage,
+        setThinkingCaptions,
+        setIsThinking,
+        sendMessage,
+    ]);
+
     useEffect(() => {
         let disposed = false;
         let socket: WebSocket | null = null;
         let failed = false;
+        let heartbeatTimer:
+            | ReturnType<typeof setInterval>
+            | undefined;
+
+        function stopHeartbeat() {
+            if (heartbeatTimer !== undefined) {
+                clearInterval(heartbeatTimer);
+                heartbeatTimer = undefined;
+            }
+        }
+
+        function endAgentTurn() {
+            turnActiveRef.current = false;
+            setIsThinking(false);
+            setIsResponding(false);
+            setThinkingCaptions([]);
+        }
+
+        /**
+         * Claim the browser cookie without treating a claim failure as
+         * bad JSON.
+         */
+        async function handleWsSetUserToken(token: string) {
+            try {
+                const userId = decodeJwt(token).sub;
+                if (!userId)
+                    throw new Error(
+                        'Missing visitor identity.',
+                    );
+                userIdRef.current = userId;
+                await claimAccessCookie(token);
+            } catch {
+                if (!disposed)
+                    setError(
+                        createApplicationError(
+                            'Unable to save your session',
+                            'Your chat cookie could not be saved. Please reload the page and try again.',
+                        ),
+                    );
+            }
+        }
 
         async function connect() {
             try {
                 const url = await getPortfolioAgentWsUrl();
                 // The provider may unmount while the server resolves the URL.
                 if (disposed) return;
+                const accessToken = new URL(
+                    url,
+                ).searchParams.get('access_token');
+                // Decode identity for local presentation only; the backend verifies it.
+                userIdRef.current = accessToken
+                    ? (decodeJwt(accessToken).sub ?? null)
+                    : null;
                 socket = new WebSocket(url);
                 wsRef.current = socket;
                 setSocketStatus('connecting');
 
                 socket.onopen = () => {
-                    if (!disposed)
-                        setSocketStatus('connected');
+                    if (disposed) return;
+                    setSocketStatus('connected');
+                    heartbeatTimer = setInterval(() => {
+                        if (
+                            socket?.readyState ===
+                            WebSocket.OPEN
+                        )
+                            sendMessage(
+                                createWsHeartbeatRequest(),
+                            );
+                    }, HEARTBEAT_INTERVAL_MS);
                 };
                 socket.onerror = () => {
                     if (disposed) return;
+                    stopHeartbeat();
+                    endAgentTurn();
                     failed = true;
                     setSocketStatus('error');
                     setError(
@@ -98,7 +259,9 @@ export default function SocketProvider({
                     );
                 };
                 socket.onclose = (event) => {
+                    stopHeartbeat();
                     if (disposed) return;
+                    endAgentTurn();
                     if (wsRef.current === socket)
                         wsRef.current = null;
                     if (failed) return;
@@ -115,7 +278,7 @@ export default function SocketProvider({
                         );
                     }
                 };
-                socket.onmessage = (event) => {
+                socket.onmessage = async (event) => {
                     if (disposed) return;
                     try {
                         const response =
@@ -124,34 +287,52 @@ export default function SocketProvider({
                             );
                         switch (response.type) {
                             case WebSocketResponseType.HEARTBEAT:
-                                // TODO: Handle the server heartbeat.
+                                // Heartbeats carry no application state.
                                 break;
                             case WebSocketResponseType.AGENT_START:
-                                // TODO: Start the agent's activity state.
+                                turnActiveRef.current = true;
+                                setIsThinking(true);
                                 break;
                             case WebSocketResponseType.AGENT_END:
-                                // TODO: Complete the active agent turn.
+                                endAgentTurn();
                                 break;
                             case WebSocketResponseType.AGENT_DELTA:
                                 // TODO: Merge the text delta into visible history.
                                 break;
                             case WebSocketResponseType.TOOL_MESSAGE:
-                                // TODO: Handle tool invocation notifications.
+                                // Tool notifications have no presentation state.
                                 break;
                             case WebSocketResponseType.AGENT_THINKING_CAPTIONS:
-                                // TODO: Update the retrieval progress captions.
+                                setThinkingCaptions(
+                                    response.payload,
+                                );
                                 break;
                             case WebSocketResponseType.SET_USER_TOKEN:
-                                // TODO: Claim the token cookie and refresh application state.
+                                await handleWsSetUserToken(
+                                    response.payload,
+                                );
                                 break;
                             case WebSocketResponseType.WARNING:
-                                // TODO: Display the server warning.
+                                endAgentTurn();
+                                setError(
+                                    createApplicationError(
+                                        'Chat warning',
+                                        response.payload,
+                                    ),
+                                );
                                 break;
                             case WebSocketResponseType.ERROR:
-                                // TODO: Display the server error.
+                                endAgentTurn();
+                                setError(
+                                    createApplicationError(
+                                        'Chat error',
+                                        response.payload,
+                                    ),
+                                );
                                 break;
                         }
                     } catch {
+                        endAgentTurn();
                         setError(
                             createApplicationError(
                                 'Unable to read the chat response',
@@ -174,6 +355,9 @@ export default function SocketProvider({
         void connect();
         return () => {
             disposed = true;
+            stopHeartbeat();
+            endAgentTurn();
+            userIdRef.current = null;
             if (!socket) return;
             socket.onopen = null;
             socket.onmessage = null;
@@ -188,11 +372,21 @@ export default function SocketProvider({
                 socket.close(1000, 'Chat page closed.');
             }
         };
-    }, [setError]);
+    }, [
+        setError,
+        setIsThinking,
+        setIsResponding,
+        setThinkingCaptions,
+        sendMessage,
+    ]);
 
     const value = useMemo(
-        () => ({ socketStatus, sendMessage }),
-        [socketStatus, sendMessage],
+        () => ({
+            socketStatus,
+            sendMessage,
+            sendAgentMessage,
+        }),
+        [socketStatus, sendMessage, sendAgentMessage],
     );
     return (
         <SocketContext.Provider value={value}>
@@ -201,7 +395,10 @@ export default function SocketProvider({
     );
 }
 
-/** Require the chat-route socket provider before accessing the transport. */
+/**
+ * Require the chat-route socket provider before accessing the
+ * transport.
+ */
 export function useSocketContext(): SocketContextValue {
     const value = useContext(SocketContext);
     if (!value)
