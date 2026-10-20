@@ -19,7 +19,7 @@
     z-index: -1;
     pointer-events: none;
     background-color: var(--neutral-300);
-    background-image: url('/assets/links/background/voxel-nature-mobile-400x900.png');
+    background-image: url('/assets/links/background/painted-nature-mobile-400x900.svg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -31,6 +31,6 @@
     }
 
     .container::before {
-        background-image: url('/assets/links/background/voxel-nature-desktop-1440x1024.png');
+        background-image: url('/assets/links/background/painted-nature-desktop-1440x1024.svg');
     }
 }

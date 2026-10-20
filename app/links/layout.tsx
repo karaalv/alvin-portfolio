@@ -1,4 +1,4 @@
-/** Independent links layout with responsive voxel scenery. */
+/** Independent links layout with responsive painted scenery. */
 import { createPageMetadata } from '@/server/metadata/pages';
 import type { ReactNode } from 'react';
 import styles from '@styles/layouts/links-layout.module.css';
