@@ -1,6 +1,9 @@
 'use client';
 
-/** Render chronological history and request older pages near the top. */
+/**
+ * Render chronological history and request older pages near the
+ * top.
+ */
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useChatContext } from '@/contexts/ChatContext';
 import type { ChatMessagesProps } from '@/types/components/chat/messages';
@@ -9,12 +12,13 @@ import UserMessage from './UserMessage';
 import AgentThinking from './AgentThinking';
 import styles from '@styles/components/chat/messages/chat-messages.module.css';
 
-/** Observe the scroll viewport and preserve position when history is prepended. */
+/**
+ * Observe the scroll viewport and preserve position when
+ * history is prepended.
+ */
 export default function ChatMessages({
     scrollContainerRef,
     memories,
-    thinking = false,
-    thinkingCaption,
 }: ChatMessagesProps) {
     const anchorRef = useRef<HTMLDivElement>(null);
     const previousFirstId = useRef<string | undefined>(
@@ -104,9 +108,7 @@ export default function ChatMessages({
                     />
                 ),
             )}
-            {thinking && (
-                <AgentThinking caption={thinkingCaption} />
-            )}
+            <AgentThinking />
         </div>
     );
 }

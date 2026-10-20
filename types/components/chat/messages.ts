@@ -1,4 +1,7 @@
-/** Message presentation uses the agent's visible-history contract. */
+/**
+ * Message presentation uses the agent's visible-history
+ * contract.
+ */
 import type { RefObject } from 'react';
 import type { AgentChatMemory } from '@/types/services/agent/memory';
 
@@ -7,15 +10,10 @@ export interface MessageProps {
     content: string;
 }
 
-/** Thinking labels supplied by the future streaming controller. */
-export interface AgentThinkingProps {
-    caption?: string;
-}
-
-/** Ordered messages and optional agent activity. */
+/**
+ * Ordered history and the scroll viewport used for pagination.
+ */
 export interface ChatMessagesProps {
     scrollContainerRef: RefObject<HTMLDivElement | null>;
     memories: readonly AgentChatMemory[];
-    thinking?: boolean;
-    thinkingCaption?: string;
 }

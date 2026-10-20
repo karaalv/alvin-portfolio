@@ -58,7 +58,16 @@
     color: var(--chat-interaction-content-default);
 }
 
+.input:disabled {
+    cursor: not-allowed;
+}
+
+.send:not(:disabled) {
+    cursor: pointer;
+}
+
 .send:disabled {
+    cursor: not-allowed;
     opacity: 0.5;
 }
 

@@ -17,7 +17,7 @@
     cursor: pointer;
 }
 
-.container:hover,
+.container:not(:disabled):hover,
 .container:focus-visible {
     border-color: var(--border-strong);
     color: var(--text-primary);
@@ -26,4 +26,9 @@
 .container:focus-visible {
     outline: 2px solid var(--border-strong);
     outline-offset: 3px;
+}
+
+.container:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }

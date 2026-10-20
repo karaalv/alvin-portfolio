@@ -7,6 +7,8 @@ export interface ChatContextValue {
     setMemories: Dispatch<
         SetStateAction<AgentChatMemory[]>
     >;
+    userMessage: string;
+    setUserMessage: Dispatch<SetStateAction<string>>;
     chatHistoryOffset: number;
     hasMoreHistory: boolean;
     isHistoryLoading: boolean;

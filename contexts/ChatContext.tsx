@@ -1,6 +1,9 @@
 'use client';
 
-/** Shared visible history and agent activity for the current visitor. */
+/**
+ * Shared visible history and agent activity for the current
+ * visitor.
+ */
 import {
     createContext,
     useCallback,
@@ -43,7 +46,10 @@ export default function ChatProvider({
         hasMore: false,
     });
 
-    /** Serialise page requests and ignore results from an obsolete session. */
+    /**
+     * Serialise page requests and ignore results from an obsolete
+     * session.
+     */
     const fetchNextChatPage = useCallback(async () => {
         const session = historySession.current;
         if (session.loading || !session.hasMore) return;
@@ -109,6 +115,7 @@ export default function ChatProvider({
         };
     }, [accessToken, fetchNextChatPage]);
 
+    const [userMessage, setUserMessage] = useState('');
     const [isThinking, setIsThinking] = useState(false);
     const [thinkingCaptions, setThinkingCaptions] =
         useState<string[]>([]);
@@ -117,6 +124,8 @@ export default function ChatProvider({
         () => ({
             memories,
             setMemories,
+            userMessage,
+            setUserMessage,
             chatHistoryOffset,
             hasMoreHistory,
             isHistoryLoading,
@@ -130,6 +139,7 @@ export default function ChatProvider({
         }),
         [
             memories,
+            userMessage,
             chatHistoryOffset,
             hasMoreHistory,
             isHistoryLoading,

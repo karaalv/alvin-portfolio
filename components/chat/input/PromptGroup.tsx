@@ -1,16 +1,13 @@
 /** Shared suggested questions for the hero and empty chat. */
 import type { PromptGroupProps } from '@/types/components/chat/input';
+import { CHAT_PROMPTS } from '@/lib/chat/input';
 import ChatPrompt from './ChatPrompt';
 import styles from '@styles/components/chat/input/prompt-group.module.css';
 
-const PROMPTS = [
-    'Projects',
-    'Experience',
-    'Current work',
-    'Mindset',
-];
-
-/** Render the suggestions and collapse them when a conversation starts. */
+/**
+ * Render the suggestions and collapse them when a conversation
+ * starts.
+ */
 export default function PromptGroup({
     visible = true,
     variant = 'chat',
@@ -29,12 +26,15 @@ export default function PromptGroup({
                     role="group"
                     aria-label="Suggested questions"
                 >
-                    {PROMPTS.map((label) => (
-                        <ChatPrompt
-                            key={label}
-                            label={label}
-                        />
-                    ))}
+                    {CHAT_PROMPTS.map(
+                        ({ label, message }) => (
+                            <ChatPrompt
+                                key={label}
+                                label={label}
+                                message={message}
+                            />
+                        ),
+                    )}
                 </div>
             </div>
         </div>

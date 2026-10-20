@@ -1,12 +1,20 @@
 'use client';
 
-/** Presentational chat input with responsive content sizing. */
-import { useEffect, useRef } from 'react';
+/**
+ * Shared chat draft with activity feedback and animated
+ * placeholder copy.
+ */
+import { useEffect, useRef, useState } from 'react';
+import { useChatContext } from '@/contexts/ChatContext';
+import { useTypewriterPlaceholder } from '@/hooks/chat/useTypewriterPlaceholder';
 import { ArrowUp } from 'lucide-react';
 import type { ChatInputProps } from '@/types/components/chat/input';
 import styles from '@styles/components/chat/input/chat-input.module.css';
 
-/** Fit text to its CSS height limit without changing the desktop hero. */
+/**
+ * Fit text to its CSS height limit without changing the desktop
+ * hero.
+ */
 function resizeTextarea(textarea: HTMLTextAreaElement) {
     textarea.style.height = 'auto';
     const maximum = Number.parseFloat(
@@ -19,11 +27,28 @@ function resizeTextarea(textarea: HTMLTextAreaElement) {
     }
 }
 
-/** Render an editable input with submission intentionally unwired. */
+/**
+ * Render an editable input with submission intentionally
+ * unwired.
+ */
 export default function ChatInput({
     variant = 'chat',
-    placeholder = 'What does Alvin do?',
+    placeholder,
 }: ChatInputProps) {
+    const {
+        userMessage,
+        setUserMessage,
+        isThinking,
+        isResponding,
+    } = useChatContext();
+    const [focused, setFocused] = useState(false);
+    const busy = isThinking || isResponding;
+    const animatedPlaceholder = useTypewriterPlaceholder(
+        focused ||
+            userMessage.length > 0 ||
+            busy ||
+            !!placeholder,
+    );
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -48,6 +73,11 @@ export default function ChatInput({
         return () => observer.disconnect();
     }, [variant]);
 
+    useEffect(() => {
+        if (inputRef.current)
+            resizeTextarea(inputRef.current);
+    }, [userMessage]);
+
     return (
         <div
             ref={containerRef}
@@ -58,7 +88,18 @@ export default function ChatInput({
                 ref={inputRef}
                 rows={1}
                 aria-label="Message the portfolio agent"
-                placeholder={placeholder}
+                value={userMessage}
+                disabled={busy}
+                placeholder={
+                    placeholder ?? animatedPlaceholder
+                }
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                onChange={(event) =>
+                    setUserMessage(
+                        event.currentTarget.value,
+                    )
+                }
                 className={styles.input}
                 onInput={(event) =>
                     resizeTextarea(event.currentTarget)
@@ -68,7 +109,7 @@ export default function ChatInput({
                 type="button"
                 aria-label="Send message"
                 className={styles.send}
-                disabled
+                disabled={busy || !userMessage.trim()}
             >
                 <ArrowUp size={24} aria-hidden="true" />
             </button>

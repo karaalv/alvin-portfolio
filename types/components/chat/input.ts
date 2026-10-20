@@ -4,12 +4,15 @@ export interface ChatInputProps {
     placeholder?: string;
 }
 
-/** Visible label for a suggested chat prompt. */
+/** Visible label and editable message for a suggested prompt. */
 export interface ChatPromptProps {
     label: string;
+    message: string;
 }
 
-/** Shared suggestions with optional animated visibility in chat. */
+/**
+ * Shared suggestions with optional animated visibility in chat.
+ */
 export interface PromptGroupProps {
     visible?: boolean;
     variant?: 'hero' | 'chat';
