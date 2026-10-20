@@ -1,19 +1,26 @@
 'use client';
 
-/** Accessible dialog shell shared by the chat's visual modals. */
+/**
+ * Accessible dialog shell shared by the chat's visual modals.
+ */
 import { useEffect, useRef, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import type { ChatModalProps } from '@/types/components/chat/modals';
 import styles from '@styles/components/chat/modals/chat-modal.module.css';
 
-/** Use the native dialog layer for focus, Escape and the backdrop. */
+/**
+ * Use the native dialog layer for focus, Escape and the
+ * backdrop.
+ */
 export default function ChatModal({
     open,
     onClose,
     titleId,
+    dismissible = true,
     children,
 }: ChatModalProps & {
     titleId: string;
+    dismissible?: boolean;
     children: ReactNode;
 }) {
     const ref = useRef<HTMLDialogElement>(null);
@@ -28,7 +35,10 @@ export default function ChatModal({
             ref={ref}
             className={styles.dialog}
             aria-labelledby={titleId}
-            onCancel={onClose}
+            onCancel={(event) => {
+                event.preventDefault();
+                if (dismissible) onClose();
+            }}
             onClose={onClose}
         >
             <div className={styles.header}>
@@ -37,6 +47,7 @@ export default function ChatModal({
                     className={styles.close}
                     aria-label="Close dialog"
                     onClick={onClose}
+                    disabled={!dismissible}
                 >
                     <X size={20} aria-hidden="true" />
                 </button>

@@ -10,6 +10,8 @@ export interface ChatContextValue {
     >;
     appendAgentDelta: (item: StreamManagerItem) => void;
     finishAgentDeltas: () => void;
+    deleteChatHistory: () => Promise<boolean>;
+    isDeletingHistory: boolean;
     userMessage: string;
     setUserMessage: Dispatch<SetStateAction<string>>;
     chatHistoryOffset: number;

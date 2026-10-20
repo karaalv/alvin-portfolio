@@ -24,6 +24,8 @@ export default function ChatMessages({
     const previousFirstId = useRef<string | undefined>(
         undefined,
     );
+    const followLatestRef = useRef(true);
+    const contentRef = useRef<HTMLDivElement>(null);
     const heightBeforePage = useRef<number | null>(null);
     const {
         chatHistoryOffset,
@@ -36,9 +38,11 @@ export default function ChatMessages({
         const firstId = memories[0]?.memory_id;
         if (!container || !firstId) {
             previousFirstId.current = undefined;
+            followLatestRef.current = true;
             return;
         }
         if (!previousFirstId.current) {
+            followLatestRef.current = true;
             container.scrollTop = container.scrollHeight;
         } else if (
             firstId !== previousFirstId.current &&
@@ -47,10 +51,46 @@ export default function ChatMessages({
             container.scrollTop +=
                 container.scrollHeight -
                 heightBeforePage.current;
+        } else if (followLatestRef.current) {
+            container.scrollTop = container.scrollHeight;
         }
         previousFirstId.current = firstId;
         heightBeforePage.current = null;
     }, [memories, scrollContainerRef]);
+
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        const content = contentRef.current;
+        if (!container || !content) return;
+        function recordScrollPosition() {
+            if (!container) return;
+            const distance =
+                container.scrollHeight -
+                container.clientHeight -
+                container.scrollTop;
+            followLatestRef.current = distance <= 96;
+        }
+        // Layout changes include streamed Markdown and composer resizing.
+        const observer = new ResizeObserver(() => {
+            if (followLatestRef.current)
+                container.scrollTop =
+                    container.scrollHeight;
+        });
+        container.addEventListener(
+            'scroll',
+            recordScrollPosition,
+            { passive: true },
+        );
+        observer.observe(content);
+        observer.observe(container);
+        return () => {
+            container.removeEventListener(
+                'scroll',
+                recordScrollPosition,
+            );
+            observer.disconnect();
+        };
+    }, [scrollContainerRef]);
 
     useEffect(() => {
         const anchor = anchorRef.current;
@@ -85,6 +125,7 @@ export default function ChatMessages({
 
     return (
         <div
+            ref={contentRef}
             className={styles.container}
             role="log"
             aria-label="Conversation"

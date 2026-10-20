@@ -58,6 +58,7 @@ export default function SocketProvider({
         finishAgentDeltas,
         isThinking,
         isResponding,
+        isDeletingHistory,
         setIsThinking,
         setIsResponding,
         setThinkingCaptions,
@@ -107,7 +108,8 @@ export default function SocketProvider({
         if (
             turnActiveRef.current ||
             isThinking ||
-            isResponding
+            isResponding ||
+            isDeletingHistory
         )
             return;
         const content = sanitiseInput(userMessage);
@@ -164,6 +166,7 @@ export default function SocketProvider({
         userMessage,
         isThinking,
         isResponding,
+        isDeletingHistory,
         setError,
         setMemories,
         setUserMessage,

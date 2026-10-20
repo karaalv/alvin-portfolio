@@ -40,10 +40,12 @@ export default function ChatInput({
         setUserMessage,
         isThinking,
         isResponding,
+        isDeletingHistory,
     } = useChatContext();
     const { sendAgentMessage } = useSocketContext();
     const [focused, setFocused] = useState(false);
-    const busy = isThinking || isResponding;
+    const busy =
+        isThinking || isResponding || isDeletingHistory;
     const animatedPlaceholder = useTypewriterPlaceholder(
         focused ||
             userMessage.length > 0 ||

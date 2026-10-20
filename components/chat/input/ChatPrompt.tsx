@@ -10,13 +10,21 @@ export default function ChatPrompt({
     label,
     message,
 }: ChatPromptProps) {
-    const { setUserMessage, isThinking, isResponding } =
-        useChatContext();
+    const {
+        setUserMessage,
+        isThinking,
+        isResponding,
+        isDeletingHistory,
+    } = useChatContext();
     return (
         <button
             type="button"
             className={styles.container}
-            disabled={isThinking || isResponding}
+            disabled={
+                isThinking ||
+                isResponding ||
+                isDeletingHistory
+            }
             onClick={() => setUserMessage(message)}
         >
             {label}
