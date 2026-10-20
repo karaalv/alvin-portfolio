@@ -23,6 +23,8 @@ import styles from '@styles/pages/chat-page.module.css';
 export default function ChatPage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [hasScrolledMessages, setHasScrolledMessages] =
+        useState(false);
     const [infoOpen, setInfoOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
     const { error, setError } = useAppContext();
@@ -92,21 +94,32 @@ export default function ChatPage() {
                     }
                 >
                     <div
-                        ref={scrollContainerRef}
-                        className={styles.messages}
+                        className={styles.message_viewport}
+                        data-scrolled={hasScrolledMessages}
                         hidden={!hasMessages}
                     >
                         <div
-                            className={
-                                styles.message_content
+                            ref={scrollContainerRef}
+                            className={styles.messages}
+                            onScroll={(event) =>
+                                setHasScrolledMessages(
+                                    event.currentTarget
+                                        .scrollTop > 0,
+                                )
                             }
                         >
-                            <ChatMessages
-                                scrollContainerRef={
-                                    scrollContainerRef
+                            <div
+                                className={
+                                    styles.message_content
                                 }
-                                memories={memories}
-                            />
+                            >
+                                <ChatMessages
+                                    scrollContainerRef={
+                                        scrollContainerRef
+                                    }
+                                    memories={memories}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className={styles.composer}>

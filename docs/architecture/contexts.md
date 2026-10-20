@@ -79,4 +79,8 @@ than synchronously resetting that state after a render.
 Scrolling and pagination anchors belong to the message UI. It initially
 shows the latest messages at the bottom, preserves position when older
 history is prepended, and follows new output only while the visitor is
-near the bottom.
+near the bottom. The message viewport adds a fading top blur while
+scrolled, clearing it at the start of history. Mobile messages reach the
+screen edge without an outer top inset. Internal top padding gives the
+first message space and scrolls away with the content; the sidebar
+toggle floats above it in a padded white circle.
