@@ -1,11 +1,20 @@
 'use server';
 
-/** Read the visitor token from this application's incoming cookies. */
+/** Read the visitor token from incoming application cookies. */
 import { cookies } from 'next/headers';
+import { runAgentServerAction } from '@/server/agent/actions';
+import type { ServerActionResult } from '@/types/api/http/actions';
 
-/** Returning this value exposes an in-memory copy to the requesting client. */
+/** Return a browser snapshot of the saved access token. */
 export async function getAccessToken(): Promise<
-    string | null
+    ServerActionResult<string | null>
 > {
-    return (await cookies()).get('JWT')?.value || null;
+    return runAgentServerAction(
+        async () =>
+            (await cookies()).get('JWT')?.value || null,
+        {
+            source: 'authentication',
+            operation: 'read-cookie',
+        },
+    );
 }

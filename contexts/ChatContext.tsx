@@ -25,7 +25,8 @@ import { useAppContext } from '@/contexts/AppContext';
 import { getPostHogSessionId } from '@/lib/posthog/session';
 import { deleteAgentMemory } from '@/services/agent/memory/deletion';
 import { retrieveAgentChatPage } from '@/services/agent/memory/retrieval';
-import { createApplicationError } from '@/lib/errors/application';
+import { unwrapServerAction } from '@/lib/http/actions';
+import { captureApplicationException } from '@/lib/posthog/error-capture';
 
 const ChatContext = createContext<
     ChatContextValue | undefined
@@ -69,9 +70,11 @@ export default function ChatProvider({
         session.loading = true;
         setIsHistoryLoading(true);
         try {
-            const { data } = await retrieveAgentChatPage(
-                session.offset,
-                getPostHogSessionId(),
+            const { data } = unwrapServerAction(
+                await retrieveAgentChatPage(
+                    session.offset,
+                    getPostHogSessionId(),
+                ),
             );
             if (historySession.current !== session) return;
             session.offset += data.length;
@@ -92,12 +95,18 @@ export default function ChatProvider({
             });
             setChatHistoryOffset(session.offset);
             setHasMoreHistory(session.hasMore);
-        } catch {
+        } catch (exception) {
             if (historySession.current === session)
                 setError(
-                    createApplicationError(
+                    captureApplicationException(
                         'Unable to load chat history',
                         'Your saved messages could not be loaded. Please try again.',
+                        exception,
+                        {
+                            source: 'chat-history',
+                            operation: 'fetch-page',
+                            offset: session.offset,
+                        },
                     ),
                 );
         } finally {
@@ -203,8 +212,10 @@ export default function ChatProvider({
             historySession.current = deletingSession;
             setIsHistoryLoading(false);
             try {
-                await deleteAgentMemory(
-                    getPostHogSessionId(),
+                unwrapServerAction(
+                    await deleteAgentMemory(
+                        getPostHogSessionId(),
+                    ),
                 );
                 if (
                     historySession.current !==
@@ -219,7 +230,7 @@ export default function ChatProvider({
                 setIsThinking(false);
                 setIsResponding(false);
                 return true;
-            } catch {
+            } catch (exception) {
                 if (
                     historySession.current ===
                     deletingSession
@@ -229,9 +240,14 @@ export default function ChatProvider({
                         loading: false,
                     };
                     setError(
-                        createApplicationError(
+                        captureApplicationException(
                             'Unable to delete chat',
                             'Your chat history could not be deleted. Please try again.',
+                            exception,
+                            {
+                                source: 'chat-history',
+                                operation: 'delete-memory',
+                            },
                         ),
                     );
                 }

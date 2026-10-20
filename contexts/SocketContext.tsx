@@ -26,6 +26,8 @@ import {
 } from '@/lib/websocket/requests';
 import { claimAccessCookie } from '@/services/agent/users/auth';
 import { useAppContext } from '@/contexts/AppContext';
+import { unwrapServerAction } from '@/lib/http/actions';
+import { captureApplicationException } from '@/lib/posthog/error-capture';
 import { createApplicationError } from '@/lib/errors/application';
 import { parseWebSocketResponse } from '@/lib/websocket/parsing';
 import { getPortfolioAgentWsUrl } from '@/server/agent/websocket';
@@ -34,6 +36,7 @@ import type {
     SocketContextValue,
     SocketStatus,
 } from '@/types/contexts/socket';
+import { WebSocketRequestType } from '@/types/api/ws/request';
 import type { WebSocketRequest } from '@/types/api/ws/request';
 
 const HEARTBEAT_INTERVAL_MS = 30_000;
@@ -66,6 +69,7 @@ export default function SocketProvider({
         setThinkingCaptions,
     } = useChatContext();
     const userIdRef = useRef<string | null>(null);
+    const requestIdRef = useRef<string | null>(null);
     const turnActiveRef = useRef(false);
     const wsRef = useRef<WebSocket | null>(null);
     const [socketStatus, setSocketStatus] =
@@ -88,12 +92,25 @@ export default function SocketProvider({
             }
             try {
                 socket.send(JSON.stringify(request));
+                if (
+                    request.type ===
+                    WebSocketRequestType.AGENT_MESSAGE
+                )
+                    requestIdRef.current =
+                        request.request_id ?? null;
                 return true;
-            } catch {
+            } catch (exception) {
                 setError(
-                    createApplicationError(
+                    captureApplicationException(
                         'Unable to send your message',
                         'The message could not be sent. Please try again.',
+                        exception,
+                        {
+                            source: 'websocket',
+                            operation: 'send-message',
+                            requestId: request.request_id,
+                            message_type: request.type,
+                        },
                     ),
                 );
                 return false;
@@ -213,17 +230,24 @@ export default function SocketProvider({
                         'Missing visitor identity.',
                     );
                 userIdRef.current = userId;
-                await claimAccessCookie(
-                    token,
-                    getPostHogSessionId(),
+                unwrapServerAction(
+                    await claimAccessCookie(
+                        token,
+                        getPostHogSessionId(),
+                    ),
                 );
                 if (!disposed) identifyPostHogUser(userId);
-            } catch {
+            } catch (exception) {
                 if (!disposed)
                     setError(
-                        createApplicationError(
+                        captureApplicationException(
                             'Unable to save your session',
                             'Your chat cookie could not be saved. Please reload the page and try again.',
+                            exception,
+                            {
+                                source: 'authentication',
+                                operation: 'claim-cookie',
+                            },
                         ),
                     );
             }
@@ -231,11 +255,16 @@ export default function SocketProvider({
 
         async function connect() {
             try {
-                const url = await getPortfolioAgentWsUrl(
-                    getPostHogSessionId(),
+                const url = unwrapServerAction(
+                    await getPortfolioAgentWsUrl(
+                        getPostHogSessionId(),
+                    ),
                 );
                 // The provider may unmount while the server resolves the URL.
                 if (disposed) return;
+                requestIdRef.current = new URL(
+                    url,
+                ).searchParams.get('request_id');
                 const accessToken = new URL(
                     url,
                 ).searchParams.get('access_token');
@@ -260,16 +289,26 @@ export default function SocketProvider({
                             );
                     }, HEARTBEAT_INTERVAL_MS);
                 };
-                socket.onerror = () => {
+                socket.onerror = (event) => {
                     if (disposed) return;
                     stopHeartbeat();
                     endAgentTurn();
                     failed = true;
                     setSocketStatus('error');
                     setError(
-                        createApplicationError(
+                        captureApplicationException(
                             'Unable to connect to chat',
                             'The chat connection encountered an error. Please reload the page and try again.',
+                            event,
+                            {
+                                source: 'websocket',
+                                operation:
+                                    'transport-error',
+                                requestId:
+                                    requestIdRef.current,
+                                ready_state:
+                                    socket?.readyState,
+                            },
                         ),
                     );
                 };
@@ -286,9 +325,21 @@ export default function SocketProvider({
                         event.code !== 1000
                     ) {
                         setError(
-                            createApplicationError(
+                            captureApplicationException(
                                 'Chat connection closed',
                                 'The connection was interrupted. Please reload the page to reconnect.',
+                                new Error(
+                                    'WebSocket connection interrupted.',
+                                ),
+                                {
+                                    source: 'websocket',
+                                    operation: 'close',
+                                    requestId:
+                                        requestIdRef.current,
+                                    close_code: event.code,
+                                    was_clean:
+                                        event.wasClean,
+                                },
                             ),
                         );
                     }
@@ -341,30 +392,56 @@ export default function SocketProvider({
                             case WebSocketResponseType.ERROR:
                                 endAgentTurn();
                                 setError(
-                                    createApplicationError(
+                                    captureApplicationException(
                                         'Chat error',
                                         response.payload,
+                                        new Error(
+                                            response.payload,
+                                        ),
+                                        {
+                                            source: 'websocket',
+                                            operation:
+                                                'agent-response',
+                                            requestId:
+                                                response
+                                                    .meta
+                                                    .request_id,
+                                            backend_reported: true,
+                                        },
                                     ),
                                 );
                                 break;
                         }
-                    } catch {
+                    } catch (exception) {
                         endAgentTurn();
                         setError(
-                            createApplicationError(
+                            captureApplicationException(
                                 'Unable to read the chat response',
                                 'The server sent an unexpected response. Please try again.',
+                                exception,
+                                {
+                                    source: 'websocket',
+                                    operation:
+                                        'parse-response',
+                                    requestId:
+                                        requestIdRef.current,
+                                },
                             ),
                         );
                     }
                 };
-            } catch {
+            } catch (exception) {
                 if (disposed) return;
                 setSocketStatus('error');
                 setError(
-                    createApplicationError(
+                    captureApplicationException(
                         'Unable to start chat',
                         'The chat service could not be reached. Please reload the page and try again.',
+                        exception,
+                        {
+                            source: 'websocket',
+                            operation: 'connect',
+                        },
                     ),
                 );
             }

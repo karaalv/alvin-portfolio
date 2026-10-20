@@ -1,4 +1,6 @@
-/** Configure the browser SDK and optional analytics activation. */
+/**
+ * Configure the browser SDK and optional analytics activation.
+ */
 import posthog from 'posthog-js';
 export function isPostHogConfigured(): boolean {
     return !!(
@@ -7,7 +9,9 @@ export function isPostHogConfigured(): boolean {
     );
 }
 
-/** Initialise browser analytics before React becomes interactive. */
+/**
+ * Initialise browser analytics before React becomes interactive.
+ */
 export function initialisePostHog(): void {
     const projectToken =
         process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
@@ -23,7 +27,7 @@ export function initialisePostHog(): void {
             capture_pageleave: true,
             enable_heatmaps: true,
             disable_session_recording: false,
-            capture_exceptions: false,
+            capture_exceptions: true,
         });
     }
 }

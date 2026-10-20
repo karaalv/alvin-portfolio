@@ -19,7 +19,8 @@ import {
 } from '@/lib/posthog/identity';
 import type { ApplicationError } from '@/types/application/error';
 import type { AppContextValue } from '@/types/contexts/app';
-import { createApplicationError } from '@/lib/errors/application';
+import { unwrapServerAction } from '@/lib/http/actions';
+import { captureApplicationException } from '@/lib/posthog/error-capture';
 import { getAccessToken } from '@/server/auth/access-token';
 
 const AppContext = createContext<
@@ -48,7 +49,9 @@ export default function AppProvider({
         let cancelled = false;
         async function loadAccessToken() {
             try {
-                const token = await getAccessToken();
+                const token = unwrapServerAction(
+                    await getAccessToken(),
+                );
                 if (cancelled) return;
                 setAccessToken(token);
                 if (token) {
@@ -57,12 +60,17 @@ export default function AppProvider({
                 } else {
                     resetPostHogUser();
                 }
-            } catch {
+            } catch (exception) {
                 if (!cancelled)
                     setError(
-                        createApplicationError(
+                        captureApplicationException(
                             'Unable to read your session',
                             'Your saved chat session could not be loaded. Please reload the page and try again.',
+                            exception,
+                            {
+                                source: 'authentication',
+                                operation: 'read-cookie',
+                            },
                         ),
                     );
             } finally {

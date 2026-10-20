@@ -4,8 +4,9 @@
  * Construct the agent socket URL using server-only
  * configuration.
  */
-import { getAccessToken } from '@/server/auth/access-token';
-import { generateUuid } from '@/lib/ids/generate';
+import { cookies } from 'next/headers';
+import { runAgentServerAction } from '@/server/agent/actions';
+import type { ServerActionResult } from '@/types/api/http/actions';
 import { getPortfolioAgentOrigin } from '@/server/agent/origin';
 
 /**
@@ -14,18 +15,30 @@ import { getPortfolioAgentOrigin } from '@/server/agent/origin';
  */
 export async function getPortfolioAgentWsUrl(
     posthogSessionId?: string | null,
-): Promise<string> {
-    const url = getPortfolioAgentOrigin();
-    url.protocol =
-        url.protocol === 'https:' ? 'wss:' : 'ws:';
-    url.pathname = '/api/agent/ws/agent-chat';
-    const token = await getAccessToken();
-    if (token) url.searchParams.set('access_token', token);
-    url.searchParams.set('request_id', generateUuid());
-    if (posthogSessionId)
-        url.searchParams.set(
-            'session_id',
+): Promise<ServerActionResult<string>> {
+    return runAgentServerAction(
+        async (requestId) => {
+            const url = getPortfolioAgentOrigin();
+            url.protocol =
+                url.protocol === 'https:' ? 'wss:' : 'ws:';
+            url.pathname = '/api/agent/ws/agent-chat';
+            const token = (await cookies()).get(
+                'JWT',
+            )?.value;
+            if (token)
+                url.searchParams.set('access_token', token);
+            url.searchParams.set('request_id', requestId);
+            if (posthogSessionId)
+                url.searchParams.set(
+                    'session_id',
+                    posthogSessionId,
+                );
+            return url.toString();
+        },
+        {
+            source: 'websocket',
+            operation: 'prepare-url',
             posthogSessionId,
-        );
-    return url.toString();
+        },
+    );
 }

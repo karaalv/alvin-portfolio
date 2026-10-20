@@ -49,8 +49,8 @@ automatically, so staging deployments must inject those values.
 
 The SDK captures page views, navigation, interaction events and
 heatmaps, and enables session recording subject to the project's
-recording settings. Automatic exception capture is disabled for
-now. Returning visitors are identified from their token's user
+recording settings. Unhandled browser exceptions are captured
+automatically. Returning visitors are identified from their token's user
 ID; a missing cookie resets the previous association. Successful
 cookie claiming identifies newly created visitors.
 
@@ -59,6 +59,35 @@ HTTP service calls carry the current browser replay ID in
 `session_id` query parameter, since browser WebSockets cannot
 supply custom headers. These values provide replay context;
 they do not authenticate the visitor.
+
+### Exception capture
+
+`lib/posthog/error-capture.ts` exposes
+`captureApplicationException`, which reports a caught browser
+exception and returns the title/message used by the error banner.
+Session loading, history, deletion and WebSocket failure handlers
+supply their operation and relevant metadata. Expected warnings
+and HTTP 4xx rejections still display feedback without being
+reported as exceptions.
+
+`lib/posthog/server-error-capture.ts` exposes
+`captureApplicationServerException`. It uses `posthog-node` to
+capture original server exceptions and flushes before returning.
+Both SDKs use the project token and host configured above;
+reporting is skipped when either is absent. Telemetry failures
+must not prevent application error handling.
+
+Server Actions return a serialisable success/failure envelope.
+The browser reconstructs `AgentHttpError` from failures because
+Next.js sanitises thrown server errors in production. Server
+stacks remain private. Filter PostHog exceptions by `request_id`
+to correlate the server cause with the browser failure; `runtime`
+distinguishes them and `server_reported` indicates whether server
+reporting completed. HTTP calls preserve the backend request ID,
+including failures before a valid response envelope arrives.
+Browser replay context is forwarded as `$session_id` on server
+reports where available. Request bodies, cookies, tokens and
+socket URLs are not added as exception metadata.
 
 ## 👨🏾‍⚖️ License
 

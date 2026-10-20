@@ -49,11 +49,10 @@ export async function httpAgent<T = unknown>(
             'X-POSTHOG-SESSION-ID',
             options.posthogSessionId,
         );
-    requestHeaders.set(
-        'X-Request-ID',
+    const requestId =
         requestHeaders.get('X-Request-ID') ||
-            generateUuid(),
-    );
+        generateUuid();
+    requestHeaders.set('X-Request-ID', requestId);
     // Forward only the service's authentication cookie, not unrelated site cookies.
     requestHeaders.delete('Cookie');
     const token = (await cookies()).get('JWT')?.value;
@@ -80,32 +79,40 @@ export async function httpAgent<T = unknown>(
             cache: 'no-store',
             redirect: 'error',
         });
-    } catch {
+    } catch (exception) {
         throw new AgentHttpError(
             'Unable to reach the agent service.',
+            null,
+            requestId,
+            { cause: exception },
         );
     }
+    const responseRequestId =
+        response.headers.get('X-Request-ID') || requestId;
     await applyResponseCookies(response.headers);
     let value: unknown;
     try {
         value = await response.json();
-    } catch {
+    } catch (exception) {
         throw new AgentHttpError(
             'The agent returned an invalid JSON response.',
             response.status,
+            responseRequestId,
+            { cause: exception },
         );
     }
     if (!isHttpResponse(value)) {
         throw new AgentHttpError(
             'The agent returned an invalid response envelope.',
             response.status,
+            responseRequestId,
         );
     }
     if (!response.ok || !value.meta.success) {
         throw new AgentHttpError(
             value.meta.message,
             response.status,
-            value.meta.request_id,
+            value.meta.request_id || responseRequestId,
         );
     }
     return value as HttpResponse<T>;
