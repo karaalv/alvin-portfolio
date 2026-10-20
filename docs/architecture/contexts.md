@@ -67,7 +67,7 @@ state. Captions are separate presentation state, not stored messages.
 
 Deleting history waits for backend success before clearing memories,
 pagination and delta buffers. Failures retain cached messages and display
-an application error. Deletion is blocked during an active response.
+an application error. Deletion is disabled when history is empty or during an active response.
 
 ## State transitions and presentation
 

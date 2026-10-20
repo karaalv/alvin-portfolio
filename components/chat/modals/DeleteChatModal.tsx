@@ -17,6 +17,7 @@ export default function DeleteChatModal(
     props: ChatModalProps,
 ) {
     const {
+        memories,
         deleteChatHistory,
         isDeletingHistory,
         isThinking,
@@ -24,12 +25,13 @@ export default function DeleteChatModal(
     } = useChatContext();
     const busy =
         isThinking || isResponding || isDeletingHistory;
+    const deleteDisabled = busy || memories.length === 0;
     const close = () => {
         if (!isDeletingHistory) props.onClose();
     };
 
     async function handleDelete() {
-        if (busy) return;
+        if (deleteDisabled) return;
         await deleteChatHistory();
         props.onClose();
     }
@@ -72,7 +74,7 @@ export default function DeleteChatModal(
                 <button
                     type="button"
                     className={`${styles.button} ${styles.destructive}`}
-                    disabled={busy}
+                    disabled={deleteDisabled}
                     onClick={() => void handleDelete()}
                 >
                     {isDeletingHistory

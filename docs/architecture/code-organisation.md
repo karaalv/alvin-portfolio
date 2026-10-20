@@ -23,6 +23,11 @@ for the home and privacy pages. The not-found page uses the shared site
 layout directly. `/links` has its own layout. `/chat` has a dedicated
 layout that owns the socket provider.
 
+The root layout is a Server Component; application providers remain
+client boundaries inside it. Page metadata is defined in server pages or
+layouts, including the chat layout above its client page. See
+[metadata and search discovery](metadata.md).
+
 Profile redirects live in `next.config.mjs`, not duplicate page components.
 See [attribution](../observability/attribution.md).
 

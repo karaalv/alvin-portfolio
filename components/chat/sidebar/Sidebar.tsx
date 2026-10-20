@@ -5,12 +5,13 @@ import NameLogo from '@components/branding/NameLogo';
 import type { SidebarProps } from '@/types/components/chat/sidebar';
 import styles from '@styles/components/chat/sidebar/sidebar.module.css';
 
-/** Expose presentation controls while chat actions remain unwired. */
+/** Render chat navigation and available history actions. */
 export default function Sidebar({
     open,
     onClose,
     onInfo,
     onDelete,
+    deleteDisabled,
 }: SidebarProps) {
     return (
         <aside
@@ -70,6 +71,7 @@ export default function Sidebar({
                         type="button"
                         className={`${styles.action} ${styles.destructive}`}
                         onClick={onDelete}
+                        disabled={deleteDisabled}
                     >
                         Delete chat
                     </button>

@@ -71,7 +71,7 @@
     line-height: 24px;
     cursor: pointer;
 }
-.button:hover:not(:disabled) {
+.button:not(.destructive):hover:not(:disabled) {
     background: var(--hover-default);
 }
 .button:focus-visible {
@@ -82,6 +82,14 @@
     border-color: var(--action-destructive);
     background: var(--action-destructive);
     color: var(--text-inverse);
+    opacity: 1;
+    transition: opacity 150ms ease;
+}
+.destructive:hover:not(:disabled) {
+    opacity: 0.8;
+}
+.button.destructive:disabled {
+    opacity: 0.3;
 }
 .button:disabled {
     opacity: 0.5;

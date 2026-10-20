@@ -84,9 +84,18 @@
     outline: 2px solid var(--border-strong);
     outline-offset: 4px;
 }
-.destructive,
-.destructive:hover {
+.destructive {
     color: var(--action-destructive);
+    opacity: 1;
+    transition: opacity 150ms ease;
+}
+.destructive:hover:not(:disabled) {
+    color: var(--action-destructive);
+    opacity: 0.8;
+}
+.destructive:disabled {
+    color: var(--action-destructive);
+    opacity: 0.3;
 }
 .action:disabled {
     cursor: default;

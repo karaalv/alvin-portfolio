@@ -28,7 +28,12 @@ export default function ChatPage() {
     const [infoOpen, setInfoOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
     const { error, setError } = useAppContext();
-    const { memories } = useChatContext();
+    const {
+        memories,
+        isThinking,
+        isResponding,
+        isDeletingHistory,
+    } = useChatContext();
     const hasMessages = memories.length > 0;
 
     return (
@@ -48,6 +53,12 @@ export default function ChatPage() {
             />
             <Sidebar
                 open={sidebarOpen}
+                deleteDisabled={
+                    !hasMessages ||
+                    isThinking ||
+                    isResponding ||
+                    isDeletingHistory
+                }
                 onClose={() => setSidebarOpen(false)}
                 onInfo={() => {
                     setSidebarOpen(false);

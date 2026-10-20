@@ -4,4 +4,5 @@ export interface SidebarProps {
     onClose: () => void;
     onInfo: () => void;
     onDelete: () => void;
+    deleteDisabled: boolean;
 }

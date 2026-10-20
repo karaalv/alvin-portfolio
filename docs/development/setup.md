@@ -43,6 +43,14 @@ before building. Choose the correct project for each deployment to keep
 non-production traffic separate. With either PostHog value absent, the
 explicit capture helpers skip remote reporting; console output remains.
 
+## Search indexing by deployment
+
+The metadata policy uses `NODE_ENV` and Vercel system variables to keep
+development, previews and `developing` deployments out of search.
+Production uses `https://alvinkaranja.dev` as its canonical origin.
+See [metadata and search discovery](../architecture/metadata.md) for the
+conditions, generated sitemap/robots and preview-image hand-off.
+
 ## Verification commands
 
 ```sh

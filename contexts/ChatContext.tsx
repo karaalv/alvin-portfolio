@@ -206,6 +206,7 @@ export default function ChatProvider({
     const deleteChatHistory =
         useCallback(async (): Promise<boolean> => {
             if (
+                memories.length === 0 ||
                 deletingHistoryRef.current ||
                 isThinking ||
                 isResponding

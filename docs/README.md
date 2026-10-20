@@ -18,6 +18,9 @@ documentation repository covers product content and cross-service plans.
 - [Backend integration](architecture/server-actions.md): Server Actions,
   HTTP transport, cookie handling and telemetry context.
 
+- [Metadata and search discovery](architecture/metadata.md): approved page
+  copy, canonical URLs, sitemap, robots and preview-image hand-off.
+
 ## Observability
 
 - [PostHog integration](observability/README.md): SDK setup, identity,
