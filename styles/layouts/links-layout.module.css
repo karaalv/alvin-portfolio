@@ -1,0 +1,36 @@
+/* Keep the card centred and allow scrolling on shorter screens. */
+.container {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: var(--spacing-standard-24);
+}
+
+/* Preserve the scene's proportions while covering the viewport. */
+.container::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--neutral-300);
+    background-image: url('/assets/links/background/painted-nature-mobile-400x900.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media (min-width: 769px) {
+    .container {
+        padding: var(--spacing-structural-32);
+    }
+
+    .container::before {
+        background-image: url('/assets/links/background/painted-nature-desktop-1440x1024.svg');
+    }
+}

@@ -1,0 +1,27 @@
+/* Assistant text uses the available conversation width. */
+.container {
+    width: 100%;
+    min-width: 0;
+    color: var(--text-primary);
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 24px;
+    overflow-wrap: anywhere;
+}
+.container > :first-child {
+    margin-top: 0;
+}
+
+.container > :last-child {
+    margin-bottom: 0;
+}
+
+.container pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.container a {
+    color: var(--blue-600);
+    text-underline-offset: 3px;
+}

@@ -1,0 +1,34 @@
+/* Suggested questions use the same pill style on both breakpoints. */
+.container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: var(--spacing-compact-4) var(--padding-medium);
+    border: 0.5px solid var(--border-default);
+    border-radius: var(--shape-pill);
+    background-color: var(--background-default);
+    color: var(--text-passive);
+    font-family: var(--primary-font);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.container:not(:disabled):hover,
+.container:focus-visible {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+}
+
+.container:focus-visible {
+    outline: 2px solid var(--border-strong);
+    outline-offset: 3px;
+}
+
+.container:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

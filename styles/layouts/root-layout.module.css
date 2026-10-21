@@ -1,0 +1,12 @@
+/* Global document layout, including the independent chat route. */
+
+.html {
+    font-size: 10px;
+    background-color: var(--background-default);
+    font-family: var(--primary-font);
+}
+
+/* Remove document-edge spacing without resetting Markdown elements. */
+.body {
+    margin: 0;
+}

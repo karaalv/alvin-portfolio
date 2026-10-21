@@ -1,0 +1,104 @@
+/* Keep the artwork title separate from the descriptive website label. */
+.container {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    align-items: center;
+    gap: var(--spacing-standard-24);
+    height: 100%;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.container:focus-visible {
+    outline: 2px solid var(--border-strong);
+    outline-offset: 6px;
+    border-radius: var(--shape-card-small);
+}
+
+.media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    padding: var(--spacing-compact-4);
+    overflow: hidden;
+    border-radius: var(--shape-card-small);
+    background-size: cover;
+    background-position: center;
+}
+
+.card_title {
+    font-family: var(--standout-font);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.5px;
+    font-variation-settings: 'opsz' 14;
+    color: var(--text-inverse);
+    text-align: center;
+    white-space: pre-line;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-compact-8);
+    min-width: 0;
+}
+
+.card_label {
+    margin: 0;
+    font-family: var(--brand-font);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    letter-spacing: 0.5px;
+}
+
+.container:hover .card_label {
+    color: var(--text-secondary);
+}
+
+.metadata {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-compact-4) var(--spacing-standard-12);
+    font-family: var(--primary-font);
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.tag {
+    color: var(--text-primary);
+}
+
+.date {
+    color: var(--text-passive);
+}
+
+@media (min-width: 769px) {
+    .container {
+        grid-template-columns: 175px minmax(0, 1fr);
+    }
+
+    .media {
+        width: 175px;
+        height: 175px;
+    }
+
+    .card_title {
+        font-size: 20px;
+    }
+
+    .card_label {
+        font-size: 22px;
+        line-height: 30px;
+    }
+
+    .metadata {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}

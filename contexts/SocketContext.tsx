@@ -1,423 +1,520 @@
-/**
- * @description Socket context for managing
- * a singleton WebSocket connection.
- */
+'use client';
 
+/**
+ * Own one chat socket and release it when its provider
+ * unmounts.
+ */
 import {
     createContext,
-    useRef,
-    ReactNode,
-    useEffect,
-    useState,
-    useContext,
     useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+    type ReactNode,
 } from 'react';
-
-// Context and Utils
-import { useChatContext } from '@contexts/ChatContext';
+import { captureApplicationEvent } from '@/lib/posthog/events';
+import { getPostHogSessionId } from '@/lib/posthog/session';
+import { identifyPostHogUser } from '@/lib/posthog/identity';
+import { decodeJwt } from 'jose';
+import { useChatContext } from '@/contexts/ChatContext';
+import { sanitiseInput } from '@/lib/chat/sanitisation';
+import { generateUuid } from '@/lib/ids/generate';
 import {
-    packageResponse,
-    rateLimit,
-} from '@/utils/processing';
+    createWsAgentMessageRequest,
+    createWsHeartbeatRequest,
+} from '@/lib/websocket/requests';
+import { claimAccessCookie } from '@/services/agent/users/auth';
+import { useAppContext } from '@/contexts/AppContext';
+import { unwrapServerAction } from '@/lib/http/actions';
+import { captureApplicationException } from '@/lib/posthog/error-capture';
+import { createApplicationError } from '@/lib/errors/application';
+import { parseWebSocketResponse } from '@/lib/websocket/parsing';
+import { getPortfolioAgentWsUrl } from '@/server/agent/websocket';
+import { WebSocketResponseType } from '@/types/api/ws/response';
+import type {
+    SocketContextValue,
+    SocketStatus,
+} from '@/types/contexts/socket';
+import { WebSocketRequestType } from '@/types/api/ws/request';
+import type { WebSocketRequest } from '@/types/api/ws/request';
 
-// Server side requests
-import { getSocketURL } from '@/services/interface';
-
-// Types
-import { AgentMemory } from '@/types/service.types';
-import {
-    SocketMessage,
-    SocketResponse,
-} from '@/types/service.types';
-
-interface SocketContextProps {
-    connected: boolean;
-    sendMessage: (message: SocketMessage) => void;
-}
+const HEARTBEAT_INTERVAL_MS = 30_000;
 
 const SocketContext = createContext<
-    SocketContextProps | undefined
+    SocketContextValue | undefined
 >(undefined);
 
+/**
+ * Own chat submission, socket feedback and connection
+ * lifecycles.
+ */
 export default function SocketProvider({
     children,
 }: {
     children: ReactNode;
 }) {
+    const { setError, isSessionLoaded } = useAppContext();
     const {
-        // Info
-        setUserUsage,
-        // General agent state
-        setError,
-        setMemory,
-        setIsLoading,
-        setThinkingSet,
-        // Writing state
-        isCanvasOpen,
-        setCanvasOpen,
-        setCanvasContent,
-        isAgentWriting,
-        setIsAgentWriting,
-        setAgentWritingPhase,
-        setAgentWritingThinking,
+        selectedPromptLabel,
+        setSelectedPromptLabel,
+        userMessage,
+        setUserMessage,
+        setMemories,
+        appendAgentDelta,
+        finishAgentDeltas,
+        isThinking,
+        isResponding,
+        isDeletingHistory,
+        setIsThinking,
+        setIsResponding,
+        setThinkingCaptions,
     } = useChatContext();
+    const userIdRef = useRef<string | null>(null);
+    const requestIdRef = useRef<string | null>(null);
+    const turnActiveRef = useRef(false);
     const wsRef = useRef<WebSocket | null>(null);
-    const [connected, setConnected] =
-        useState<boolean>(false);
-    const timeoutRef = useRef<number | null>(null);
-    const backoffRef = useRef(1000);
-    const pingRef = useRef<number | null>(null);
-    const aliveRef = useRef<boolean>(true);
-    const connectedRef = useRef<boolean>(false);
-
-    // --- Utils ---
-
-    const endIllusions = () => {
-        setMemory((prev) =>
-            prev.map((message) => {
-                return {
-                    ...message,
-                    illusion: false,
-                };
-            }),
-        );
-    };
-
-    // --- Error Handling ---
-
-    const startTimeout = useCallback(() => {
-        if (timeoutRef.current)
-            clearTimeout(timeoutRef.current);
-        timeoutRef.current = window.setTimeout(() => {
-            setIsLoading(false);
-            setError('Timeout, unable to reach server.');
-        }, 30_000);
-    }, [setError, setIsLoading]);
-
-    const stopTimeout = useCallback(() => {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-            timeoutRef.current = null;
-        }
-    }, []);
-
-    // --- Sending data ---
+    const [socketStatus, setSocketStatus] =
+        useState<SocketStatus>('connecting');
 
     const sendMessage = useCallback(
-        (message: SocketMessage) => {
-            const ws = wsRef.current;
-            if (!ws || ws.readyState !== WebSocket.OPEN)
+        (request: WebSocketRequest): boolean => {
+            const socket = wsRef.current;
+            if (
+                !socket ||
+                socket.readyState !== WebSocket.OPEN
+            ) {
+                setError(
+                    createApplicationError(
+                        'Chat is not connected',
+                        'Please wait for the connection before sending a message.',
+                    ),
+                );
                 return false;
-            ws.send(JSON.stringify(message));
-            startTimeout();
-            return true;
-        },
-        [startTimeout],
-    );
-
-    // --- Managing State Updates ---
-
-    /**
-     * Updates the agent response in
-     * chat history.
-     * Socket type: 'agent_memory'
-     * @param agentMessage The message from the agent.
-     */
-    const updateAgentResponse = (agentMessage: string) => {
-        if (!agentMessage) return;
-        const packaged = packageResponse(
-            agentMessage,
-            'agent',
-        );
-        // Clean up loading state
-        setThinkingSet(null);
-        // Send message to UI
-        setMemory((prev) => [...prev, packaged]);
-    };
-
-    /**
-     * Updates the thinking set with new headers.
-     * Socket type: 'agent_thinking'
-     * @param headers Array of header strings to
-     * add to the thinking set.
-     */
-    const updateThinkingSet = (headers: string[]) => {
-        if (!headers || headers.length === 0) return;
-
-        setThinkingSet((prev) => {
-            const currentSet = new Set(prev ?? []);
-            headers.forEach((header) =>
-                currentSet.add(header),
-            );
-            return currentSet;
-        });
-    };
-
-    const limitedUpdateThinkingSet = rateLimit(
-        updateThinkingSet,
-    );
-
-    /**
-     * Updates the agent writing illusion.
-     * Socket type: 'agent_writing'
-     * @param agentMemory The memory of the agent
-     * to start writing.
-     */
-    const updateAgentWriting = (
-        agentMemory: AgentMemory,
-    ) => {
-        // State management
-        if (!isAgentWriting) setIsAgentWriting(true);
-        if (!isCanvasOpen) setCanvasOpen(true);
-
-        // Set streaming message with new
-        // data
-        setMemory((prev) => {
-            const set = new Set(prev.map((m) => m.id));
-            if (set.has(agentMemory.id)) {
-                return prev.map((message) => {
-                    if (message.id === agentMemory.id) {
-                        return {
-                            ...message,
-                            content: agentMemory.content,
-                            agent_canvas:
-                                agentMemory.agent_canvas,
-                        };
-                    }
-                    return message;
-                });
-            } else {
-                return [...prev, agentMemory];
             }
-        });
-        // Set canvas content
-        setCanvasContent(agentMemory.agent_canvas!.content);
-    };
-
-    const limitedAgentWriting = rateLimit(
-        updateAgentWriting,
+            try {
+                socket.send(JSON.stringify(request));
+                if (
+                    request.type ===
+                    WebSocketRequestType.AGENT_MESSAGE
+                )
+                    requestIdRef.current =
+                        request.request_id ?? null;
+                return true;
+            } catch (exception) {
+                setError(
+                    captureApplicationException(
+                        'Unable to send your message',
+                        'The message could not be sent. Please try again.',
+                        exception,
+                        {
+                            source: 'websocket',
+                            operation: 'send-message',
+                            requestId: request.request_id,
+                            message_type: request.type,
+                        },
+                    ),
+                );
+                return false;
+            }
+        },
+        [setError],
     );
 
     /**
-     * Updates the agent writing thinking set.
-     * Socket type: 'agent_writing_thinking'
-     * @param headers Array of header strings to
-     * add to the thinking set.
+     * Display the cleaned draft optimistically, then send its wire
+     * request.
      */
-    const updateAgentWritingThinking = (
-        headers: string[],
-    ) => {
-        if (!headers || headers.length === 0) return;
-
-        setAgentWritingThinking((prev) => {
-            const currentSet = new Set(prev ?? []);
-            headers.forEach((header) =>
-                currentSet.add(header),
+    const sendAgentMessage = useCallback(() => {
+        if (
+            turnActiveRef.current ||
+            isThinking ||
+            isResponding ||
+            isDeletingHistory
+        )
+            return;
+        const content = sanitiseInput(userMessage);
+        if (!content) {
+            setError(
+                createApplicationError(
+                    'Message is empty',
+                    'Please enter a readable text message.',
+                ),
             );
-            return currentSet;
-        });
-    };
-
-    const limitedAgentWritingThinking = rateLimit(
-        updateAgentWritingThinking,
-    );
-
-    /**
-     * Updates the agent writing phase.
-     * Socket type: 'agent_writing_phase'
-     * @param phase The current phase of the agent
-     * writing process.
-     */
-    const updateAgentWritingPhase = (phase: string) => {
-        // End writing state
-        if (phase === '<complete>') {
-            setIsAgentWriting(false);
-            setAgentWritingThinking(null);
-            setAgentWritingPhase(null);
             return;
         }
-
-        setAgentWritingPhase(phase);
-        endIllusions();
-    };
-
-    const limitedAgentWritingPhase = rateLimit(
-        updateAgentWritingPhase,
-    );
-
-    // --- Connection ---
+        const userId = userIdRef.current;
+        if (
+            !userId ||
+            wsRef.current?.readyState !== WebSocket.OPEN
+        ) {
+            setError(
+                createApplicationError(
+                    'Chat is not ready',
+                    'Please wait for the chat connection before sending a message.',
+                ),
+            );
+            return;
+        }
+        const memory = {
+            memory_id: generateUuid(),
+            user_id: userId,
+            memory_source: 'user' as const,
+            created_at: new Date().toISOString(),
+            content,
+        };
+        // This local ID identifies the optimistic item, not a database write.
+        setMemories((current) => [...current, memory]);
+        turnActiveRef.current = true;
+        const request =
+            createWsAgentMessageRequest(content);
+        if (!sendMessage(request)) {
+            setMemories((current) =>
+                current.filter(
+                    (item) =>
+                        item.memory_id !== memory.memory_id,
+                ),
+            );
+            turnActiveRef.current = false;
+            return;
+        }
+        captureApplicationEvent('chat_message_sent', {
+            request_id: request.request_id,
+            message_length: Array.from(content).length,
+            message_source: selectedPromptLabel
+                ? 'prompt'
+                : 'typed',
+            ...(selectedPromptLabel
+                ? { prompt_label: selectedPromptLabel }
+                : {}),
+        });
+        setSelectedPromptLabel(null);
+        setUserMessage('');
+        setThinkingCaptions([]);
+        setIsThinking(true);
+    }, [
+        selectedPromptLabel,
+        setSelectedPromptLabel,
+        userMessage,
+        isThinking,
+        isResponding,
+        isDeletingHistory,
+        setError,
+        setMemories,
+        setUserMessage,
+        setThinkingCaptions,
+        setIsThinking,
+        sendMessage,
+    ]);
 
     useEffect(() => {
-        aliveRef.current = true;
-        if (wsRef.current || connectedRef.current) return;
+        if (!isSessionLoaded) return;
+        let disposed = false;
+        let socket: WebSocket | null = null;
+        let failed = false;
+        let heartbeatTimer:
+            | ReturnType<typeof setInterval>
+            | undefined;
+
+        function stopHeartbeat() {
+            if (heartbeatTimer !== undefined) {
+                clearInterval(heartbeatTimer);
+                heartbeatTimer = undefined;
+            }
+        }
+
+        function endAgentTurn() {
+            finishAgentDeltas();
+            turnActiveRef.current = false;
+            setIsThinking(false);
+            setIsResponding(false);
+            setThinkingCaptions([]);
+        }
+
+        /**
+         * Claim the browser cookie without treating a claim failure as
+         * bad JSON.
+         */
+        async function handleWsSetUserToken(token: string) {
+            try {
+                const userId = decodeJwt(token).sub;
+                if (!userId)
+                    throw new Error(
+                        'Missing visitor identity.',
+                    );
+                userIdRef.current = userId;
+                unwrapServerAction(
+                    await claimAccessCookie(
+                        token,
+                        getPostHogSessionId(),
+                    ),
+                );
+                if (!disposed) identifyPostHogUser(userId);
+            } catch (exception) {
+                if (!disposed)
+                    setError(
+                        captureApplicationException(
+                            'Unable to save your session',
+                            'Your chat cookie could not be saved. Please reload the page and try again.',
+                            exception,
+                            {
+                                source: 'authentication',
+                                operation: 'claim-cookie',
+                            },
+                        ),
+                    );
+            }
+        }
 
         async function connect() {
             try {
-                const url = await getSocketURL();
-                if (!aliveRef.current) return;
-
-                // Connect to WebSocket
-                const ws = new WebSocket(url);
-                wsRef.current = ws;
-
-                // --- Connection management ---
-
-                ws.onopen = () => {
-                    setConnected(true);
-                    connectedRef.current = true;
-
-                    backoffRef.current = 1000; // Reset backoff on successful connection
-                    if (pingRef.current)
-                        clearInterval(pingRef.current); // Clear any existing ping intervals
-
-                    pingRef.current = window.setInterval(
-                        () => {
-                            if (
-                                ws.readyState ===
-                                WebSocket.OPEN
-                            ) {
-                                ws.send(
-                                    JSON.stringify({
-                                        type: 'ping',
-                                        data: 'ping',
-                                    }),
-                                );
-                            }
-                        },
-                        10000,
-                    ); // Send a ping every 10 seconds
-                };
-
-                ws.onerror = (error) => {
-                    console.error(
-                        'WebSocket error:',
-                        error,
-                    );
-                    setError('Error connecting to Server.');
-                };
-
-                ws.onclose = () => {
-                    setConnected(false);
-                    if (pingRef.current) {
-                        clearInterval(pingRef.current);
-                        pingRef.current = null;
-                    }
-                    wsRef.current = null;
-                    // Reconnect if mounted
-                    if (!aliveRef.current) return;
-                    backoffRef.current = Math.min(
-                        backoffRef.current * 2,
-                        30000,
-                    );
-                    setTimeout(connect, backoffRef.current);
-                };
-
-                // --- Messages ---
-
-                ws.onmessage = (event) => {
-                    try {
-                        const dataRaw = JSON.parse(
-                            event.data,
-                        );
-                        // Handle message types
-                        const response: SocketResponse<unknown> =
-                            dataRaw;
-                        if (response.type !== 'ping') {
-                            stopTimeout();
-                        }
-                        switch (response.type) {
-                            case 'ping':
-                                break;
-                            case 'agent_memory':
-                                setIsLoading(false);
-                                setError(null);
-                                updateAgentResponse(
-                                    response.data as string,
-                                );
-                                break;
-                            case 'agent_thinking':
-                                limitedUpdateThinkingSet(
-                                    response.data as string[],
-                                );
-                                break;
-                            case 'agent_writing':
-                                setIsLoading(false);
-                                setError(null);
-                                limitedAgentWriting(
-                                    response.data as AgentMemory,
-                                );
-                                break;
-                            case 'agent_writing_thinking':
-                                limitedAgentWritingThinking(
-                                    response.data as string[],
-                                );
-                                break;
-                            case 'agent_writing_phase':
-                                limitedAgentWritingPhase(
-                                    response.data as string,
-                                );
-                                break;
-                            case 'usage_info':
-                                setUserUsage(
-                                    response.data as number,
-                                );
-                                break;
-                            default:
-                            // Pass through unknown message types
-                            // console.warn("Unknown WebSocket message type:", response);
-                        }
-                    } catch (error) {
-                        console.error(
-                            'Error parsing WebSocket message:',
-                            error,
-                        );
-                    }
-                };
-            } catch (error) {
-                // Stop connection on error and
-                // Throw error.
-                console.error(
-                    'Error initializing WebSocket:',
-                    error,
+                const url = unwrapServerAction(
+                    await getPortfolioAgentWsUrl(
+                        getPostHogSessionId(),
+                    ),
                 );
-                setError('Error connecting to Server.');
+                // The provider may unmount while the server resolves the URL.
+                if (disposed) return;
+                requestIdRef.current = new URL(
+                    url,
+                ).searchParams.get('request_id');
+                const accessToken = new URL(
+                    url,
+                ).searchParams.get('access_token');
+                // Decode identity for local presentation only; the backend verifies it.
+                userIdRef.current = accessToken
+                    ? (decodeJwt(accessToken).sub ?? null)
+                    : null;
+                socket = new WebSocket(url);
+                wsRef.current = socket;
+                setSocketStatus('connecting');
+
+                socket.onopen = () => {
+                    if (disposed) return;
+                    setSocketStatus('connected');
+                    heartbeatTimer = setInterval(() => {
+                        if (
+                            socket?.readyState ===
+                            WebSocket.OPEN
+                        )
+                            sendMessage(
+                                createWsHeartbeatRequest(),
+                            );
+                    }, HEARTBEAT_INTERVAL_MS);
+                };
+                socket.onerror = (event) => {
+                    if (disposed) return;
+                    stopHeartbeat();
+                    endAgentTurn();
+                    failed = true;
+                    setSocketStatus('error');
+                    setError(
+                        captureApplicationException(
+                            'Unable to connect to chat',
+                            'The chat connection encountered an error. Please reload the page and try again.',
+                            event,
+                            {
+                                source: 'websocket',
+                                operation:
+                                    'transport-error',
+                                requestId:
+                                    requestIdRef.current,
+                                ready_state:
+                                    socket?.readyState,
+                            },
+                        ),
+                    );
+                };
+                socket.onclose = (event) => {
+                    stopHeartbeat();
+                    if (disposed) return;
+                    endAgentTurn();
+                    if (wsRef.current === socket)
+                        wsRef.current = null;
+                    if (failed) return;
+                    setSocketStatus('closed');
+                    if (
+                        !event.wasClean ||
+                        event.code !== 1000
+                    ) {
+                        setError(
+                            captureApplicationException(
+                                'Chat connection closed',
+                                'The connection was interrupted. Please reload the page to reconnect.',
+                                new Error(
+                                    'WebSocket connection interrupted.',
+                                ),
+                                {
+                                    source: 'websocket',
+                                    operation: 'close',
+                                    requestId:
+                                        requestIdRef.current,
+                                    close_code: event.code,
+                                    was_clean:
+                                        event.wasClean,
+                                },
+                            ),
+                        );
+                    }
+                };
+                socket.onmessage = async (event) => {
+                    if (disposed) return;
+                    try {
+                        const response =
+                            parseWebSocketResponse(
+                                event.data,
+                            );
+                        switch (response.type) {
+                            case WebSocketResponseType.HEARTBEAT:
+                                // Heartbeats carry no application state.
+                                break;
+                            case WebSocketResponseType.AGENT_START:
+                                turnActiveRef.current = true;
+                                setIsThinking(true);
+                                break;
+                            case WebSocketResponseType.AGENT_END:
+                                endAgentTurn();
+                                break;
+                            case WebSocketResponseType.AGENT_DELTA:
+                                appendAgentDelta(
+                                    response.payload,
+                                );
+                                break;
+                            case WebSocketResponseType.TOOL_MESSAGE:
+                                // Tool notifications have no presentation state.
+                                break;
+                            case WebSocketResponseType.AGENT_THINKING_CAPTIONS:
+                                setThinkingCaptions(
+                                    response.payload,
+                                );
+                                break;
+                            case WebSocketResponseType.SET_USER_TOKEN:
+                                await handleWsSetUserToken(
+                                    response.payload,
+                                );
+                                break;
+                            case WebSocketResponseType.WARNING:
+                                endAgentTurn();
+                                setError(
+                                    createApplicationError(
+                                        'Chat warning',
+                                        response.payload,
+                                    ),
+                                );
+                                break;
+                            case WebSocketResponseType.ERROR:
+                                endAgentTurn();
+                                setError(
+                                    captureApplicationException(
+                                        'Chat error',
+                                        response.payload,
+                                        new Error(
+                                            response.payload,
+                                        ),
+                                        {
+                                            source: 'websocket',
+                                            operation:
+                                                'agent-response',
+                                            requestId:
+                                                response
+                                                    .meta
+                                                    .request_id,
+                                            backend_reported: true,
+                                        },
+                                    ),
+                                );
+                                break;
+                        }
+                    } catch (exception) {
+                        endAgentTurn();
+                        setError(
+                            captureApplicationException(
+                                'Unable to read the chat response',
+                                'The server sent an unexpected response. Please try again.',
+                                exception,
+                                {
+                                    source: 'websocket',
+                                    operation:
+                                        'parse-response',
+                                    requestId:
+                                        requestIdRef.current,
+                                },
+                            ),
+                        );
+                    }
+                };
+            } catch (exception) {
+                if (disposed) return;
+                setSocketStatus('error');
+                setError(
+                    captureApplicationException(
+                        'Unable to start chat',
+                        'The chat service could not be reached. Please reload the page and try again.',
+                        exception,
+                        {
+                            source: 'websocket',
+                            operation: 'connect',
+                        },
+                    ),
+                );
             }
         }
-
-        connect();
-
-        // Clean up
+        void connect();
         return () => {
-            aliveRef.current = false;
-            if (pingRef.current) {
-                clearInterval(pingRef.current);
-                pingRef.current = null;
+            disposed = true;
+            stopHeartbeat();
+            endAgentTurn();
+            userIdRef.current = null;
+            if (!socket) return;
+            socket.onopen = null;
+            socket.onmessage = null;
+            socket.onerror = null;
+            socket.onclose = null;
+            if (wsRef.current === socket)
+                wsRef.current = null;
+            if (
+                socket.readyState === WebSocket.OPEN ||
+                socket.readyState === WebSocket.CONNECTING
+            ) {
+                socket.close(1000, 'Chat page closed.');
             }
-            wsRef.current?.close();
-            wsRef.current = null;
-            connectedRef.current = false;
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [
+        setError,
+        isSessionLoaded,
+        appendAgentDelta,
+        finishAgentDeltas,
+        setIsThinking,
+        setIsResponding,
+        setThinkingCaptions,
+        sendMessage,
+    ]);
 
+    const value = useMemo(
+        () => ({
+            socketStatus,
+            sendMessage,
+            sendAgentMessage,
+        }),
+        [socketStatus, sendMessage, sendAgentMessage],
+    );
     return (
-        <SocketContext.Provider
-            value={{
-                connected,
-                sendMessage,
-            }}
-        >
+        <SocketContext.Provider value={value}>
             {children}
         </SocketContext.Provider>
     );
 }
 
-export function useSocketContext() {
-    const context = useContext(SocketContext);
-    if (!context) {
+/**
+ * Require the chat-route socket provider before accessing the
+ * transport.
+ */
+export function useSocketContext(): SocketContextValue {
+    const value = useContext(SocketContext);
+    if (!value)
         throw new Error(
             'useSocketContext must be used within a SocketProvider',
         );
-    }
-    return context;
+    return value;
 }

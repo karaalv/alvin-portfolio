@@ -1,0 +1,174 @@
+/* Load every standard weight for the web fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Preserve browser spacing for rendered Markdown. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Fill the viewport while allowing content to grow. */
+html,
+body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* Animate section links while respecting reduced-motion preferences. */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Font families */
+:root {
+    --primary-font:
+        'Inter', 'Helvetica', 'Arial', sans-serif;
+    --brand-font:
+        'Helvetica', 'Helvetica Neue', 'Arial', sans-serif;
+    --standout-font:
+        'DM Sans', 'Inter', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Stacking order */
+:root {
+    --z-index-navbar: 100;
+    --z-index-chat-backdrop: 110;
+    --z-index-chat-sidebar: 120;
+}
+
+/* Figma collection: dimension-primitive */
+:root {
+    /* Radius */
+    --radius-8: 8px;
+    --radius-12: 12px;
+    --radius-16: 16px;
+    --radius-20: 20px;
+    --radius-24: 24px;
+    --radius-999: 999px;
+}
+
+/* Figma collection: dimension-semantic */
+:root {
+    /* Shape */
+    --shape-circular: var(--radius-999);
+    --shape-pill: var(--radius-999);
+
+    /* Card */
+    --shape-card-large: var(--radius-20);
+    --shape-card-medium: var(--radius-16);
+    --shape-card-small: var(--radius-12);
+}
+
+/* Figma collection: colour-primitive */
+:root {
+    /* Neutral */
+    --neutral-0: #ffffff;
+    --neutral-50: #faf8fb;
+    --neutral-100: #f4f1f6;
+    --neutral-300: #d5cfd9;
+    --neutral-500: #99959b;
+    --neutral-600: #736f76;
+    --neutral-900: #19151d;
+
+    /* Blue */
+    --blue-400: #0090fe;
+    --blue-500: #3b82f6;
+    --blue-600: #2b67c5;
+
+    /* Red */
+    --red-50: #fff1f2;
+    --red-100: #ffe4e6;
+    --red-500: #e5484d;
+    --red-600: #d63843;
+}
+
+/* Figma collection: colour-semantic */
+:root {
+    /* Background */
+    --background-default: var(--neutral-0);
+    --background-inverse: var(--neutral-900);
+
+    /* Surface */
+    --surface-default: var(--neutral-100);
+
+    /* Border */
+    --border-default: var(--neutral-300);
+    --border-strong: var(--neutral-500);
+
+    /* Text */
+    --text-primary: var(--neutral-900);
+    --text-secondary: var(--neutral-600);
+    --text-inverse: var(--neutral-0);
+    --text-passive: var(--neutral-500);
+
+    /* Chat */
+    --chat-interaction-background-default: var(--blue-500);
+    --chat-interaction-content-default: var(--neutral-0);
+    --chat-message-background-default: var(--neutral-100);
+
+    /* Error */
+    --status-error-background: var(--red-50);
+    --status-error-border: var(--red-100);
+    --status-error-content: var(--red-500);
+    --status-error-accent: var(--red-600);
+
+    /* Interaction */
+    --hover-default: var(--neutral-100);
+    --action-destructive: var(--red-600);
+}
+
+/* Figma collection: spacing-primitive */
+:root {
+    /* Compact */
+    --spacing-compact-0: 0px;
+    --spacing-compact-4: 4px;
+    --spacing-compact-8: 8px;
+
+    /* Standard */
+    --spacing-standard-12: 12px;
+    --spacing-standard-16: 16px;
+    --spacing-standard-20: 20px;
+    --spacing-standard-24: 24px;
+
+    /* Structural */
+    --spacing-structural-32: 32px;
+    --spacing-structural-36: 36px;
+    --spacing-structural-48: 48px;
+    --spacing-structural-64: 64px;
+    --spacing-structural-72: 72px;
+    --spacing-structural-80: 80px;
+    --spacing-structural-96: 96px;
+
+    /* Padding */
+    --padding-large: 20px;
+    --padding-medium: 16px;
+    --padding-small: 12px;
+}
+
+/* Figma collection: parameters */
+:root {
+    /* Viewport */
+    --desktop-breakpoint: 769px;
+    --typical-desktop-w: 1440px;
+
+    /* Content width */
+    --max-width-desktop: 1200px;
+    --max-width-mobile: 350px;
+
+    /* Chat width */
+    --chat-width-desktop: 750px;
+    --chat-width-mobile: 330px;
+
+    /* Message width */
+    --message-max-width-desktop: 400px;
+    --message-max-width-mobile: 300px;
+}

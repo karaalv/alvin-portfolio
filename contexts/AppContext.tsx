@@ -1,53 +1,97 @@
-/**
- * @description App context for managing
- * global application state.
- */
+'use client';
 
+/**
+ * Application-wide error state and visitor authentication
+ * snapshot.
+ */
 import {
     createContext,
     useContext,
-    ReactNode,
-    useState,
-    Dispatch,
-    SetStateAction,
+    useEffect,
     useMemo,
+    useState,
+    type ReactNode,
 } from 'react';
-import { useMediaQuery } from 'react-responsive';
-
-interface AppContextProps {
-    // Message state from AI engagement
-    // section
-    message: string;
-    setMessage: Dispatch<SetStateAction<string>>;
-    // Responsive state
-    isMobile: boolean;
-}
+import { decodeJwt } from 'jose';
+import {
+    identifyPostHogUser,
+    resetPostHogUser,
+} from '@/lib/posthog/identity';
+import type { ApplicationError } from '@/types/application/error';
+import type { AppContextValue } from '@/types/contexts/app';
+import { unwrapServerAction } from '@/lib/http/actions';
+import { captureApplicationException } from '@/lib/posthog/error-capture';
+import { getAccessToken } from '@/server/auth/access-token';
 
 const AppContext = createContext<
-    AppContextProps | undefined
+    AppContextValue | undefined
 >(undefined);
 
+/**
+ * Load the cookie through the server without making every page
+ * dynamic.
+ */
 export default function AppProvider({
     children,
 }: {
     children: ReactNode;
 }) {
-    // Media query for mobile responsiveness
-    const [isMobile] = useState(
-        useMediaQuery({ query: '(max-width: 786px)' }),
-    );
-    const [message, setMessage] = useState<string>('');
+    const [error, setError] =
+        useState<ApplicationError | null>(null);
+    const [accessToken, setAccessToken] = useState<
+        string | null
+    >(null);
 
-    // Memoisation
+    const [isSessionLoaded, setIsSessionLoaded] =
+        useState(false);
+
+    useEffect(() => {
+        let cancelled = false;
+        async function loadAccessToken() {
+            try {
+                const token = unwrapServerAction(
+                    await getAccessToken(),
+                );
+                if (cancelled) return;
+                setAccessToken(token);
+                if (token) {
+                    const userId = decodeJwt(token).sub;
+                    if (userId) identifyPostHogUser(userId);
+                } else {
+                    resetPostHogUser();
+                }
+            } catch (exception) {
+                if (!cancelled)
+                    setError(
+                        captureApplicationException(
+                            'Unable to read your session',
+                            'Your saved chat session could not be loaded. Please reload the page and try again.',
+                            exception,
+                            {
+                                source: 'authentication',
+                                operation: 'read-cookie',
+                            },
+                        ),
+                    );
+            } finally {
+                if (!cancelled) setIsSessionLoaded(true);
+            }
+        }
+        void loadAccessToken();
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
     const value = useMemo(
         () => ({
-            message,
-            setMessage,
-            isMobile,
+            error,
+            setError,
+            accessToken,
+            isSessionLoaded,
         }),
-        [message, isMobile],
+        [error, accessToken, isSessionLoaded],
     );
-
     return (
         <AppContext.Provider value={value}>
             {children}
@@ -55,12 +99,12 @@ export default function AppProvider({
     );
 }
 
-export const useAppContext = () => {
-    const context = useContext(AppContext);
-    if (!context) {
+/** Require the application provider at the root of the tree. */
+export function useAppContext(): AppContextValue {
+    const value = useContext(AppContext);
+    if (!value)
         throw new Error(
             'useAppContext must be used within an AppProvider',
         );
-    }
-    return context;
-};
+    return value;
+}

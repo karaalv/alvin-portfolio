@@ -1,33 +1,24 @@
-# Personal Portfolio 👨🏾‍💻
+# Alvin Karanja Portfolio
 
-This repository contains the **frontend code** for my personal portfolio website. Here, I showcase my skills, featured projects, and professional history in a clean, modern UI.
+> **Notice:** Portfolio version 3 is implemented. Finalisation is pending deployment of the frontend, backend and infrastructure. This documentation has been updated optimistically to describe the completed v3 implementation; it does not confirm public deployment or live verification.
 
-One highlight is a custom-built **RAG (Retrieval-Augmented Generation) AI agent** that can:
-- Answer questions about my work and experience
-- Generate tailored CVs and cover letters
-- Provide insights into my projects and skills
+Version 3 of the frontend for [alvinkaranja.dev](https://alvinkaranja.dev), built
+with Next.js, React, TypeScript and CSS Modules.
 
-Try it out ... 👀
+This repository contains:
 
-## ⚡️ Features
+- Responsive portfolio pages covering selected projects and experience.
+- A social links page with source-aware profile redirects.
+- A streamed chat interface with history, pagination and deletion.
+- Server-side HTTP integration with the separate
+  [Portfolio Agent](https://github.com/karaalv/portfolio-agent) backend.
+- PostHog analytics, session replay, exception capture and browser logs.
 
-- Swiss-inspired web design focused on clarity and speed
-- Fully responsive for seamless experience on all devices
-- Modern glassmorphism effects for visual appeal
-- Integrated AI agent for dynamic Q&A and document generation
+See [the documentation](docs/README.md) for setup, application
+architecture and integration details. Agent orchestration, retrieval,
+data storage and backend infrastructure belong to the agent service.
 
-## 🛠️ Tech Stack
+## Licence
 
-- [Next.js](https://nextjs.org/) & [React](https://react.dev/) – Core framework and UI
-- [TypeScript](https://www.typescriptlang.org/) – Static typing
-- Modular Vanilla CSS for styling
-
-## 🔗 Backend
-
-The backend and RAG agent service are maintained separately.  
-You can find the backend repository [here](https://github.com/karaalv/portfolio-agent).
-
-## 👨🏾‍⚖️ License
-
-This project is licensed under the [Apache License 2.0](./LICENSE).  
-See the [NOTICE](./NOTICE) file for attribution and additional details.
+Licensed under [Apache License 2.0](LICENSE).
+See [NOTICE](NOTICE) for attribution and additional details.

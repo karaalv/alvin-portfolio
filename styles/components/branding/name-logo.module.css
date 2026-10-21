@@ -1,0 +1,15 @@
+.name {
+    font-family: var(--brand-font);
+    font-weight: 700;
+    font-size: 18px;
+    height: auto;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+}
+
+/* Desktop, aligned with the shared 769px breakpoint. */
+@media (min-width: 769px) {
+    .name {
+        font-size: 22px;
+    }
+}

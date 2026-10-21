@@ -1,130 +1,330 @@
-/**
- * @description Chat context for managing
- * state tied to chat/Websocket interactions.
- */
+'use client';
 
+/**
+ * Shared visible history and agent activity for the current
+ * visitor.
+ */
 import {
     createContext,
+    useCallback,
+    useEffect,
+    useRef,
     useContext,
-    ReactNode,
-    useState,
-    Dispatch,
-    SetStateAction,
     useMemo,
+    useState,
+    type ReactNode,
 } from 'react';
-import { AgentMemory } from '@/types/service.types';
-
-interface ChatContextProps {
-    // Info
-    userUsage: number;
-    setUserUsage: Dispatch<SetStateAction<number>>;
-    // Loading and error state
-    isLoading: boolean;
-    setIsLoading: Dispatch<SetStateAction<boolean>>;
-
-    error: string | null;
-    setError: Dispatch<SetStateAction<string | null>>;
-
-    // Canvas state
-    canvasContent: string;
-    setCanvasContent: Dispatch<SetStateAction<string>>;
-
-    isCanvasOpen: boolean;
-    setCanvasOpen: Dispatch<SetStateAction<boolean>>;
-
-    // Memory state
-    memory: AgentMemory[];
-    setMemory: Dispatch<SetStateAction<AgentMemory[]>>;
-
-    // Thinking state
-    thinkingSet: Set<string> | null;
-    setThinkingSet: Dispatch<
-        SetStateAction<Set<string> | null>
-    >;
-
-    // Writing state
-    isAgentWriting: boolean;
-    setIsAgentWriting: Dispatch<SetStateAction<boolean>>;
-    agentWritingPhase: string | null;
-    setAgentWritingPhase: Dispatch<
-        SetStateAction<string | null>
-    >;
-    agentWritingThinking: Set<string> | null;
-    setAgentWritingThinking: Dispatch<
-        SetStateAction<Set<string> | null>
-    >;
-}
+import type { ChatContextValue } from '@/types/contexts/chat';
+import {
+    AgentDeltaBuffer,
+    appendAgentMemoryChunks,
+} from '@/lib/chat/deltas';
+import type { StreamManagerItem } from '@/types/services/agent/streaming';
+import type { AgentChatMemory } from '@/types/services/agent/memory';
+import { useAppContext } from '@/contexts/AppContext';
+import { captureApplicationEvent } from '@/lib/posthog/events';
+import { getPostHogSessionId } from '@/lib/posthog/session';
+import { deleteAgentMemory } from '@/services/agent/memory/deletion';
+import { retrieveAgentChatPage } from '@/services/agent/memory/retrieval';
+import { unwrapServerAction } from '@/lib/http/actions';
+import { captureApplicationException } from '@/lib/posthog/error-capture';
 
 const ChatContext = createContext<
-    ChatContextProps | undefined
+    ChatContextValue | undefined
 >(undefined);
 
+/** Cache visible history and own pagination for this visitor. */
 export default function ChatProvider({
     children,
 }: {
     children: ReactNode;
 }) {
-    // Info
-    const [userUsage, setUserUsage] = useState<number>(5);
-    // Loading and error state
-    const [isLoading, setIsLoading] =
-        useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    // Canvas state
-    const [canvasContent, setCanvasContent] =
-        useState<string>('');
-    const [isCanvasOpen, setCanvasOpen] =
-        useState<boolean>(false);
-    // Memory state
-    const [memory, setMemory] = useState<AgentMemory[]>([]);
-    // Agent thinking
-    const [thinkingSet, setThinkingSet] =
-        useState<Set<string> | null>(null);
-    // Agent writing
-    const [isAgentWriting, setIsAgentWriting] =
-        useState<boolean>(false);
-    const [agentWritingPhase, setAgentWritingPhase] =
+    const [memories, setMemories] = useState<
+        AgentChatMemory[]
+    >([]);
+    const { accessToken, setError } = useAppContext();
+    const [chatHistoryOffset, setChatHistoryOffset] =
+        useState(0);
+    const [hasMoreHistory, setHasMoreHistory] =
+        useState(!!accessToken);
+    const [historyAccessToken, setHistoryAccessToken] =
+        useState(accessToken);
+    const [isHistoryLoading, setIsHistoryLoading] =
+        useState(false);
+    const [isDeletingHistory, setIsDeletingHistory] =
+        useState(false);
+    const deletingHistoryRef = useRef(false);
+    const deltaBuffers = useRef(
+        new Map<string, AgentDeltaBuffer>(),
+    );
+    const historySession = useRef({
+        offset: 0,
+        loading: false,
+        hasMore: false,
+    });
+
+    // Reset visitor state before rendering a different session.
+    if (historyAccessToken !== accessToken) {
+        setHistoryAccessToken(accessToken);
+        setMemories([]);
+        setChatHistoryOffset(0);
+        setHasMoreHistory(!!accessToken);
+        setIsHistoryLoading(false);
+    }
+
+    /**
+     * Serialise page requests and ignore results from an obsolete
+     * session.
+     */
+    const fetchNextChatPage = useCallback(async () => {
+        const session = historySession.current;
+        if (session.loading || !session.hasMore) return;
+        session.loading = true;
+        setIsHistoryLoading(true);
+        try {
+            const { data } = unwrapServerAction(
+                await retrieveAgentChatPage(
+                    session.offset,
+                    getPostHogSessionId(),
+                ),
+            );
+            if (historySession.current !== session) return;
+            session.offset += data.length;
+            session.hasMore = data.length > 0;
+            setMemories((current) => {
+                const ids = new Set(
+                    current.map(
+                        (memory) => memory.memory_id,
+                    ),
+                );
+                return [
+                    ...data.filter(
+                        (memory) =>
+                            !ids.has(memory.memory_id),
+                    ),
+                    ...current,
+                ];
+            });
+            setChatHistoryOffset(session.offset);
+            setHasMoreHistory(session.hasMore);
+        } catch (exception) {
+            if (historySession.current === session)
+                setError(
+                    captureApplicationException(
+                        'Unable to load chat history',
+                        'Your saved messages could not be loaded. Please try again.',
+                        exception,
+                        {
+                            source: 'chat-history',
+                            operation: 'fetch-page',
+                            offset: session.offset,
+                        },
+                    ),
+                );
+        } finally {
+            session.loading = false;
+            if (historySession.current === session)
+                setIsHistoryLoading(false);
+        }
+    }, [setError]);
+
+    useEffect(() => {
+        const session = {
+            offset: 0,
+            loading: false,
+            hasMore: !!accessToken,
+        };
+        historySession.current = session;
+        deltaBuffers.current.clear();
+        if (accessToken) void fetchNextChatPage();
+        return () => {
+            // Invalidate in-flight requests on token changes and unmount.
+            historySession.current = {
+                offset: 0,
+                loading: false,
+                hasMore: false,
+            };
+        };
+    }, [accessToken, fetchNextChatPage]);
+
+    const [userMessage, setUserMessage] = useState('');
+    const [selectedPromptLabel, setSelectedPromptLabel] =
         useState<string | null>(null);
-    const [agentWritingThinking, setAgentWritingThinking] =
-        useState<Set<string> | null>(null);
+    const [isThinking, setIsThinking] = useState(false);
+    const [thinkingCaptions, setThinkingCaptions] =
+        useState<string[]>([]);
+    const [isResponding, setIsResponding] = useState(false);
+    /**
+     * Order chunks by memory and transition from thinking to text.
+     */
+    const appendAgentDelta = useCallback(
+        (item: StreamManagerItem) => {
+            let buffer = deltaBuffers.current.get(
+                item.memory_id,
+            );
+            if (!buffer) {
+                buffer = new AgentDeltaBuffer();
+                deltaBuffers.current.set(
+                    item.memory_id,
+                    buffer,
+                );
+            }
+            const chunks = buffer.push(item);
+            if (chunks === null) return;
+            setIsThinking(false);
+            setIsResponding(true);
+            // Reserve the message even when its first chunk is still missing.
+            const ready =
+                chunks.length > 0
+                    ? chunks
+                    : [{ ...item, payload: '' }];
+            setMemories((current) =>
+                appendAgentMemoryChunks(current, ready),
+            );
+        },
+        [],
+    );
+
+    /**
+     * Flush pending text before ending a turn, including short
+     * gaps.
+     */
+    const finishAgentDeltas = useCallback(() => {
+        const chunks = [
+            ...deltaBuffers.current.values(),
+        ].flatMap((buffer) => buffer.finish());
+        if (chunks.length > 0)
+            setMemories((current) =>
+                appendAgentMemoryChunks(current, chunks),
+            );
+    }, []);
+
+    /**
+     * Delete server history before clearing cached messages and
+     * offsets.
+     */
+    const deleteChatHistory =
+        useCallback(async (): Promise<boolean> => {
+            if (
+                memories.length === 0 ||
+                deletingHistoryRef.current ||
+                isThinking ||
+                isResponding
+            )
+                return false;
+            deletingHistoryRef.current = true;
+            setIsDeletingHistory(true);
+            const previousSession = historySession.current;
+            const deletingSession = {
+                offset: 0,
+                loading: false,
+                hasMore: false,
+            };
+            historySession.current = deletingSession;
+            setIsHistoryLoading(false);
+            try {
+                const loadedMessageCount = memories.length;
+                const response = unwrapServerAction(
+                    await deleteAgentMemory(
+                        getPostHogSessionId(),
+                    ),
+                );
+                if (
+                    historySession.current !==
+                    deletingSession
+                )
+                    return false;
+                captureApplicationEvent(
+                    'chat_history_deleted',
+                    {
+                        request_id:
+                            response.meta.request_id,
+                        loaded_message_count:
+                            loadedMessageCount,
+                    },
+                );
+                deltaBuffers.current.clear();
+                setMemories([]);
+                setChatHistoryOffset(0);
+                setHasMoreHistory(false);
+                setThinkingCaptions([]);
+                setIsThinking(false);
+                setIsResponding(false);
+                return true;
+            } catch (exception) {
+                if (
+                    historySession.current ===
+                    deletingSession
+                ) {
+                    historySession.current = {
+                        ...previousSession,
+                        loading: false,
+                    };
+                    setError(
+                        captureApplicationException(
+                            'Unable to delete chat',
+                            'Your chat history could not be deleted. Please try again.',
+                            exception,
+                            {
+                                source: 'chat-history',
+                                operation: 'delete-memory',
+                            },
+                        ),
+                    );
+                }
+                return false;
+            } finally {
+                deletingHistoryRef.current = false;
+                setIsDeletingHistory(false);
+            }
+        }, [
+            isThinking,
+            isResponding,
+            setError,
+            memories.length,
+        ]);
 
     const value = useMemo(
         () => ({
-            userUsage,
-            setUserUsage,
-            isLoading,
-            setIsLoading,
-            error,
-            setError,
-            canvasContent,
-            setCanvasContent,
-            isCanvasOpen,
-            setCanvasOpen,
-            memory,
-            setMemory,
-            thinkingSet,
-            setThinkingSet,
-            isAgentWriting,
-            setIsAgentWriting,
-            agentWritingPhase,
-            setAgentWritingPhase,
-            agentWritingThinking,
-            setAgentWritingThinking,
+            memories,
+            setMemories,
+            appendAgentDelta,
+            finishAgentDeltas,
+            deleteChatHistory,
+            isDeletingHistory,
+            selectedPromptLabel,
+            setSelectedPromptLabel,
+            userMessage,
+            setUserMessage,
+            chatHistoryOffset,
+            hasMoreHistory,
+            isHistoryLoading,
+            fetchNextChatPage,
+            isThinking,
+            setIsThinking,
+            thinkingCaptions,
+            setThinkingCaptions,
+            isResponding,
+            setIsResponding,
         }),
         [
-            userUsage,
-            isLoading,
-            error,
-            canvasContent,
-            isCanvasOpen,
-            memory,
-            thinkingSet,
-            isAgentWriting,
-            agentWritingPhase,
-            agentWritingThinking,
+            memories,
+            appendAgentDelta,
+            finishAgentDeltas,
+            deleteChatHistory,
+            isDeletingHistory,
+            selectedPromptLabel,
+            setSelectedPromptLabel,
+            userMessage,
+            chatHistoryOffset,
+            hasMoreHistory,
+            isHistoryLoading,
+            fetchNextChatPage,
+            isThinking,
+            thinkingCaptions,
+            isResponding,
         ],
     );
-
     return (
         <ChatContext.Provider value={value}>
             {children}
@@ -132,12 +332,12 @@ export default function ChatProvider({
     );
 }
 
-export const useChatContext = () => {
-    const context = useContext(ChatContext);
-    if (!context) {
+/** Expose all chat state and its setters to descendants. */
+export function useChatContext(): ChatContextValue {
+    const value = useContext(ChatContext);
+    if (!value)
         throw new Error(
             'useChatContext must be used within a ChatProvider',
         );
-    }
-    return context;
-};
+    return value;
+}

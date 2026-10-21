@@ -1,0 +1,107 @@
+/* Mobile always uses a content-sized column, for both variants. */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-standard-12);
+    width: 100%;
+    max-width: var(--chat-width-mobile);
+    max-height: 300px;
+    padding: var(--padding-medium);
+    border: 0.5px solid var(--border-default);
+    border-radius: var(--radius-20);
+    background-color: var(--background-default);
+    box-shadow: 0 0 10px rgb(204 204 204 / 20%);
+}
+
+.input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 24px;
+    /* Leave room for padding, the button row and its gap. */
+    max-height: 219px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--primary-font);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    resize: none;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+}
+
+.input::placeholder {
+    color: var(--text-passive);
+    opacity: 1;
+}
+
+.send {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--shape-circular);
+    background-color: var(
+        --chat-interaction-background-default
+    );
+    color: var(--chat-interaction-content-default);
+}
+
+.input:disabled {
+    cursor: not-allowed;
+}
+
+.send:not(:disabled) {
+    cursor: pointer;
+}
+
+.send:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+@media (min-width: 769px) {
+    /* Chat mode starts compact and grows with its text. */
+    .container {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        max-width: var(--chat-width-desktop);
+        border-radius: var(--radius-24);
+        padding: var(--spacing-compact-8)
+            var(--spacing-compact-8)
+            var(--spacing-compact-8)
+            var(--spacing-standard-24);
+    }
+
+    .input {
+        flex: 1;
+        max-height: 282px;
+    }
+
+    /* Desktop hero remains 125px tall, with scrolling inside the field. */
+    .container[data-variant='hero'] {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-compact-8);
+        height: 125px;
+        max-height: 125px;
+        padding: var(--padding-medium);
+    }
+
+    .container[data-variant='hero'] .input {
+        min-height: 0;
+        max-height: none;
+    }
+}

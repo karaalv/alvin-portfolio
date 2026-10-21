@@ -1,0 +1,29 @@
+/* Reserve space for the fixed navbar and fill short pages. */
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-top: 52px;
+    background-color: var(--background-default);
+}
+
+.main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+}
+
+.contact {
+    width: 100%;
+    padding: var(--padding-medium);
+}
+
+@media (min-width: 769px) {
+    .contact {
+        padding-block: 0;
+    }
+}

@@ -1,0 +1,26 @@
+/* Shared width and spacing for the spotlight and gallery. */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-structural-32);
+    width: 100%;
+    max-width: var(--max-width-mobile);
+    margin-inline: auto;
+    scroll-margin-top: 76px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-structural-72);
+}
+
+.heading {
+    margin: 0;
+}
+
+@media (min-width: 769px) {
+    .container {
+        max-width: var(--max-width-desktop);
+    }
+}
