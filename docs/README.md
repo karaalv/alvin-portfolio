@@ -1,9 +1,10 @@
 # Frontend documentation
 
-Implementation documentation for portfolio **version 3**. The
-[root README notice](../README.md) distinguishes implementation from
-deployment finalisation. Source code remains the authority for current behaviour; the separate portfolio
-documentation repository covers product content and cross-service plans.
+Documentation for the finalised, deployed portfolio **version 3**.
+The stable frontend release is `v3`; its backend is Portfolio Agent
+`v2`. Portfolio documentation is versioned `v3` with the overall website.
+Source code remains the authority for current behaviour; the separate
+portfolio documentation repository covers product and shared decisions.
 
 ## Development
 
@@ -36,6 +37,7 @@ documentation repository covers product content and cross-service plans.
 
 ## Documentation scope
 
-These files describe implemented behaviour, not proof of production
-configuration or delivery to PostHog. Local mocked checks and a successful
-build do not establish that a deployed environment is ingesting telemetry.
+These files describe the deployed release. Runtime configuration,
+provider settings and delivery diagnostics remain operational concerns.
+Minor releases and small fixes continue after this stable baseline;
+release tags are created from `main`.
