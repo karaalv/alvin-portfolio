@@ -26,7 +26,7 @@ export function initialisePostHog(): void {
             autocapture: true,
             capture_pageview: 'history_change',
             capture_pageleave: true,
-            enable_heatmaps: true,
+            capture_heatmaps: true,
             disable_session_recording: false,
             capture_exceptions: true,
             logs: { serviceName: 'portfolio-web' },
